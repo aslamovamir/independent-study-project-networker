@@ -63,7 +63,7 @@ class MenuHelper:
     
     # prints the copyright information
     def DisplayCopyright():
-        print("\n\nCopyright: © JobsBoard, November 2022.\nAll rights reserved.\n")
+        print("\n\nCopyright: © Networker, January 2023.\nEngineer: Amir Aslamov.\nAll rights reserved.\n")
 
     
     # validates that input is not empty
