@@ -1,9 +1,10 @@
 # independent-study-project-networker
-CIS4900.028 Independent Study in Computer Science Project.   
-Amir Aslamov
-Department of Computer Science &amp; Engineering.  
-University of South Florida
-Tampa, Florida, USA
+CIS4900.028 Independent Study in Computer Science Project   
+Amir Aslamov   
+Department of Computer Science &amp; Engineering   
+University of South Florida   
+Tampa, Florida, USA   
+
 
 
 # Copyright
