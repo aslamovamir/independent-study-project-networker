@@ -1,5 +1,6 @@
 from helpers.MenuHelper import MenuHelper
 from actions.DisplayAboutApp import DisplayAboutApp
+from authentication.Signup import RegisterNewUser
 
 
 class Main:
@@ -31,6 +32,7 @@ class Main:
 
             elif decision == 3:
                 MenuHelper.DisplaySelectedOption(selectedOption=menuOptions[decision-1])
+                RegisterNewUser()
             
             elif decision == -1:
                 MenuHelper.InformMenuQuit()
