@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request, redirect, flash
+from flask import Flask, render_template, session, request, redirect, flash, url_for
 from backend.helpers.AuthenticationHelper import AuthenticationHelper
 from backend.model.user.User import User
 from backend.model.user.UserModelHelper import UserModelHelper
@@ -22,11 +22,33 @@ def index():
         print("Password: ", password)
 
         try: 
-            pass
+            # create the encrypted user ID for the entered username and password
+            userID: str = UserModelHelper.CreateUserID(username=username, password=password)
+            # get all users
+            allUsers = UserDBActions.GetAllUsers()
+            print("All users: ", allUsers)
+
+            if (allUsers == None):
+                raise Exception()
+            
+            userFound: bool = False
+            # now check the ID of all users
+            for user in allUsers:
+                if user.ID == userID:
+                    userFound = True
+                    break
+            if userFound:
+                print("Success login")
+                #TODO: REDIRECT TO DASHBOARD PAGE (NEED TO CREATE ONE)
+                return redirect(url_for('signup'))
+            else:
+                error = "User Not Found"
+
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="app::index")
 
-    return render_template('index.html')
+    return render_template('index.html', error=error)
+
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
@@ -60,10 +82,6 @@ def signup():
                 MenuHelper.DisplayErrorException(exception=e, errorSource="Signup::Signup::RegisterNewUser")
         else:
             error = "Invalid Password"
-        
-
-
-        
 
     return render_template('signup.html', error=error)
 

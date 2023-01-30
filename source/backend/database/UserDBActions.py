@@ -13,3 +13,22 @@ class UserDBActions:
             return True
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="UserDBActions::UserDBActions:UpdateUser")
+    
+
+    # method to get all users from the database and return as list
+    def GetAllUsers(collection: str = "Users") -> list[User]:
+        try:
+            response = database.child(collection).get()
+            if response == None: return None
+
+            responseListed: list = response.each()
+            if (responseListed == None): return None
+            print("//", responseListed)
+            users: list[User] = []
+            for user in responseListed:
+                if user == None: continue
+                else: users.append(User.HydrateUser(user))
+
+                return users
+        except:
+            return None

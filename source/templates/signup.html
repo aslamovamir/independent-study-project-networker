@@ -17,12 +17,12 @@
                 </div>
             </ul>
         </nav>
-        {% if error %}
-        <div class="error-box">
-            <p><strong>Error</strong>: {{error}}</p>
-        </div>
-        {% endif %}
         <div class="container">
+            {% if error %}
+                <div class="error-box">
+                    <p><strong>Error</strong>: {{error}}</p>
+                </div>
+            {% endif %}
             <h1>Sign Up</h1>
             <br />
             <p>
