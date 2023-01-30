@@ -60,11 +60,11 @@ li {
     padding: 10px;
 }
 
-.signin-box {
+.form-box {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    font-size: 35px;
-    border: 5px;
+    font-size: 26px;
+    border: 2px solid;
     margin: auto;
     width: 50%;
 }
@@ -77,4 +77,5 @@ li {
 .submit {
     width: 7rem;
     height: 2rem;
+    margin: 1rem;
 }

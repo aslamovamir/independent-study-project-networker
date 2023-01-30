@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <Title>Networker: Sign-up</Title>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('contact_us') }}">Contuct Us</a></li>
+                    <li><a href="{{ url_for('terms_of_use') }}">Terms of Use</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>Sign Up</h1>
+            <br />
+            <p>
+                Please follow the following prompts to register a new acount in © Networker.
+            </p>
+            <p>
+                NOTE: Password must be of size between 8 and 12, have at least one uppercase letter, one digit and one special character.
+            </p>
+            <br /> <hr /> <br />
+            <div class="form-box">
+                <form action='/signup' method='POST'>
+                    <label for="username">Username</label>
+                    <input class="inputs" type="text" placeholder="Enter your username" name="username" required>
+                    <br />
+                    <label for="password">Password</label>
+                    <input class="inputs" type="password" placeholder="Enter your password" name="password" required>
+                    <br />
+                    <label for="email">Email Address</label>
+                    <input class="inputs" type="email" placeholder="Enter your email address" name="email" required>
+                    <br />
+                    <label for="first-name">First Name</label>
+                    <input class="inputs" type="text" placeholder="Enter your first name" name="first-name" required>
+                    <br />
+                    <label for="last-name">Last Name</label>
+                    <input class="inputs" type="text" placeholder="Enter your last name" name="last-name" required>
+                    <br />
+                    <button class="submit" type="submit">Signup</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
