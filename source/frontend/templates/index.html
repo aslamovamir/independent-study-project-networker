@@ -1,6 +1,48 @@
 <!doctype html>
 <html>
+    <head>
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <Title>Networker</Title>
+    </head>
     <body>
-        <h1>Welcome to Networker!</h1>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('contact_us') }}">Contuct Us</a></li>
+                    <li><a href="{{ url_for('terms_of_use') }}">Terms of Use</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>Welcome to © Networker</h1>
+            <br />
+            <p>
+                © Networker is an app designed to help users better network with each other.
+                Specifically, it helps them interchange their profiles with others, send friend requests,
+                stay connected, and send text messages.
+            </p>
+            <br />
+            <p>
+                It also helps them post job postings and have
+                others apply for them. Users can also post on any topic and others with relevant interest
+                get notified.
+            </p>
+            <br /> <hr /> <br />
+            <div class="signin-box">
+                <form action='/' method='POST'>
+                    <label for="username">Username</label>
+                    <input class="inputs" type="text" placeholder="Enter your username" name="username" required>
+                    <br />
+                    <label for="password">Password</label>
+                    <input class="inputs" type="password" placeholder="Enter your password" name="password" required>
+                    <br />
+                    <button class="submit" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
