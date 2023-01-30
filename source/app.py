@@ -39,8 +39,7 @@ def index():
                     break
             if userFound:
                 print("Success login")
-                #TODO: REDIRECT TO DASHBOARD PAGE (NEED TO CREATE ONE)
-                return redirect(url_for('signup'))
+                return redirect(url_for('dashboard'))
             else:
                 error = "User Not Found"
 
@@ -86,7 +85,9 @@ def signup():
     return render_template('signup.html', error=error)
 
 
-
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 
 
