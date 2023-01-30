@@ -1,7 +1,7 @@
-from firebase.Firebase import database
-from model.user.User import User
-from model.user.UserModelHelper import UserModelHelper
-from helpers.MenuHelper import MenuHelper
+from backend.firebase.Firebase import database
+from backend.model.user.User import User
+from backend.model.user.UserModelHelper import UserModelHelper
+from backend.helpers.MenuHelper import MenuHelper
 
 
 class UserDBActions:

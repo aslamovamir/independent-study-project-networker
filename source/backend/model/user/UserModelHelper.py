@@ -1,5 +1,5 @@
 import hashlib
-from model.user.User import User
+from backend.model.user.User import User
 
 
 class UserModelHelper:

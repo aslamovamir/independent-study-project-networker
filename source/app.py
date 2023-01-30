@@ -3,21 +3,36 @@ from backend.helpers.AuthenticationHelper import AuthenticationHelper
 from backend.model.user.User import User
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
+from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key="networker-app-20190805"
 
 
 # Routes build-up
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
+    error = None
+    if request.method == "POST":
+        # get the entries from the user
+        username: str = request.form.get('username')
+        password: str = request.form.get('password')
+        print("Username: ", username)
+        print("Password: ", password)
+
+        try: 
+            pass
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource="app::index")
+
     return render_template('index.html')
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
-    message = None
+    error = None
     if request.method == "POST":
-        # get the entries entered by the user
+        # get the entries the user
         username: str = request.form.get('username')
         password: str = request.form.get('password')
         email: str = request.form.get('email')
@@ -26,14 +41,31 @@ def signup():
 
         # first validate password
         if AuthenticationHelper.ValidatePassword(password=password):
-            flash("Trying to register a new account for you!")
+            # now try to push the new user object to the database
+            try:
+                # user helper method to create hashed user ID
+                userID: str = UserModelHelper.CreateUserID(username=username, password=password)
+                operationResult: bool = UserDBActions.UpdateUser(user=User(
+                    ID=userID,
+                    Username=username,
+                    Email=email,
+                    FirstName=firstName,
+                    LastName=lastName,
+                    DateLastLogin=None,
+                    DateRegistered=datetime.now()
+                ), collection="Users")
+
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource="Signup::Signup::RegisterNewUser")
         else:
-            message = "Invalid Password"
+            error = "Invalid Password"
+        
 
 
         
 
-    return render_template('signup.html')
+    return render_template('signup.html', error=error)
 
 
 

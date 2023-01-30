@@ -79,3 +79,9 @@ li {
     height: 2rem;
     margin: 1rem;
 }
+
+.error-box {
+    font-size: 20px;
+    color: rgb(160, 27, 27);
+    padding: 0.3rem;
+}
