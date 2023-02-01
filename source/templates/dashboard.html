@@ -17,15 +17,24 @@
                 </div>
             </ul>
         </nav>
-        <div class="container">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <p class="success-message">{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <h1>Welcome to your account, ...!</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="success-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div>
+            <h1>Welcome to your account, {{ loggedUser.Username }} !</h1>
+
+            <!-- profile card -->
+            <div class="card">
+                <img src="{{url_for('static', filename='images/profile-image.png')}}" />
+                <p>Name: {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
+                <p>Email Address: {{ loggedUser.Email }}</p>
+                <p>Date Registered: {{ loggedUser.DateRegistered }}</p>
+                <p>Date Last Logged In: {{ loggedUser.DateLastLogin }}</p>
+            </div>
         </div>
     </body>
 </html>

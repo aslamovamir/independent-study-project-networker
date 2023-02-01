@@ -90,3 +90,11 @@ li {
     font-size: 17px;
     color: green;
 }
+
+.card {
+    border: 5px rgb(40, 92, 134);
+    color: rgb(33, 33, 114);
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}

@@ -34,9 +34,17 @@ def index():
             for user in allUsers:
                 if user.ID == userID:
                     userFound = True
+                    # log the user
+                    loggedUser: User = user
                     break
             if userFound:
                 flash("Success: You have successfully logged in.")
+                
+                # now update the user with the new logged in date in the database
+                loggedUser.DateLastLogin = datetime.now()
+                UserDBActions.UpdateUser(user=loggedUser)
+
+                return render_template('dashboard.html', loggedUser=loggedUser)
             else:
                 error = "User Not Found"
 
