@@ -24,16 +24,19 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div>
-            <h1>Welcome to your account, {{ loggedUser.Username }} !</h1>
+        <h1>Welcome to your account, {{ loggedUser.Username }} !</h1>
 
+        <div class="row">
             <!-- profile card -->
-            <div class="card">
-                <img src="{{url_for('static', filename='images/profile-image.png')}}" />
+            <div class="column card-left">
+                <img src="{{url_for('static', filename='images/profile-image.png')}}" widht="70" height="70"/>
                 <p>Name: {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
                 <p>Email Address: {{ loggedUser.Email }}</p>
                 <p>Date Registered: {{ loggedUser.DateRegistered }}</p>
                 <p>Date Last Logged In: {{ loggedUser.DateLastLogin }}</p>
+            </div>
+            <div class="column right-dashboard">
+                <h3>Some other data</h3>
             </div>
         </div>
     </body>
