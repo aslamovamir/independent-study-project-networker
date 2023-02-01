@@ -18,28 +18,27 @@ def index():
         # get the entries from the user
         username: str = request.form.get('username')
         password: str = request.form.get('password')
-        print("Username: ", username)
-        print("Password: ", password)
 
         try: 
             # create the encrypted user ID for the entered username and password
             userID: str = UserModelHelper.CreateUserID(username=username, password=password)
+            print("ID: ", userID)
             # get all users
             allUsers = UserDBActions.GetAllUsers()
-            print("All users: ", allUsers)
 
             if (allUsers == None):
                 raise Exception()
-            
+            print(allUsers)
             userFound: bool = False
             # now check the ID of all users
             for user in allUsers:
+                print(user.Username)
                 if user.ID == userID:
+                    print("Found!", user.ID)
                     userFound = True
                     break
             if userFound:
-                print("Success login")
-                return redirect(url_for('dashboard'))
+                flash("Success: You have successfully logged in.")
             else:
                 error = "User Not Found"
 
@@ -93,7 +92,7 @@ def signup():
                 error = "Invalid password."
         else:
             error = "This username already exists."
-            
+
     return render_template('signup.html', error=error)
 
 

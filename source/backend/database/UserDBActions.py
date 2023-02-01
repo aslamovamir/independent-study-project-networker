@@ -23,12 +23,11 @@ class UserDBActions:
 
             responseListed: list = response.each()
             if (responseListed == None): return None
-            print("//", responseListed)
             users: list[User] = []
             for user in responseListed:
                 if user == None: continue
                 else: users.append(User.HydrateUser(user))
 
-                return users
+            return users
         except:
             return None
