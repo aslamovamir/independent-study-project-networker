@@ -10,32 +10,35 @@
             <div class="logo">© Networker</div>
             <ul class="nav-links">
                 <div class="menu">
-                    <li><a href="{{ url_for('about') }}">About</a></li>
-                    <li><a href="{{ url_for('contact_us') }}">Contuct Us</a></li>
-                    <li><a href="{{ url_for('terms_of_use') }}">Terms of Use</a></li>
+                    <li><a href="{{ url_for('about') }}">Update Your Account</a></li>
+                    <li><a href="{{ url_for('contact_us') }}">Update Your Profile</a></li>
+                    <li><a href="{{ url_for('terms_of_use') }}">Apply For Job</a></li>
                     <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
             </ul>
         </nav>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p class="success-message">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
         <h1>Welcome to your account, {{ loggedUser.Username }} !</h1>
 
         <div class="row">
             <!-- profile card -->
-            <div class="column card-left">
+            <div class="column left-account-card">
                 <img src="{{url_for('static', filename='images/profile-image.png')}}" widht="70" height="70"/>
                 <p>Name: {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
                 <p>Email Address: {{ loggedUser.Email }}</p>
                 <p>Date Registered: {{ loggedUser.DateRegistered }}</p>
                 <p>Date Last Logged In: {{ loggedUser.DateLastLogin }}</p>
             </div>
+            <!-- inner dashboard -->
             <div class="column right-dashboard">
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
+                <h3>Some other data</h3>
                 <h3>Some other data</h3>
             </div>
         </div>

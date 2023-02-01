@@ -92,7 +92,11 @@ li {
     color: green;
 }
 
-.card-left {
+.column {
+    float: left;
+}
+
+.left-account-card {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: 15px;
@@ -105,11 +109,19 @@ li {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: 26px;
-    border: 2px solid;
+    border: 2px solid red;
     margin: auto;
     width: 70%;
+    height: 100%;
+    overflow-y: auto;
 }
 
-.column {
-    float: left;
+.left-profile-card{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    font-size: 15px;
+    border: 2px solid;
+    margin: auto;
+    width: 30%;
+    height: 40%;
 }
