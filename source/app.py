@@ -60,29 +60,40 @@ def signup():
         firstName: str = request.form.get('first-name')
         lastName: str = request.form.get('last-name')
 
-        # first validate password
-        if AuthenticationHelper.ValidatePassword(password=password):
-            # now try to push the new user object to the database
-            try:
-                # user helper method to create hashed user ID
-                userID: str = UserModelHelper.CreateUserID(username=username, password=password)
-                operationResult: bool = UserDBActions.UpdateUser(user=User(
-                    ID=userID,
-                    Username=username,
-                    Email=email,
-                    FirstName=firstName,
-                    LastName=lastName,
-                    DateLastLogin=None,
-                    DateRegistered=datetime.now()
-                ), collection="Users")
+        # now check if the entered username does not already exist in the database
+        username_exists: bool = False
+        users: list[User] = UserDBActions.GetAllUsers()
+        if (users != None):
+            for user in users:
+                if user.Username == username:
+                    username_exists = True
 
-                if operationResult == False: raise Exception()
-                else: flash("Success: You have successfully signed up.")
-            except Exception as e:
-                MenuHelper.DisplayErrorException(exception=e, errorSource="Signup::Signup::RegisterNewUser")
+        if not username_exists:
+            # now validate password
+            if AuthenticationHelper.ValidatePassword(password=password):
+                # now try to push the new user object to the database
+                try:
+                    # user helper method to create hashed user ID
+                    userID: str = UserModelHelper.CreateUserID(username=username, password=password)
+                    operationResult: bool = UserDBActions.UpdateUser(user=User(
+                        ID=userID,
+                        Username=username,
+                        Email=email,
+                        FirstName=firstName,
+                        LastName=lastName,
+                        DateLastLogin=None,
+                        DateRegistered=datetime.now()
+                    ), collection="Users")
+
+                    if operationResult == False: raise Exception()
+                    else: flash("Success: You have successfully signed up.")
+                except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource="Signup::Signup::RegisterNewUser")
+            else:
+                error = "Invalid password."
         else:
-            error = "Invalid Password"
-
+            error = "This username already exists."
+            
     return render_template('signup.html', error=error)
 
 
