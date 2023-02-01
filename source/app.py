@@ -77,6 +77,7 @@ def signup():
                 ), collection="Users")
 
                 if operationResult == False: raise Exception()
+                else: flash("Success: You have successfully signed up.")
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource="Signup::Signup::RegisterNewUser")
         else:

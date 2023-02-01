@@ -85,3 +85,8 @@ li {
     color: rgb(160, 27, 27);
     padding: 0.3rem;
 }
+
+.success-message {
+    font-size: 17px;
+    color: green;
+}
