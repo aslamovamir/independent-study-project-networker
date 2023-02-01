@@ -22,19 +22,17 @@ def index():
         try: 
             # create the encrypted user ID for the entered username and password
             userID: str = UserModelHelper.CreateUserID(username=username, password=password)
-            print("ID: ", userID)
+
             # get all users
             allUsers = UserDBActions.GetAllUsers()
 
             if (allUsers == None):
                 raise Exception()
-            print(allUsers)
+
             userFound: bool = False
             # now check the ID of all users
             for user in allUsers:
-                print(user.Username)
                 if user.ID == userID:
-                    print("Found!", user.ID)
                     userFound = True
                     break
             if userFound:
