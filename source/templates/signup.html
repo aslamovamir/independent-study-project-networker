@@ -33,13 +33,6 @@
                         <p><strong>Error</strong>: {{error}}</p>
                     </div>
                 {% endif %}
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <p class="success-message">{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
                 <form action='/signup' method='POST'>
                     <label for="username">Username</label>
                     <input class="inputs" type="text" placeholder="Enter your username" name="username" required>
