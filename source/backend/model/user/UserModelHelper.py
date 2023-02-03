@@ -1,5 +1,6 @@
 import hashlib
 from backend.model.user.User import User
+from backend.model.user.UserProfile import UserProfile
 
 
 class UserModelHelper:
@@ -11,7 +12,7 @@ class UserModelHelper:
 
     
     # method to convert User object to a dictionary
-    def UserToDictConvert(user: User) -> dict:
+    def UserToDictConvert(user: User) -> dict[str, str]:
         return {
             'ID': str(user.ID),
             'Username': str(user.Username),
@@ -20,4 +21,18 @@ class UserModelHelper:
             'LastName': str(user.LastName),
             'DateRegistered': str(user.DateRegistered),
             'DateLastLogin': str(user.DateLastLogin)
+        }
+
+
+    # method to convert UserProfile object to a dictionary
+    def UserProfileToDictConvert(userProfile: UserProfile) -> dict[str, str]:
+        return {
+            'UserID': str(userProfile.UserID),
+            'Title': str(userProfile.Title),
+            'About': str(userProfile.About),
+            'Gender': str(userProfile.Gender),
+            'Ethnicity': str(userProfile.Ethnicity),
+            'DisabilityStatus': str(userProfile.DisabilityStatus),
+            'Location': str(userProfile.Location),
+            'PhoneNumber': str(userProfile.PhoneNumber)
         }
