@@ -21,7 +21,7 @@ def index():
 
         try: 
             # create the encrypted user ID for the entered username and password
-            userID: str = UserModelHelper.CreateUserID(username=username, password=password)
+            userId: str = UserModelHelper.CreateUserID(username=username, password=password)
 
             # get all users
             allUsers = UserDBActions.GetAllUsers()
@@ -32,14 +32,12 @@ def index():
             userFound: bool = False
             # now check the ID of all users
             for user in allUsers:
-                if user.ID == userID:
+                if user.Id == userId:
                     userFound = True
                     # log the user
                     loggedUser: User = user
                     break
             if userFound:
-                flash("Success: You have successfully logged in.")
-                
                 # now update the user with the new logged in date in the database
                 loggedUser.DateLastLogin = datetime.now()
                 UserDBActions.UpdateUser(user=loggedUser)
@@ -79,9 +77,9 @@ def signup():
                 # now try to push the new user object to the database
                 try:
                     # user helper method to create hashed user ID
-                    userID: str = UserModelHelper.CreateUserID(username=username, password=password)
+                    userId: str = UserModelHelper.CreateUserID(username=username, password=password)
                     operationResult: bool = UserDBActions.UpdateUser(user=User(
-                        ID=userID,
+                        Id=userId,
                         Username=username,
                         Email=email,
                         FirstName=firstName,

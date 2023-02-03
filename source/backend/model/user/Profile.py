@@ -1,17 +1,16 @@
 from dataclasses import dataclass, field
 
-
 @dataclass
 class Experience:
-    Title: str
-    Employer: str
-    DateStarted: str
-    DateEnded: str
-    Location: str
-    Description: str
+    Title: str = ""
+    Employer: str = ""
+    DateStarted: str = ""
+    DateEnded: str = ""
+    Location: str = ""
+    Description: str = ""
 
-    def ExperienceToDict(self):
-        return {
+    def ExpToDict(self):
+        return{
             'Title': str(self.Title),
             'Employer': str(self.Employer),
             'DateStarted': str(self.DateStarted),
@@ -20,7 +19,7 @@ class Experience:
             'Description': str(self.Description)
         }
 
-     # converts a dictionary pyrebase response to experience object
+    # converts a dictionary pyrebase response to experience object
     def HydrateExperience(ExperienceDict):
         return Experience(
             Title=ExperienceDict['Title'],
@@ -30,7 +29,6 @@ class Experience:
             Location=ExperienceDict['Location'],
             Description=ExperienceDict['Description'],
         )
-
 
 @dataclass
 class Education:
@@ -56,20 +54,20 @@ class Education:
 
 @dataclass
 class Profile:
-    ID: str
-    Title: str
-    About: str
-    Gender: str
-    Ethnicity: str
-    DisabilityStatus: str
-    Location: str
-    PhoneNumber: str
+    Id: str = "" 
+    Title: str = "" 
+    About: str = ""
+    Gender: str = ""
+    Ethnicity: str = ""
+    DisabilityStatus: str = ""
+    Location: str = ""
+    PhoneNumber: str = "" 
     EducationList: list[Education] = field(default_factory=list)
     ExperienceList: list[Experience] = field(default_factory=list)
 
     def HydrateProfile(profile: dict):
         return Profile(
-            ID = ProfileHydrator.HydrateProp(profile, "ID"),
+            Id = ProfileHydrator.HydrateProp(profile, "Id"),
             Title = ProfileHydrator.HydrateProp(profile, "Title"),
             About = ProfileHydrator.HydrateProp(profile, "About"),
             Gender = ProfileHydrator.HydrateProp(profile, "Gender"),
@@ -81,12 +79,38 @@ class Profile:
             ExperienceList = ProfileHydrator.HydrateProp(profile, "ExperienceList"),
         )
 
+    def ProfileToDict(self):
+        try:
+            if self == None:
+                self = Profile()
+            
+            if (self.EducationList == None):
+                self.EducationList = []
+            
+            if (self.ExperienceList == None):
+                self.ExperienceList = []
+
+            return {
+                'Id': str(self.Id),
+                'Title': str(self.Title),
+                'About': str(self.About),
+                'Gender': str(self.Gender),
+                'Ethnicity': str(self.Ethnicity),
+                'DisabilityStatus': str(self.DisabilityStatus),
+                'Location': str(self.Location),
+                'PhoneNumber': str(self.PhoneNumber),
+                'EducationList': {i: self.EducationList[i].EducationToDict() for i in range(len(self.EducationList))},
+                'ExperienceList': {i: self.ExperienceList[i].ExpToDict() for i in range(len(self.ExperienceList))}
+            }
+        except Exception as e:
+            print(f"Could not convert a Profile entity to a dictionary object.\n{e}")
+
 
 class ProfileHydrator:
 
     # A dictionary to maintain the Profile entity's property name (key) and its type (value).
     _profileAttributes: dict[str, str] = {
-        "ID": "str",
+        "Id": "str",
         "Title": "str",
         "About": "str",
         "Gender": "str",
@@ -116,7 +140,6 @@ class ProfileHydrator:
         
         return value
     
-
     # Handles conversion to a complex type.
     def CastComplexType(pyreValue, propType):
         if propType == "list[Education]":

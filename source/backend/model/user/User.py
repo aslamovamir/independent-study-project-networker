@@ -1,45 +1,61 @@
 from dataclasses import dataclass, field
-from datetime import datetime
 from backend.model.user.Profile import Profile
+from backend.helpers.MenuHelper import MenuHelper
+from datetime import datetime
 
-
+# A User entity.
 @dataclass
 class User:
-    ID: str
+    Id: str
     Username: str
     Email: str
-    FirstName: str
-    LastName: str
+    FirstName: str = ""
+    LastName: str = ""
     Profile: Profile = None
-    DateRegistered: datetime = field(default_factory=datetime.now)
     DateLastLogin: datetime = field(default_factory=datetime.now)
+    DateRegistered: datetime = field(default_factory=datetime.now)
 
     # Hydrates a User entity using a pyrebase response value and returns it.
     def HydrateUser(user):
         return User(
-                ID = UserHydrator.HydrateProp(user, "ID"),
+                Id = UserHydrator.HydrateProp(user, "Id"),
                 Username = UserHydrator.HydrateProp(user, "Username"),
                 Email = UserHydrator.HydrateProp(user, "Email"),
                 FirstName = UserHydrator.HydrateProp(user, "FirstName"),
                 LastName = UserHydrator.HydrateProp(user, "LastName"),
                 Profile = UserHydrator.HydrateProp(user, "Profile"),
-                DateRegistered = UserHydrator.HydrateProp(user, "DateRegistered"),
-                DateLastLogin = UserHydrator.HydrateProp(user, "DateLastLogin")
+                DateLastLogin = UserHydrator.HydrateProp(user, "DateLastLogin"),
+                DateRegistered = UserHydrator.HydrateProp(user, "DateRegistered")
             )
-
+    
+    # method to convert User object to a dictionary
+    def UserToDict(self) -> dict[str, str]:
+        try:
+            return {
+                'Id': str(self.Id),
+                'Username': str(self.Username),
+                'Email': str(self.Email),
+                'FirstName': str(self.FirstName),
+                'LastName': str(self.LastName),
+                'Profile': Profile.ProfileToDict(self.Profile),
+                'DateLastLogin': str(self.DateLastLogin),
+                'DateRegistered': str(self.DateRegistered)
+            }
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource="UserModelHelper:UserToDictConvert")
 
 class UserHydrator:
     
     # A dictionary to maintain the User entity's property name (key) and its type (value).
     _userAttributes: dict[str, str] = {
-        "ID": "str",
+        "Id": "str",
         "Username": "str",
         "Email": "str",
         "FirstName": "str",
         "LastName": "str",
         "Profile": "Profile",
-        "DateRegistered": "datetime",
-        "DateLastLogin": "datetime"
+        "DateLastLogin": "datetime",
+        "DateRegistered": "datetime"
     }
     
     # Hydrates an individual property for the User entity.
@@ -65,6 +81,7 @@ class UserHydrator:
         if propType == "Profile":
             profile: Profile = Profile.HydrateProfile(pyreValue)
             return profile
+        
         if propType == "datetime":
             datetimeValue: datetime = datetime.fromisoformat(pyreValue)
             return datetimeValue
@@ -78,6 +95,6 @@ class UserHydrator:
         if propType == "str": return ""
         elif propType == "bool": return True
         elif propType == "dict[str, bool]": return {}
-        elif propType == "datetime": return datetime.min
         elif propType == "Profile": return Profile()
+        elif propType == "datetime": return datetime.min
         else: return None
