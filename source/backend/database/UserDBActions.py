@@ -41,15 +41,3 @@ class UserDBActions:
             return users
         except:
             return None
-        
-
-    # method to get a user profile by user id from the database
-    def GetUserProfileByUserID(userID: str, collection: str = "UserProfiles") -> UserProfile:
-        try:
-            response = database.child(collection).get()
-            if response == None: return None
-
-            responseListed: list = response.each()
-            if (responseListed == None): return None
-            for userProfile in responseListed:
-                if userProfile[]

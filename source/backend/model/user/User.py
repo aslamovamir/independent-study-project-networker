@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
+from model.user.Profile import Profile
 
 
 @dataclass
@@ -9,6 +10,7 @@ class User:
     Email: str
     FirstName: str
     LastName: str
+    Profile: Profile = None
     DateRegistered: datetime = field(default_factory=datetime.now)
     DateLastLogin: datetime = field(default_factory=datetime.now)
 
@@ -20,6 +22,7 @@ class User:
                 Email = UserHydrator.HydrateProp(user, "Email"),
                 FirstName = UserHydrator.HydrateProp(user, "FirstName"),
                 LastName = UserHydrator.HydrateProp(user, "LastName"),
+                Profile = UserHydrator.HydrateProp(user, "Profile"),
                 DateRegistered = UserHydrator.HydrateProp(user, "DateRegistered"),
                 DateLastLogin = UserHydrator.HydrateProp(user, "DateLastLogin")
             )
@@ -34,6 +37,7 @@ class UserHydrator:
         "Email": "str",
         "FirstName": "str",
         "LastName": "str",
+        "Profile": "Profile",
         "DateRegistered": "datetime",
         "DateLastLogin": "datetime"
     }
@@ -58,6 +62,9 @@ class UserHydrator:
     
     # Handles conversion to a certain type.
     def Cast(pyreValue, propType):
+        if propType == "Profile":
+            profile: Profile = Profile.HydrateProfile(pyreValue)
+            return profile
         if propType == "datetime":
             datetimeValue: datetime = datetime.fromisoformat(pyreValue)
             return datetimeValue
@@ -72,4 +79,5 @@ class UserHydrator:
         elif propType == "bool": return True
         elif propType == "dict[str, bool]": return {}
         elif propType == "datetime": return datetime.min
+        elif propType == "Profile": return Profile()
         else: return None
