@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from model.user.Profile import Profile
+from backend.model.user.Profile import Profile
 
 
 @dataclass

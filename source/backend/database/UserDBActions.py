@@ -1,6 +1,6 @@
 from backend.firebase.Firebase import database
 from backend.model.user.User import User
-from backend.model.user.UserProfile import UserProfile
+from backend.model.user.Profile import Profile
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.helpers.MenuHelper import MenuHelper
 
@@ -15,15 +15,6 @@ class UserDBActions:
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="UserDBActions:UserDBActions:UpdateUser")
     
-
-    # method to update the user profile node (modify or create a new) in the database
-    def UpdateUserProfile(userProfile: UserProfile, collection: str = "UserProfiles") -> bool:
-        try:
-            database.child(collection).child(userProfile.UserID).set(UserModelHelper.UserProfileToDictConvert(userProfile=userProfile))
-            return True
-        except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource="UserDBActions:UserDBActions:UpdateUserProfile")
-
 
     # method to get all users from the database and return as list
     def GetAllUsers(collection: str = "Users") -> list[User]:
