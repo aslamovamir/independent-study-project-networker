@@ -8,7 +8,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key="networker-app-20190805"
-
+LoggedUser: User = None
 
 # Routes build-up
 @app.route('/', methods=['POST', 'GET'])
@@ -29,20 +29,21 @@ def index():
             if (allUsers == None):
                 raise Exception()
 
+            global LoggedUser
             userFound: bool = False
             # now check the ID of all users
             for user in allUsers:
                 if user.Id == userId:
                     userFound = True
                     # log the user
-                    loggedUser: User = user
+                    LoggedUser = user
                     break
             if userFound:
                 # now update the user with the new logged in date in the database
-                loggedUser.DateLastLogin = datetime.now()
-                UserDBActions.UpdateUser(user=loggedUser)
+                LoggedUser.DateLastLogin = datetime.now()
+                UserDBActions.UpdateUser(user=LoggedUser)
 
-                return render_template('dashboard.html', loggedUser=loggedUser)
+                return render_template('dashboard.html', loggedUser=LoggedUser)
             else:
                 error = "User Not Found"
 
@@ -103,6 +104,15 @@ def signup():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+
+@app.route('/update_profile')
+def update_profile():
+    return render_template('update_profile.html', loggedUser=LoggedUser)
+
+
+
+
 
 
 

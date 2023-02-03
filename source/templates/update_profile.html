@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <Title>Networker</Title>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('contact_us') }}">Contuct Us</a></li>
+                    <li><a href="{{ url_for('terms_of_use') }}">Terms of Use</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>Profile Update</h1>
+            
+        </div>
+    </body>
+</html>

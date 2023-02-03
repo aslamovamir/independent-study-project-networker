@@ -10,7 +10,7 @@
             <div class="logo">© Networker</div>
             <ul class="nav-links">
                 <div class="menu">
-                    <li><a href="{{ url_for('contact_us') }}">Update Your Profile</a></li>
+                    <li><a href="{{ url_for('update_profile') }}">Update Your Profile</a></li>
                     <li><a href="{{ url_for('about') }}">My Network</a></li>
                     <li><a href="{{ url_for('terms_of_use') }}">Apply For Job</a></li>
                     <li><a href="{{ url_for('index') }}">Log Out</a></li>
@@ -26,13 +26,13 @@
                 <p><strong>Email Address:</strong> {{ loggedUser.Email }}</p>
                 <p><strong>Date Registered:</strong> {{ loggedUser.DateRegistered }}</p>
                 <p><strong>Date Last Logged In:</strong> {{ loggedUser.DateLastLogin }}</p>
-                <p><strong>Title:</strong> </p>
-                <p><strong>About:</strong> </p>
-                <p><strong>Gender:</strong> </p>
-                <p><strong>Ethnicity:</strong> </p>
-                <p><strong>Disability Status:</strong> </p>
-                <p><strong>Location:</strong> </p>
-                <p><strong>Phone Number:</strong> </p>
+                <p><strong>Title:</strong>{{ loggedUser.Profile.Title }}</p>
+                <p><strong>About:</strong>{{ loggedUser.Profile.About }}</p>
+                <p><strong>Gender:</strong>{{ loggedUser.Profile.Gender }}</p>
+                <p><strong>Ethnicity:</strong>{{ loggedUser.Profile.Ethnicity }}</p>
+                <p><strong>Disability Status:</strong>{{ loggedUser.Profile.DisabilityStatus }}</p>
+                <p><strong>Location:</strong>{{ loggedUser.Profile.Location }}</p>
+                <p><strong>Phone Number:</strong>{{ loggedUser.Profile.PhoneNumber }}</p>
             </div>
             <!-- posts card -->
             <div class="column right-posts-card">
