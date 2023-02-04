@@ -19,7 +19,39 @@
         </nav>
         <div class="container">
             <h1>Profile Update</h1>
-            
+            <form action='/update_profile' method='POST'>
+                <label for="first-name">First Name</label>
+                <input class="inputs" type="text" name="first-name" >
+                <br />
+                <label for="last-name">Last Name</label>
+                <input class="inputs" type="text" name="last-name" >
+                <br />
+                <label for="email">Email Address</label>
+                <input class="inputs" type="email" name="email">
+                <br />
+                <label for="title">Title</label>
+                <input class="inputs" type="text" name="title" >
+                <br />
+                <label for="gender">Gender</label>
+                <input class="inputs" type="text" name="gender" >
+                <br />
+                <label for="ethnicity">Ethnicity</label>
+                <input class="inputs" type="text" name="ethnicity" >
+                <br />
+                <label for="disability-status">Disability Status</label>
+                <input class="inputs" type="text" name="disability-status" >
+                <br />
+                <label for="location">Location</label>
+                <input class="inputs" type="text" name="location" >
+                <br />
+                <label for="phone-number">Phone Number</label>
+                <input class="inputs" type="text" name="phone-number" >
+                <br />
+                <label for="about">About</label><br />
+                <textarea id="about" name="about" rows="3" cols="70"></textarea>
+                <br />
+                <button class="submit" type="submit">Update</button>
+            </form>
         </div>
     </body>
 </html>

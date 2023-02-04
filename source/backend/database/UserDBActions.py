@@ -26,7 +26,6 @@ class UserDBActions:
             if (responseListed == None): return None
             users: list[User] = []
             for user in responseListed:
-                print(user.val())
                 if user == None: continue
                 else: users.append(User.HydrateUser(user))
 

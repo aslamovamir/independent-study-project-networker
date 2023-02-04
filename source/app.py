@@ -1,6 +1,7 @@
 from flask import Flask, render_template, session, request, redirect, flash, url_for
 from backend.helpers.AuthenticationHelper import AuthenticationHelper
 from backend.model.user.User import User
+from backend.model.user.Profile import Profile
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
 from backend.helpers.MenuHelper import MenuHelper
@@ -106,8 +107,43 @@ def dashboard():
     return render_template('dashboard.html')
 
 
-@app.route('/update_profile')
+@app.route('/update_profile', methods=['POST', 'GET'])
 def update_profile():
+    if request.method == "POST":
+        global LoggedUser
+        print(LoggedUser)
+        # get the entries form the form and update the profile
+        LoggedUser.FirstName = request.form.get('first-name')
+        LoggedUser.LastName = request.form.get('last-name')
+        LoggedUser.Email = request.form.get('email')
+        
+        # to update profile, first need to check if the user already had a profile
+        profile: Profile = None
+        if LoggedUser.Profile != None and LoggedUser.Profile != Profile():
+            profile = LoggedUser.Profile
+        else:
+            profile = Profile()
+        
+        # now update the attributes of the profile
+        profile.Title = request.form.get('title')
+        profile.About = request.form.get('about')
+        profile.Gender = request.form.get('gender')
+        profile.Ethnicity = request.form.get('ethnicity')
+        profile.DisabilityStatus = request.form.get('disability-status')
+        profile.Location = request.form.get('location')
+        profile.PhoneNumber = request.form.get('phone-number')
+
+        # now assign the profile variable to the logged user's profile
+        LoggedUser.Profile = profile
+        # now update the user in the database
+        try:
+            operationResult: bool = UserDBActions.UpdateUser(user=LoggedUser)
+            if operationResult == False: raise Exception()
+            else:
+                return render_template('dashboard.html', loggedUser=LoggedUser)
+        except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource="update_profile:UpdateUser")
+
     return render_template('update_profile.html', loggedUser=LoggedUser)
 
 
