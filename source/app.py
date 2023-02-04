@@ -111,11 +111,18 @@ def dashboard():
 def update_profile():
     if request.method == "POST":
         global LoggedUser
-        print(LoggedUser)
         # get the entries form the form and update the profile
-        LoggedUser.FirstName = request.form.get('first-name')
-        LoggedUser.LastName = request.form.get('last-name')
-        LoggedUser.Email = request.form.get('email')
+        form_entree: str = request.form.get('first-name')
+        if form_entree != "":
+            LoggedUser.FirstName = form_entree
+
+        form_entree = request.form.get('last-name')
+        if form_entree != "":
+            LoggedUser.LastName = form_entree
+
+        form_entree = request.form.get('email')
+        if form_entree != "":
+            LoggedUser.Email = form_entree    
         
         # to update profile, first need to check if the user already had a profile
         profile: Profile = None
@@ -125,13 +132,33 @@ def update_profile():
             profile = Profile()
         
         # now update the attributes of the profile
-        profile.Title = request.form.get('title')
-        profile.About = request.form.get('about')
-        profile.Gender = request.form.get('gender')
-        profile.Ethnicity = request.form.get('ethnicity')
-        profile.DisabilityStatus = request.form.get('disability-status')
-        profile.Location = request.form.get('location')
-        profile.PhoneNumber = request.form.get('phone-number')
+        form_entree = request.form.get('title')
+        if form_entree != "":
+            profile.Title = form_entree
+        
+        form_entree = request.form.get('about')
+        if form_entree != "":
+            profile.About = form_entree
+
+        form_entree = request.form.get('gender')
+        if form_entree != "":
+            profile.Gender = form_entree
+
+        form_entree = request.form.get('ethnicity')
+        if form_entree != "":
+            profile.Ethnicity = form_entree
+
+        form_entree = request.form.get('disability-status')
+        if form_entree != "":
+            profile.DisabilityStatus = form_entree
+
+        form_entree = request.form.get('location')
+        if form_entree != "":
+            profile.Location = form_entree
+
+        form_entree = request.form.get('phone-number')
+        if form_entree != "":
+            profile.PhoneNumber = form_entree    
 
         # now assign the profile variable to the logged user's profile
         LoggedUser.Profile = profile
