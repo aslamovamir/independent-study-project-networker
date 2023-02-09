@@ -2,6 +2,7 @@ from flask import Flask, render_template, session, request, redirect, flash, url
 from backend.helpers.AuthenticationHelper import AuthenticationHelper
 from backend.model.user.User import User
 from backend.model.user.Profile import Profile
+from backend.model.job.Job import Job
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
 from backend.helpers.MenuHelper import MenuHelper
@@ -174,7 +175,22 @@ def update_profile():
     return render_template('update_profile.html', loggedUser=LoggedUser)
 
 
+@app.route('/create_job_posting', methods=['POST', 'GET'])
+def create_job_posting():
+    if request.method == 'POST':
+        # get the entries from the form
+        title: str = request.form.get('title')
+        employer: str = request.form.get('employer')
+        location: str = request.form.get('location')
+        salary: str = request.form.get('salary')
+        description: str = request.form.get('description')
 
+        # now try to create a new job object and push it to the database
+        # try:
+        #     jobId: str = 
+        
+
+    return render_template('create_job_posting.html', loggedUser=LoggedUser)
 
 
 
