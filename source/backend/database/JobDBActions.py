@@ -12,3 +12,46 @@ class JobDBActions:
             return True
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="JobrDBActions:UpdateJob")
+
+    
+    # method to retun as a list all the jobs in the database
+    def GetAllJobs(collection: str = "Jobs") -> list[Job]:
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            jobs: list[Job] = []
+            for job in jobsResponse.each():
+                if job == None: continue
+                else: jobs.append(Job.HydrateJob(job))
+
+            return jobs
+        except:
+            return None
+        
+    
+    # method to retun as a list all the jobs created by a user in the database
+    def GetAllJobsUser(userId: str, collection: str = "Jobs") -> list[Job]:
+        print("In Get All Jobs User")
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            jobs: list[Job] = []
+            for job in jobsResponse.each():
+                if job == None: continue
+                else:
+                    if job.val()['PosterId'] == userId:
+                        jobs.append(Job.HydrateJob(job))
+
+            return jobs
+        except:
+            return None

@@ -180,6 +180,8 @@ def update_profile():
 
 @app.route('/create_job_posting', methods=['POST', 'GET'])
 def create_job_posting():
+    global LoggedUser
+
     if request.method == 'POST':
         # get the entries from the form
         title: str = request.form.get('title')
@@ -215,7 +217,12 @@ def create_job_posting():
         except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="create_job_posting:CreateJobID")
 
-    return render_template('create_job_posting.html', loggedUser=LoggedUser)
+    # get the job postings created by the logged user
+    createdJobs: list[Job] = JobDBActions.GetAllJobsUser(userId=LoggedUser.Id)
+    print(createdJobs)
+    print(len(createdJobs))
+
+    return render_template('create_job_posting.html', loggedUser=LoggedUser, createdJobs=createdJobs)
 
 
 
