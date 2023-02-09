@@ -23,9 +23,22 @@ class Job:
                 Location = JobHydrator.HydrateProp(job, "Location"),
                 Salary = JobHydrator.HydrateProp(job, "Salary"),
                 PosterId = JobHydrator.HydrateProp(job, "PosterId"),
-                _CreatedTimestamp = JobHydrator.HydrateProp(job, "_CreatedTimestamp")
+                DateCreated = JobHydrator.HydrateProp(job, "DateCreated")
             )
 
+
+    # Converts this entity into a dictionary.
+    def JobToDict(self) -> dict:
+        return {
+            'Id': str(self.Id),
+            'Title': str(self.Title),
+            'Employer': str(self.Employer),
+            'Description': str(self.Description),
+            'Location': str(self.Location),
+            'Salary': str(self.Salary),
+            'PosterId': str(self.PosterId),
+            'DateCreated': str(self.DateCreated)
+        }
 
 class JobHydrator:
 
@@ -39,7 +52,7 @@ class JobHydrator:
         "Location": "str",
         "Salary": "str",
         "PosterId": "str",
-        "_CreatedTimestamp": "datetime"
+        "DateCreated": "datetime"
     }
 
 

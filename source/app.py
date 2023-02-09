@@ -3,14 +3,18 @@ from backend.helpers.AuthenticationHelper import AuthenticationHelper
 from backend.model.user.User import User
 from backend.model.user.Profile import Profile
 from backend.model.job.Job import Job
+from backend.model.job.JobModelHelper import JobModelHelper
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
+from backend.database.JobDBActions import JobDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
+
 
 app = Flask(__name__)
 app.secret_key="networker-app-20190805"
 LoggedUser: User = None
+
 
 # Routes build-up
 @app.route('/', methods=['POST', 'GET'])
@@ -89,12 +93,12 @@ def signup():
                         LastName=lastName,
                         DateLastLogin=None,
                         DateRegistered=datetime.now()
-                    ), collection="Users")
+                    ))
 
                     if operationResult == False: raise Exception()
                     else: flash("Success: You have successfully signed up.")
                 except Exception as e:
-                    MenuHelper.DisplayErrorException(exception=e, errorSource="Signup::Signup::RegisterNewUser")
+                    MenuHelper.DisplayErrorException(exception=e, errorSource="signup:UpdateUser")
             else:
                 error = "Invalid password."
         else:
@@ -167,8 +171,7 @@ def update_profile():
         try:
             operationResult: bool = UserDBActions.UpdateUser(user=LoggedUser)
             if operationResult == False: raise Exception()
-            else:
-                return render_template('dashboard.html', loggedUser=LoggedUser)
+            else: return render_template('dashboard.html', loggedUser=LoggedUser)
         except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="update_profile:UpdateUser")
 
@@ -186,9 +189,31 @@ def create_job_posting():
         description: str = request.form.get('description')
 
         # now try to create a new job object and push it to the database
-        # try:
-        #     jobId: str = 
-        
+        try:
+            jobId: str = JobModelHelper.CreateJobID(
+                title=title,
+                employer=employer,
+                description=description,
+                location=location,
+                salary=salary
+            )
+
+            operationResult: bool = JobDBActions.UpdateJob(job=Job(
+                Id=jobId,
+                Title=title,
+                Employer=employer,
+                Description=description,
+                Location=location,
+                salary=salary,
+                PosterId=LoggedUser.Id,
+                DateCreated=datetime.now()
+            ))
+
+            if operationResult == False: raise Exception()
+            else: return render_template('dashboard.html', loggedUser=LoggedUser)
+
+        except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource="create_job_posting:CreateJobID")
 
     return render_template('create_job_posting.html', loggedUser=LoggedUser)
 

@@ -13,7 +13,7 @@ class UserDBActions:
             database.child(collection).child(user.Id).set(user.UserToDict())
             return True
         except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource="UserDBActions:UserDBActions:UpdateUser")
+            MenuHelper.DisplayErrorException(exception=e, errorSource="UserDBActions:UpdateUser")
     
 
     # method to get all users from the database and return as list
