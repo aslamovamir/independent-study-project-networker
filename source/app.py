@@ -204,7 +204,7 @@ def create_job_posting():
                 Employer=employer,
                 Description=description,
                 Location=location,
-                salary=salary,
+                Salary=salary,
                 PosterId=LoggedUser.Id,
                 DateCreated=datetime.now()
             ))
