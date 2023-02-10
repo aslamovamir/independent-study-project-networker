@@ -231,8 +231,9 @@ def apply_for_job():
     global LoggedUser
 
     # get all the jobs created by others
+    jobs: list[Job] = []
     try:
-        jobs: list[Job] = JobDBActions.GetAllJobsOffUser(userId=LoggedUser.Id)
+        jobs = JobDBActions.GetAllJobsOffUser(userId=LoggedUser.Id)
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource="apply_for_job:GetAllJobsOffUser")
 

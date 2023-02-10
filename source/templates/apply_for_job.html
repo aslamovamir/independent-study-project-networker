@@ -16,10 +16,10 @@
                 </div>
             </ul>
         </nav>
-        <div class="container">
+        <div>
             <h1>Apply For Job</h1>
             
-            <div class="bs-example col-md-12">
+            <div class="bs-example col-md-26">
                 <br />
                 <table class="table table-hover">
                     <thead>
@@ -30,6 +30,7 @@
                             <th>Location</th>
                             <th>Salary</th>
                             <th>Date Posted</th>
+                            <th>Log</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,15 +41,32 @@
                                 <td>{{ job.Description }}</td>
                                 <td>{{ job.Location }}</td>
                                 <td>{{ job.Salary }}</td>
-                                <td>{{ job.DateCreated }}</td>
-                                <td><button type="button" class="btn btn-info btn-sm" 
-                                    data-toggle="modal">Output</button></td>
+                                <td>{{ job.DateCreated.strftime("%d/%m/%y %H:%M") }}</td>
+                                <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" 
+                                    data-target="#applyFor{{ job.Id }}">Apply</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-
+            {% for job in jobs %}
+                <div class="modal fade" id="applyFor{{ job.Id }}" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Application</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Here body</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </body>
 </html>
