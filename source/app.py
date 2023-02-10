@@ -230,12 +230,19 @@ def create_job_posting():
 def apply_for_job():
     global LoggedUser
 
+
     # get all the jobs created by others
     jobs: list[Job] = []
     try:
         jobs = JobDBActions.GetAllJobsOffUser(userId=LoggedUser.Id)
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource="apply_for_job:GetAllJobsOffUser")
+
+    if request.method == 'POST':
+        # get the id of the job clicked by the user via the button assigned to it
+        jobIdToApply: str = request.form['applyBtn']
+        # now redirect to a new application page, with the job id and the logged user
+        
 
     return render_template('apply_for_job.html', jobs=jobs)
 

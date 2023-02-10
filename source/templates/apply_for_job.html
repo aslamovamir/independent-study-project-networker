@@ -3,8 +3,9 @@
     <head>
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" 
-            integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+         <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
         <Title>Networker: Apply For Job</Title>
     </head>
     <body>
@@ -30,11 +31,12 @@
                             <th>Location</th>
                             <th>Salary</th>
                             <th>Date Posted</th>
-                            <th>Log</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for job in jobs %}
+                        <form action='apply_for_job' method="POST">
                             <tr>
                                 <td>{{ job.Title }}</td>
                                 <td>{{ job.Employer }}</td>
@@ -42,31 +44,13 @@
                                 <td>{{ job.Location }}</td>
                                 <td>{{ job.Salary }}</td>
                                 <td>{{ job.DateCreated.strftime("%d/%m/%y %H:%M") }}</td>
-                                <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" 
-                                    data-target="#applyFor{{ job.Id }}">Apply</button></td>
+                                <td><button type="submit button" value="{{ job.Id }}" name="applyBtn" class="submit btn btn-primary">Apply</button></td>
                             </tr>
+                        </form>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            {% for job in jobs %}
-                <div class="modal fade" id="applyFor{{ job.Id }}" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Application</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>Here body</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
         </div>
     </body>
 </html>
