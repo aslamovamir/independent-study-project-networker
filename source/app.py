@@ -241,10 +241,24 @@ def apply_for_job():
     if request.method == 'POST':
         # get the id of the job clicked by the user via the button assigned to it
         jobIdToApply: str = request.form['applyBtn']
+        # get the job
+        for job in jobs:
+            if job.Id == jobIdToApply:
+                jobToApply: Job = job
         # now redirect to a new application page, with the job id and the logged user
-        
+        return render_template('application.html', loggeduser=LoggedUser, job=jobToApply)
+
 
     return render_template('apply_for_job.html', jobs=jobs)
+
+
+@app.route('/application', methods=['POST', 'GET'])
+def application():
+    global LoggedUser
+
+    return render_template('application.html', loggedUser=LoggedUser)
+
+
 
 
 

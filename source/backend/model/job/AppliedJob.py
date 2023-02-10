@@ -7,9 +7,10 @@ class AppliedJob:
     JobId: str
     JobTitle: str
     JobEmployer: str
-    GraduationDate: str
+    Status: str
     StartDate: str
     GoodFitReasoning: str
+    SponsorshipRequirement: str
     DateApplied: datetime = field(default_factory=datetime.now)
 
 
@@ -20,11 +21,27 @@ class AppliedJob:
             JobId = AppliedJobHydrator.HydrateProp(appliedJob, "JobId"),
             JobTitle = AppliedJobHydrator.HydrateProp(appliedJob, "JobTitle"),
             JobEmployer = AppliedJobHydrator.HydrateProp(appliedJob, "JobEmployer"),
-            GraduationDate = AppliedJobHydrator.HydrateProp(appliedJob, "GraduationDate"),
+            Status = AppliedJobHydrator.HydrateProp(appliedJob, "Status"),
             StartDate = AppliedJobHydrator.HydrateProp(appliedJob, "StartDate"),
             GoodFitReasoning = AppliedJobHydrator.HydrateProp(appliedJob, "GoodFitReasoning"),
+            SponsorshipRequirement = AppliedJobHydrator.HydrateProp(appliedJob, "SponsorshipRequirement"),
             DateApplied = AppliedJobHydrator.HydrateProp(appliedJob, "DateApplied")
         )
+
+
+    # converts this entity into a dictionary
+    def AppliedJobToDict(self) -> dict:
+        return {
+            'UserId': str(self.UserId),
+            'JobId': str(self.JobId),
+            'JobTitle': str(self.JobTitle),
+            'JobEmployer': str(self.JobEmployer),
+            'Status': str(self.Status),
+            'StartDate': str(self.StartDate),
+            'GoodFitReasoning': str(self.GoodFitReasoning),
+            'SponsorshipRequirement': str(self.SponsorshipRequirement),
+            'DateApplied': str(self.DateApplied)
+        }
 
 
 class AppliedJobHydrator:
@@ -36,9 +53,10 @@ class AppliedJobHydrator:
         "JobId": "str",
         "JobTitle": "str",
         "JobEmployer": "str",
-        "GraduationDate": "str",
+        "Status": "str",
         "StartDate": "str",
         "GoodFitReasoning": "str",
+        "SponsorshipRequirement": "str",
         "DateApplied": "datetime"
     }
 
