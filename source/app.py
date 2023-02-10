@@ -109,7 +109,8 @@ def signup():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    global LoggedUser
+    return render_template('dashboard.html', loggedUser=LoggedUser)
 
 
 @app.route('/update_profile', methods=['POST', 'GET'])
@@ -225,6 +226,17 @@ def create_job_posting():
     return render_template('create_job_posting.html', loggedUser=LoggedUser, createdJobs=createdJobs)
 
 
+@app.route('/apply_for_job', methods=['POST', 'GET'])
+def apply_for_job():
+    global LoggedUser
+
+    # get all the jobs created by others
+    try:
+        jobs: list[Job] = JobDBActions.GetAllJobsOffUser(userId=LoggedUser.Id)
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource="apply_for_job:GetAllJobsOffUser")
+
+    return render_template('apply_for_job.html', jobs=jobs)
 
 
 

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+            integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <Title>Networker: Apply For Job</Title>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>Apply For Job</h1>
+            
+            <div class="bs-example col-md-12">
+                <br />
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Employer</th>
+                            <th>Description</th>
+                            <th>Location</th>
+                            <th>Salary</th>
+                            <th>Date Posted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs %}
+                            <tr>
+                                <td>{{ job.Title }}</td>
+                                <td>{{ job.Employer }}</td>
+                                <td>{{ job.Description }}</td>
+                                <td>{{ job.Location }}</td>
+                                <td>{{ job.Salary }}</td>
+                                <td>{{ job.DateCreated }}</td>
+                                <td><button type="button" class="btn btn-info btn-sm" 
+                                    data-toggle="modal">Output</button></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </body>
+</html>
