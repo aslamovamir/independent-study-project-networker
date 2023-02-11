@@ -37,9 +37,9 @@
                         <label for="sponsorship_requirement">Sponsorship Requirement</label>
                         <input class="inputs" type="text" name="sponsorship_requirement" required>
                         <br />
-                        <label for="good_fit_reasoning">Description</label><br />
+                        <label for="good_fit_reasoning">Please explain why you are a good fit</label><br />
                         <textarea id="good_fit_reasoning" name="good_fit_reasoning" rows="3" cols="40" required></textarea>
-                        <button class="submit" type="submit">Apply</button>
+                        <button class="submit" type="submit" value="{{ job.Id }}" name="applyBtn">Apply</button>
                     </form>
                 </div>
             </div>

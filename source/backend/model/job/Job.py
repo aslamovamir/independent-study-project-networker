@@ -51,7 +51,7 @@ class JobHydrator:
         "Id": "str",
         "Title": "str",
         "Employer": "str",
-        "Indsutry": "str",
+        "Industry": "str",
         "Description": "str",
         "Location": "str",
         "Salary": "str",

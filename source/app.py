@@ -3,6 +3,7 @@ from backend.helpers.AuthenticationHelper import AuthenticationHelper
 from backend.model.user.User import User
 from backend.model.user.Profile import Profile
 from backend.model.job.Job import Job
+from backend.model.job.AppliedJob import AppliedJob
 from backend.model.job.JobModelHelper import JobModelHelper
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
@@ -187,6 +188,7 @@ def create_job_posting():
         # get the entries from the form
         title: str = request.form.get('title')
         employer: str = request.form.get('employer')
+        industry: str = request.form.get('industry')
         location: str = request.form.get('location')
         salary: str = request.form.get('salary')
         description: str = request.form.get('description')
@@ -196,6 +198,7 @@ def create_job_posting():
             jobId: str = JobModelHelper.CreateJobID(
                 title=title,
                 employer=employer,
+                industry=industry,
                 description=description,
                 location=location,
                 salary=salary
@@ -205,6 +208,7 @@ def create_job_posting():
                 Id=jobId,
                 Title=title,
                 Employer=employer,
+                Industry=industry,
                 Description=description,
                 Location=location,
                 Salary=salary,
@@ -257,6 +261,42 @@ def apply_for_job():
 @app.route('/application', methods=['POST', 'GET'])
 def application():
     global LoggedUser
+    
+    if request.method == 'POST':
+        # get the id of the job picked via the apply button
+        jobId: str = request.form['applyBtn']
+        # now get all the form fields
+        startDate: datetime = request.form.get('start_date')
+        sponsorshipRequirement: str = request.form.get('sponsorship_requirement')
+        goodFitReasoning: str = request.form.get('good_fit_reasoning')
+        # assign the custom values
+        userId: str = LoggedUser.Id
+        dateApplied: datetime = datetime.now()
+        status: str = 'Unreviewed'
+        # get the job from its id
+        job: Job = JobDBActions.GetJobFromId(jobId=jobId)
+        jobTitle: str = job.Title
+        jobEmployer: str = job.Employer
+
+        # now try to push the applied job to the database
+        try:
+            operationResult: bool = JobDBActions.UpdateAppliedJob(AppliedJob(
+                UserId=userId,
+                JobId=jobId,
+                JobTitle=jobTitle,
+                JobEmployer=jobEmployer,
+                Status=status,
+                StartDate=startDate,
+                GoodFitReasoning=goodFitReasoning,
+                SponsorshipRequirement=sponsorshipRequirement,
+                DateApplied=dateApplied
+            ))
+
+            if operationResult == False: raise Exception()
+            else: return render_template('dashboard.html', loggedUser=LoggedUser)
+            
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='application:JobDBActions:UpdateAppliedJob')
 
     return render_template('application.html', loggedUser=LoggedUser)
 

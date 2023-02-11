@@ -1,4 +1,5 @@
 from backend.model.job.Job import Job
+from backend.model.job.AppliedJob import AppliedJob
 from backend.firebase.Firebase import database
 from backend.helpers.MenuHelper import MenuHelper
 
@@ -58,7 +59,6 @@ class JobDBActions:
     
     # method to retun as a list all the jobs created by a user in the database
     def GetAllJobsUser(userId: str, collection: str = "Jobs") -> list[Job]:
-        print("In Get All Jobs User")
         try:
             jobsResponse = database.child(collection).get()
 
@@ -77,3 +77,34 @@ class JobDBActions:
             return jobs
         except:
             return None
+        
+    
+    # method to get Job object by job id
+    def GetJobFromId(jobId: str, collection: str = "Jobs") -> Job:
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            for job in jobsResponse.each():
+                if job == None: continue
+                else:
+                    if job.val()['Id'] == jobId:
+                        return Job.HydrateJob(job)
+
+            return None
+        except:
+            return None
+        
+    
+    # method to update the applied job entity node in the database
+    def UpdateAppliedJob(appliedJob: AppliedJob, collection: str = "AppliedJobs") -> bool:
+        try:
+            # the id of the applied job entry is the combination of user id and job id
+            database.child(collection).child(appliedJob.UserId + appliedJob.JobId).set(appliedJob.AppliedJobToDict())
+            return True
+        except Exception as e:
+            MenuHelper.DisplayErrorException(errorSource="JobDbActions:UpdateAppliedJob")
