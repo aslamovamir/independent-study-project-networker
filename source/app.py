@@ -220,8 +220,8 @@ def create_job_posting():
 
     # get the job postings created by the logged user
     createdJobs: list[Job] = JobDBActions.GetAllJobsUser(userId=LoggedUser.Id)
-    print(createdJobs)
-    print(len(createdJobs))
+    if createdJobs == None:
+        createdJobs = []
 
     return render_template('create_job_posting.html', loggedUser=LoggedUser, createdJobs=createdJobs)
 
@@ -235,6 +235,8 @@ def apply_for_job():
     jobs: list[Job] = []
     try:
         jobs = JobDBActions.GetAllJobsOffUser(userId=LoggedUser.Id)
+        if jobs == None:
+            jobs = []
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource="apply_for_job:GetAllJobsOffUser")
 
