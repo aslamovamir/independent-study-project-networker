@@ -7,6 +7,7 @@ class Job:
     Id: str
     Title: str
     Employer: str
+    Industry: str
     Description: str
     Location: str
     Salary: str
@@ -19,6 +20,7 @@ class Job:
                 Id = JobHydrator.HydrateProp(job, "Id"),
                 Title = JobHydrator.HydrateProp(job, "Title"),
                 Employer = JobHydrator.HydrateProp(job, "Employer"),
+                Industry = JobHydrator.HydrateProp(job, "Industry"),
                 Description = JobHydrator.HydrateProp(job, "Description"),
                 Location = JobHydrator.HydrateProp(job, "Location"),
                 Salary = JobHydrator.HydrateProp(job, "Salary"),
@@ -33,6 +35,7 @@ class Job:
             'Id': str(self.Id),
             'Title': str(self.Title),
             'Employer': str(self.Employer),
+            'Industry': str(self.Industry),
             'Description': str(self.Description),
             'Location': str(self.Location),
             'Salary': str(self.Salary),
@@ -48,6 +51,7 @@ class JobHydrator:
         "Id": "str",
         "Title": "str",
         "Employer": "str",
+        "Indsutry": "str",
         "Description": "str",
         "Location": "str",
         "Salary": "str",
