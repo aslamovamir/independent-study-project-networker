@@ -247,6 +247,13 @@ def apply_for_job():
     if request.method == 'POST':
         # get the id of the job clicked by the user via the button assigned to it
         jobIdToApply: str = request.form['applyBtn']
+        # now check if the user already applied for this job
+        try:
+            if JobDBActions.CheckIfApplied(userId=LoggedUser.Id, jobId=jobIdToApply):
+                error = "You have already applied for this job."
+                return render_template('apply_for_job.html', jobs=jobs, error=error)
+        except Exception as e:
+            MenuHelper.DisplayErrorException(errorSource='apply_for_job:CheckIfApplied')
         # get the job
         for job in jobs:
             if job.Id == jobIdToApply:
@@ -260,8 +267,10 @@ def apply_for_job():
 
 @app.route('/application', methods=['POST', 'GET'])
 def application():
+
     global LoggedUser
-    
+    error = None
+
     if request.method == 'POST':
         # get the id of the job picked via the apply button
         jobId: str = request.form['applyBtn']

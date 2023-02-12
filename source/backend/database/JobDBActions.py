@@ -107,4 +107,25 @@ class JobDBActions:
             database.child(collection).child(appliedJob.UserId + appliedJob.JobId).set(appliedJob.AppliedJobToDict())
             return True
         except Exception as e:
-            MenuHelper.DisplayErrorException(errorSource="JobDbActions:UpdateAppliedJob")
+            MenuHelper.DisplayErrorException(errorSource="JobDBActions:UpdateAppliedJob")
+
+
+    # method to check if the user has already applied for a job
+    def CheckIfApplied(userId: str, jobId: str, collection: str = "AppliedJobs") -> bool:
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            for job in jobsResponse.each():
+                if job == None: continue
+                else:
+                    if job.val()['UserId'] == userId and job.val()['JobId'] == jobId:
+                        return True
+
+            return False
+        except:
+            return False
