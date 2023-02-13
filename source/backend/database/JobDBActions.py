@@ -129,3 +129,25 @@ class JobDBActions:
             return False
         except:
             return False
+        
+    
+    # method to retun as a list all the jobs applied for by a user in the database
+    def GetAllAppliedJobsUser(userId: str, collection: str = "AppliedJobs") -> list[AppliedJob]:
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            jobs: list[AppliedJob] = []
+            for job in jobsResponse.each():
+                if job == None: continue
+                else:
+                    if job.val()['UserId'] == userId:
+                        jobs.append(AppliedJob.HydrateAppliedJob(job))
+
+            return jobs
+        except:
+            return None

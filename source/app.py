@@ -310,6 +310,17 @@ def application():
     return render_template('application.html', loggedUser=LoggedUser)
 
 
+@app.route('/applied_jobs')
+def applied_jobs():
+    global LoggedUser
+    # get all the applied jobs of the logged user
+    appliedJobs: list[AppliedJob] = []
+    try:
+        appliedJobs = JobDBActions.GetAllAppliedJobsUser(userId=LoggedUser.Id)
+    except Exception as e:
+        MenuHelper.DisplayErrorException(errorSource='applied_jobs/GetAllAppliedJobsUser')
+
+    return render_template('applied_jobs.html', jobs=appliedJobs)
 
 
 
