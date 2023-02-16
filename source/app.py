@@ -276,6 +276,7 @@ def application():
         goodFitReasoning: str = request.form.get('good_fit_reasoning')
         # assign the custom values
         userId: str = LoggedUser.Id
+        id: str = JobModelHelper.CreateAppliedJobID(userId=userId, jobId=jobId)
         userName: str = LoggedUser.LastName + ", " + LoggedUser.FirstName
         dateApplied: datetime = datetime.now()
         status: str = 'Unreviewed'
@@ -287,7 +288,7 @@ def application():
         # now try to push the applied job to the database
         try:
             operationResult: bool = JobDBActions.UpdateAppliedJob(AppliedJob(
-                Id=userId+jobId,
+                Id=id,
                 UserId=userId,
                 UserName=userName,
                 JobId=jobId,
@@ -316,13 +317,15 @@ def applied_jobs():
     appliedJobs: list[AppliedJob] = []
     try:
         appliedJobs = JobDBActions.GetAllAppliedJobsUser(userId=LoggedUser.Id)
+        if appliedJobs == None:
+            appliedJobs = []
     except Exception as e:
-        MenuHelper.DisplayErrorException(errorSource='applied_jobs/GetAllAppliedJobsUser')
+        MenuHelper.DisplayErrorException(exception=e, errorSource='applied_jobs/GetAllAppliedJobsUser')
 
     return render_template('applied_jobs.html', jobs=appliedJobs)
 
 
-@app.route('/review_job_applications')
+@app.route('/review_applications')
 def review_applications():
     global LoggedUser
 
