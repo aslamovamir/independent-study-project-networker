@@ -104,7 +104,7 @@ class JobDBActions:
     def UpdateAppliedJob(appliedJob: AppliedJob, collection: str = "AppliedJobs") -> bool:
         try:
             # the id of the applied job entry is the combination of user id and job id
-            database.child(collection).child(appliedJob.UserId + appliedJob.JobId).set(appliedJob.AppliedJobToDict())
+            database.child(collection).child(appliedJob.Id).set(appliedJob.AppliedJobToDict())
             return True
         except Exception as e:
             MenuHelper.DisplayErrorException(errorSource="JobDBActions:UpdateAppliedJob")

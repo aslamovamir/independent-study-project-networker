@@ -276,6 +276,7 @@ def application():
         goodFitReasoning: str = request.form.get('good_fit_reasoning')
         # assign the custom values
         userId: str = LoggedUser.Id
+        userName: str = LoggedUser.LastName + ", " + LoggedUser.FirstName
         dateApplied: datetime = datetime.now()
         status: str = 'Unreviewed'
         # get the job from its id
@@ -286,7 +287,9 @@ def application():
         # now try to push the applied job to the database
         try:
             operationResult: bool = JobDBActions.UpdateAppliedJob(AppliedJob(
+                Id=userId+jobId,
                 UserId=userId,
+                UserName=userName,
                 JobId=jobId,
                 JobTitle=jobTitle,
                 JobEmployer=jobEmployer,
@@ -318,6 +321,12 @@ def applied_jobs():
 
     return render_template('applied_jobs.html', jobs=appliedJobs)
 
+
+@app.route('/review_job_applications')
+def review_applications():
+    global LoggedUser
+
+    return render_template('review_applications.html')
 
 
 @app.route('/about')

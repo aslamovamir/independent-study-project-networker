@@ -3,7 +3,9 @@ from datetime import datetime
 
 @dataclass
 class AppliedJob:
+    Id: str
     UserId: str
+    UserName: str
     JobId: str
     JobTitle: str
     JobEmployer: str
@@ -17,7 +19,9 @@ class AppliedJob:
     # hydrates an AppliedJob entity using a pyrebase response value and returns it
     def HydrateAppliedJob(appliedJob):
         return AppliedJob(
+            Id = AppliedJobHydrator.HydrateProp(appliedJob, "Id"),
             UserId = AppliedJobHydrator.HydrateProp(appliedJob, "UserId"),
+            UserName = AppliedJobHydrator.HydrateProp(appliedJob, "UserName"),
             JobId = AppliedJobHydrator.HydrateProp(appliedJob, "JobId"),
             JobTitle = AppliedJobHydrator.HydrateProp(appliedJob, "JobTitle"),
             JobEmployer = AppliedJobHydrator.HydrateProp(appliedJob, "JobEmployer"),
@@ -32,7 +36,9 @@ class AppliedJob:
     # converts this entity into a dictionary
     def AppliedJobToDict(self) -> dict:
         return {
+            'Id': str(self.Id),
             'UserId': str(self.UserId),
+            'UserName': str(self.UserName),
             'JobId': str(self.JobId),
             'JobTitle': str(self.JobTitle),
             'JobEmployer': str(self.JobEmployer),
@@ -49,7 +55,9 @@ class AppliedJobHydrator:
 
     # A dictionary to maintain the AppliedJob entity's property name (key) and its type (value).
     _appliedJobAttributes: dict[str, str] = {
+        "Id": "str",
         "UserId": "str",
+        "UserName": "str",
         "JobId": "str",
         "JobTitle": "str",
         "JobEmployer": "str",
