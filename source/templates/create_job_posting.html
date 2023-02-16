@@ -38,15 +38,6 @@
                 <button class="submit" type="submit">Create</button>
             </form>
             <hr />
-            <div>
-                <h1>Job Postings Created:</h1>
-                <br />
-                <ul>
-                    {% for job in createdJobs %}
-                        <li>{{ job.Title }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
         </div>
     </body>
 </html>

@@ -222,12 +222,8 @@ def create_job_posting():
         except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="create_job_posting:CreateJobID")
 
-    # get the job postings created by the logged user
-    createdJobs: list[Job] = JobDBActions.GetAllJobsUser(userId=LoggedUser.Id)
-    if createdJobs == None:
-        createdJobs = []
 
-    return render_template('create_job_posting.html', loggedUser=LoggedUser, createdJobs=createdJobs)
+    return render_template('create_job_posting.html', loggedUser=LoggedUser)
 
 
 @app.route('/apply_for_job', methods=['POST', 'GET'])
