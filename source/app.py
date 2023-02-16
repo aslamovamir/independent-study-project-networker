@@ -284,12 +284,14 @@ def application():
         job: Job = JobDBActions.GetJobFromId(jobId=jobId)
         jobTitle: str = job.Title
         jobEmployer: str = job.Employer
+        posterId: str = job.PosterId
 
         # now try to push the applied job to the database
         try:
             operationResult: bool = JobDBActions.UpdateAppliedJob(AppliedJob(
                 Id=id,
                 UserId=userId,
+                PosterId=posterId,
                 UserName=userName,
                 JobId=jobId,
                 JobTitle=jobTitle,

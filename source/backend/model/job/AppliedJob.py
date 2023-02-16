@@ -5,6 +5,7 @@ from datetime import datetime
 class AppliedJob:
     Id: str
     UserId: str
+    PosterId: str
     UserName: str
     JobId: str
     JobTitle: str
@@ -21,6 +22,7 @@ class AppliedJob:
         return AppliedJob(
             Id = AppliedJobHydrator.HydrateProp(appliedJob, "Id"),
             UserId = AppliedJobHydrator.HydrateProp(appliedJob, "UserId"),
+            PosterId = AppliedJobHydrator.HydrateProp(appliedJob, "PosterId"),
             UserName = AppliedJobHydrator.HydrateProp(appliedJob, "UserName"),
             JobId = AppliedJobHydrator.HydrateProp(appliedJob, "JobId"),
             JobTitle = AppliedJobHydrator.HydrateProp(appliedJob, "JobTitle"),
@@ -38,6 +40,7 @@ class AppliedJob:
         return {
             'Id': str(self.Id),
             'UserId': str(self.UserId),
+            'PosterId': str(self.PosterId),
             'UserName': str(self.UserName),
             'JobId': str(self.JobId),
             'JobTitle': str(self.JobTitle),
@@ -57,6 +60,7 @@ class AppliedJobHydrator:
     _appliedJobAttributes: dict[str, str] = {
         "Id": "str",
         "UserId": "str",
+        "PosterId": "str",
         "UserName": "str",
         "JobId": "str",
         "JobTitle": "str",
