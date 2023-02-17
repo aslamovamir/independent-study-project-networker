@@ -15,6 +15,7 @@ class AppliedJob:
     GoodFitReasoning: str
     SponsorshipRequirement: str
     DateApplied: datetime = field(default_factory=datetime.now)
+    DateReviewed: datetime = field(default_factory=datetime.now)
 
 
     # hydrates an AppliedJob entity using a pyrebase response value and returns it
@@ -31,7 +32,8 @@ class AppliedJob:
             StartDate = AppliedJobHydrator.HydrateProp(appliedJob, "StartDate"),
             GoodFitReasoning = AppliedJobHydrator.HydrateProp(appliedJob, "GoodFitReasoning"),
             SponsorshipRequirement = AppliedJobHydrator.HydrateProp(appliedJob, "SponsorshipRequirement"),
-            DateApplied = AppliedJobHydrator.HydrateProp(appliedJob, "DateApplied")
+            DateApplied = AppliedJobHydrator.HydrateProp(appliedJob, "DateApplied"),
+            DateReviewed = AppliedJobHydrator.HydrateProp(appliedJob, "DateReviewed")
         )
 
 
@@ -49,7 +51,8 @@ class AppliedJob:
             'StartDate': str(self.StartDate),
             'GoodFitReasoning': str(self.GoodFitReasoning),
             'SponsorshipRequirement': str(self.SponsorshipRequirement),
-            'DateApplied': str(self.DateApplied)
+            'DateApplied': str(self.DateApplied),
+            'DateReviewed': str(self.DateReviewed)
         }
 
 
@@ -69,7 +72,8 @@ class AppliedJobHydrator:
         "StartDate": "str",
         "GoodFitReasoning": "str",
         "SponsorshipRequirement": "str",
-        "DateApplied": "datetime"
+        "DateApplied": "datetime",
+        "DateReviewed": "datetime"
     }
 
 

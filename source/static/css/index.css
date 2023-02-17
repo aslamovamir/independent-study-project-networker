@@ -186,3 +186,9 @@ table, th, td {
     margin: auto;
     width: 75%;
 }
+
+.btn {
+    text-align: center;
+    height: 35px;
+    margin: 1.4px;
+}

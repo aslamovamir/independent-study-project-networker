@@ -37,7 +37,7 @@
                     </thead>
                     <tbody>
                         {% for job in jobs %}
-                        <form action='review_job_applications' method="POST">
+                        <form action='review_applications' method="POST">
                             <tr>
                                 <td>{{ job.UserName }}</td>
                                 <td>{{ job.JobTitle }}</td>
@@ -47,8 +47,10 @@
                                 <td>{{ job.GoodFitReasoning }}</td>
                                 <td>{{ job.SponsorshipRequirement }}</td>
                                 <td>{{ job.DateApplied.strftime("%d/%m/%y %H:%M") }}</td>
-                                <td><button type="submit button" value="{{ job.Id }}" name="applyBtn" class="submit btn btn-primary">Accept</button></td>
-                                <td><button type="submit button" value="{{ job.Id }}" name="applyBtn" class="submit btn btn-primary">Reject</button></td>
+                                <td>
+                                    <button type="submit button" value="{{ job.Id }}" name="acceptBtn" class="submit btn btn-success">Accept</button>
+                                    <button type="submit button" value="{{ job.Id }}" name="rejectBtn" class="submit btn btn-danger">Reject</button>
+                                </td>
                             </tr>
                         </form>
                         {% endfor %}

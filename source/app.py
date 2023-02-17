@@ -255,8 +255,7 @@ def apply_for_job():
             if job.Id == jobIdToApply:
                 jobToApply: Job = job
         # now redirect to a new application page, with the job id and the logged user
-        return render_template('application.html', loggeduser=LoggedUser, job=jobToApply)
-
+        return render_template('application.html', job=jobToApply)
 
     return render_template('apply_for_job.html', jobs=jobs)
 
@@ -300,7 +299,8 @@ def application():
                 StartDate=startDate,
                 GoodFitReasoning=goodFitReasoning,
                 SponsorshipRequirement=sponsorshipRequirement,
-                DateApplied=dateApplied
+                DateApplied=dateApplied,
+                DateReviewed=None
             ))
 
             if operationResult == False: raise Exception()
@@ -309,7 +309,7 @@ def application():
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='application:JobDBActions:UpdateAppliedJob')
 
-    return render_template('application.html', loggedUser=LoggedUser)
+    return render_template('dashboard.html', loggedUser=LoggedUser)
 
 
 @app.route('/applied_jobs')
@@ -327,11 +327,49 @@ def applied_jobs():
     return render_template('applied_jobs.html', jobs=appliedJobs)
 
 
-@app.route('/review_applications')
+@app.route('/review_applications', methods=['POST', 'GET'])
 def review_applications():
     global LoggedUser
 
-    return render_template('review_applications.html')
+    if request.method == 'POST':
+        applyBtnClicked = request.form.get('acceptBtn')
+        if applyBtnClicked != None:
+            appliedJobId: str = applyBtnClicked
+            # change the status and the date of the applied job
+            try:
+                job: AppliedJob = JobDBActions.GetAppliedJobFromId(jobId=appliedJobId)
+                # now upate the status and the review date of the job
+                job.Status = "Approved"
+                job.DateReviewed = datetime.now()
+                operationResult: bool = JobDBActions.UpdateAppliedJob(appliedJob=job)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='review_applications/GetAppliedJobFromId')
+
+        rejectBtnClicked = request.form.get('rejectBtn')
+        if rejectBtnClicked != None:
+            appliedJobId: str = rejectBtnClicked
+            # change the status and the date of the applied job
+            try:
+                job: AppliedJob = JobDBActions.GetAppliedJobFromId(jobId=appliedJobId)
+                # now upate the status and the review date of the job
+                job.Status = "Rejected"
+                job.DateReviewed = datetime.now()
+                operationResult: bool = JobDBActions.UpdateAppliedJob(appliedJob=job)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='review_applications/GetAppliedJobFromId')
+
+    # get all the applied jobs posted by the logged user
+    jobsPosted: list[AppliedJob] = []
+    try:
+        jobsPosted = JobDBActions.GetAllAppliedJobsPosterUser(userId=LoggedUser.Id)
+        if jobsPosted == None:
+            jobsPosted = []
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource='review_applications/GetAllAppliedJobsPosterUser')
+
+    return render_template('review_applications.html', jobs=jobsPosted)
 
 
 @app.route('/about')

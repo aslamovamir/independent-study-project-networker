@@ -98,6 +98,27 @@ class JobDBActions:
             return None
         except:
             return None
+    
+
+    # method to get ApliedJob object by job id
+    def GetAppliedJobFromId(jobId: str, collection: str = "AppliedJobs") -> AppliedJob:
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            for job in jobsResponse.each():
+                if job == None: continue
+                else:
+                    if job.val()['Id'] == jobId:
+                        return AppliedJob.HydrateAppliedJob(job)
+
+            return None
+        except:
+            return None
         
     
     # method to update the applied job entity node in the database
@@ -107,7 +128,7 @@ class JobDBActions:
             database.child(collection).child(appliedJob.Id).set(appliedJob.AppliedJobToDict())
             return True
         except Exception as e:
-            MenuHelper.DisplayErrorException(errorSource="JobDBActions:UpdateAppliedJob")
+            MenuHelper.DisplayErrorException(exception=e, errorSource="JobDBActions:UpdateAppliedJob")
 
 
     # method to check if the user has already applied for a job
@@ -146,6 +167,28 @@ class JobDBActions:
                 if job == None: continue
                 else:
                     if job.val()['UserId'] == userId:
+                        jobs.append(AppliedJob.HydrateAppliedJob(job))
+
+            return jobs
+        except:
+            return None
+        
+    
+    # method to retun as a list all the applied jobs posted by a user
+    def GetAllAppliedJobsPosterUser(userId: str, collection: str = "AppliedJobs") -> list[AppliedJob]:
+        try:
+            jobsResponse = database.child(collection).get()
+
+            if jobsResponse == None: return None
+            
+            jobsResponseList: list = jobsResponse.each()
+            if (jobsResponseList == None): return None 
+            
+            jobs: list[AppliedJob] = []
+            for job in jobsResponse.each():
+                if job == None: continue
+                else:
+                    if job.val()['PosterId'] == userId:
                         jobs.append(AppliedJob.HydrateAppliedJob(job))
 
             return jobs

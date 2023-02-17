@@ -32,6 +32,7 @@
                             <th>Title</th>
                             <th>Employer</th>
                             <th>Status</th>
+                            <th>Review Date</th>
                             <th>Start Date</th>
                             <th>Good Fit Reasoning</th>
                             <th>Sponsorship Requirement</th>
@@ -44,6 +45,7 @@
                                 <td>{{ job.JobTitle }}</td>
                                 <td>{{ job.JobEmployer }}</td>
                                 <td>{{ job.Status }}</td>
+                                <td>{{ job.DateReviewed.strftime("%d/%m/%y %H:%M") }}</td>
                                 <td>{{ job.StartDate }}</td>
                                 <td>{{ job.GoodFitReasoning }}</td>
                                 <td>{{ job.SponsorshipRequirement }}</td>
