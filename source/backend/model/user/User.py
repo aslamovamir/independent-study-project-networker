@@ -12,6 +12,7 @@ class User:
     FirstName: str = ""
     LastName: str = ""
     Profile: Profile = None
+    Friends: dict[str, bool] = field(default_factory=dict)
     DateLastLogin: datetime = field(default_factory=datetime.now)
     DateRegistered: datetime = field(default_factory=datetime.now)
 
@@ -24,6 +25,7 @@ class User:
                 FirstName = UserHydrator.HydrateProp(user, "FirstName"),
                 LastName = UserHydrator.HydrateProp(user, "LastName"),
                 Profile = UserHydrator.HydrateProp(user, "Profile"),
+                Friends = UserHydrator.HydrateProp(user, "Friends"),
                 DateLastLogin = UserHydrator.HydrateProp(user, "DateLastLogin"),
                 DateRegistered = UserHydrator.HydrateProp(user, "DateRegistered")
             )
@@ -38,6 +40,7 @@ class User:
                 'FirstName': str(self.FirstName),
                 'LastName': str(self.LastName),
                 'Profile': Profile.ProfileToDict(self.Profile),
+                'Friends': self.Friends,
                 'DateLastLogin': str(self.DateLastLogin),
                 'DateRegistered': str(self.DateRegistered)
             }
@@ -54,6 +57,7 @@ class UserHydrator:
         "FirstName": "str",
         "LastName": "str",
         "Profile": "Profile",
+        "Friends": "dict[str, bool]",
         "DateLastLogin": "datetime",
         "DateRegistered": "datetime"
     }
