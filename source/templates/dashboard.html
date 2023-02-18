@@ -3,6 +3,8 @@
     <head>
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <Title>Networker: Dashboard</Title>
     </head>
     <body>
@@ -61,7 +63,7 @@
         <br />
         <div class="row">
             <!-- messages card -->
-            <div class="column left-messages-card">
+            <!-- <div class="column left-messages-card">
                 <h2 class="title-card">New Messages</h2>
                 <div class="card-content-lower">
                     <p>new message</p>
@@ -76,26 +78,27 @@
                     <p>new message</p>
                     <p>new message</p>
                 </div>
-            </div>
+            </div> -->
             <!-- job postings card -->
             <div class="column right-jobs-card">
-                <h2 class="title-card">New Job Postings</h2>
+                <h2 class="title-card">Users</h2>
                 <div class="card-content-lower">
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
-                    <p>new job posting</p>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Email Address</th>
+                                <th>Date Registered</th>
+                                <th>Title</th>
+                                <th>About</th>
+                                <th>Gender</th>
+                                <th>Ethnicity</th>
+                                <th>Location</th>
+                                <th>Phone Number</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
