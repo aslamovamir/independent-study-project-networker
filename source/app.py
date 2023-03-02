@@ -372,6 +372,23 @@ def review_applications():
     return render_template('review_applications.html', jobs=jobsPosted)
 
 
+@app.route('/my_network', methods=['POST', 'GET'])
+def my_network():
+    global LoggedUser
+
+    # get all the users except for the logged user
+    users: list[User] = []
+    try:
+        users = UserDBActions.GetAllUsersOffUser(userId=LoggedUser.Id)
+        if users == None:
+            users = []
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetAllUsersOffUser')
+
+    return render_template('my_network.html', users=users)
+
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')

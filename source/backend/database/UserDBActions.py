@@ -32,3 +32,22 @@ class UserDBActions:
             return users
         except:
             return None
+        
+    
+    # method to get all users except for the user from the database and return as list
+    def GetAllUsersOffUser(userId: str, collection: str = "Users") -> list[User]:
+        try:
+            response = database.child(collection).get()
+            if response == None: return None
+
+            responseListed: list = response.each()
+            if (responseListed == None): return None
+            users: list[User] = []
+            for user in responseListed:
+                if user == None: continue
+                elif user.val()['Id'] == userId: continue
+                else: users.append(User.HydrateUser(user))
+
+            return users
+        except:
+            return None
