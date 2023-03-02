@@ -22,86 +22,71 @@
                 </div>
             </ul>
         </nav>
-        <div class="row">
-            <!-- profile card -->
-            <div class="column left-account-card">
-                <img src="{{url_for('static', filename='images/profile-image.png')}}" widht="70" height="70"/>
-                <br>
-                <p><strong>Name:</strong> {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
-                <p><strong>Email Address:</strong> {{ loggedUser.Email }}</p>
-                <p><strong>Date Registered:</strong> {{ loggedUser.DateRegistered }}</p>
-                <p><strong>Date Last Logged In:</strong> {{ loggedUser.DateLastLogin }}</p>
-                <p><strong>Title:</strong> {{ loggedUser.Profile.Title }}</p>
-                <p><strong>About:</strong> {{ loggedUser.Profile.About }}</p>
-                <p><strong>Gender:</strong> {{ loggedUser.Profile.Gender }}</p>
-                <p><strong>Ethnicity:</strong> {{ loggedUser.Profile.Ethnicity }}</p>
-                <p><strong>Disability Status:</strong> {{ loggedUser.Profile.DisabilityStatus }}</p>
-                <p><strong>Location:</strong> {{ loggedUser.Profile.Location }}</p>
-                <p><strong>Phone Number:</strong> {{ loggedUser.Profile.PhoneNumber }}</p>
-            </div>
-            <!-- posts card -->
-            <div class="column right-posts-card">
-                <h2 class="title-card">New Posts</h2>
-                <div class="card-content-upper">
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
-                    <p>new post</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 left-account-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{{url_for('static', filename='images/profile-image.png')}}" widht="70" height="70"/>
+                            <br>
+                            <p><strong>Name:</strong> {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
+                            <p><strong>Email Address:</strong> {{ loggedUser.Email }}</p>
+                            <p><strong>Date Registered:</strong> {{ loggedUser.DateRegistered }}</p>
+                            <p><strong>Date Last Logged In:</strong> {{ loggedUser.DateLastLogin }}</p>
+                            <p><strong>Title:</strong> {{ loggedUser.Profile.Title }}</p>
+                            <p><strong>About:</strong> {{ loggedUser.Profile.About }}</p>
+                            <p><strong>Gender:</strong> {{ loggedUser.Profile.Gender }}</p>
+                            <p><strong>Ethnicity:</strong> {{ loggedUser.Profile.Ethnicity }}</p>
+                            <p><strong>Disability Status:</strong> {{ loggedUser.Profile.DisabilityStatus }}</p>
+                            <p><strong>Location:</strong> {{ loggedUser.Profile.Location }}</p>
+                            <p><strong>Phone Number:</strong> {{ loggedUser.Profile.PhoneNumber }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 right-posts-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="title-card">New Posts</h2>
+                            <div class="card-content-upper">
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                                <p>new post</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <br />
-        <div class="row">
-            <!-- messages card -->
-            <!-- <div class="column left-messages-card">
-                <h2 class="title-card">New Messages</h2>
-                <div class="card-content-lower">
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                    <p>new message</p>
-                </div>
-            </div> -->
-            <!-- job postings card -->
-            <div class="column right-jobs-card">
-                <h2 class="title-card">Users</h2>
-                <div class="card-content-lower">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Email Address</th>
-                                <th>Date Registered</th>
-                                <th>Title</th>
-                                <th>About</th>
-                                <th>Gender</th>
-                                <th>Ethnicity</th>
-                                <th>Location</th>
-                                <th>Phone Number</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
         <table class="stats-table">
             <tr>
                 <th>Number of Connections</th>
