@@ -21,6 +21,11 @@
         </nav>
         <div>
             <h1>My Network</h1>
+            {% if error %}
+                <div class="error-box">
+                    <p><strong>Error</strong>: {{error}}</p>
+                </div>
+            {% endif %}
             <div class="bs-example col-md-26">
                 <br />
                 <table class="table table-hover">

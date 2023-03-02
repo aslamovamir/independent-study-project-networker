@@ -51,3 +51,18 @@ class UserDBActions:
             return users
         except:
             return None
+        
+    
+    # method to get a specific User from the database based on the User ID provided.
+    def GetUserById(userId: str, collection: str = "Users") -> User:
+        try:
+            user: User = User.HydrateUser(
+                database.child(collection).child(userId).get())
+            
+            if user == None:
+                raise Exception(
+                    f"Could not get the specified user with user ID: {userId}")
+            
+            return user
+        except:
+            print(f"Could not get the specified user with user ID: {userId}")

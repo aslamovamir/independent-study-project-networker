@@ -8,6 +8,7 @@ from backend.model.job.JobModelHelper import JobModelHelper
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
 from backend.database.JobDBActions import JobDBActions
+from backend.database.FriendsDBActions import FriendsDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
 
@@ -375,6 +376,23 @@ def review_applications():
 @app.route('/my_network', methods=['POST', 'GET'])
 def my_network():
     global LoggedUser
+    error = None
+
+    if request.method == 'POST':
+        # get the id of the user selected to connect to
+        userId: str = request.form['connBtn']
+        # now get the user object out of the user id
+        try:
+            user = UserDBActions.GetUserById(userId=userId)
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetUserById')
+        # now try to push the new user in the list of connections of the logged user
+        try:
+            operationResult: bool = FriendsDBActions.SendFriendRequest(sender=LoggedUser, receiver=user)
+            if operationResult == False: raise Exception()
+            else: pass
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/SendFriendRequest')
 
     # get all the users except for the logged user
     users: list[User] = []
