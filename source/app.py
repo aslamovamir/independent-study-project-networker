@@ -459,6 +459,22 @@ def pending_requests():
     return render_template('pending_requests.html', users=users)
 
 
+@app.route('/my_connections')
+def my_connections():
+    global LoggedUser
+
+    # get the list of all connected friends of the logged user
+    users: list[User] = []
+    try:
+        users = FriendsDBActions.GetFriends(username=LoggedUser.Username)
+        if users == None:
+            users = []
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetFriends')
+
+    return render_template('my_connections.html', users=users)
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')

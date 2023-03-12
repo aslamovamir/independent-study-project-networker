@@ -7,9 +7,8 @@ from backend.database.UserDBActions import UserDBActions
 
 class FriendsDBActions:
 
-    # takes User as parameter whose friends we need to find
-    # returns a list of User (list[User]) of all of the userToFind's friends
-    def GetFriends(userNameToFind: str, collection: str= "Users") -> list[User]:
+    # method to return the list of user friends of a user
+    def GetFriends(username: str, collection: str= "Users") -> list[User]:
         friends = []
         try:
             usersResponse = database.child(collection).get()
@@ -20,7 +19,7 @@ class FriendsDBActions:
             for user in usersResponse.each():
                 if user == None:
                     continue
-                elif (user.val()["Username"] == userNameToFind):
+                elif (user.val()["Username"] == username):
                     try:
                         try:
                             friends_dict = user.val()["Friends"]

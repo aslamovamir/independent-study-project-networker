@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
          <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-        <Title>Networker: My Network</Title>
+        <Title>Networker: My Connections</Title>
     </head>
     <body>
         <nav class="navbar">
@@ -14,14 +14,14 @@
             <ul class="nav-links">
                 <div class="menu">
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('my_connections') }}">My Connections</a></li>
+                    <li><a href="{{ url_for('my_network') }}">My Network</a></li>
                     <li><a href="{{ url_for('pending_requests') }}">Pending Requests</a></li>
                     <li><a href="{{ url_for('dashboard') }}">My inbox</a></li>
                 </div>
             </ul>
         </nav>
         <div>
-            <h1>My Network</h1>
+            <h1>My Connections</h1>
             {% if error %}
                 <div class="error-box">
                     <p><strong>Error</strong>: {{error}}</p>
@@ -39,12 +39,11 @@
                             <th>Location</th>
                             <th>Title</th>
                             <th>About</th>                           
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for user in users %}
-                        <form action='my_network' method="POST">
+                        <form action='my_connections' method="POST">
                             <tr>
                                 <td>{{ user.LastName }}, {{ user.FirstName }}</td>
                                 <td>{{ user.Username }}</td>
@@ -53,7 +52,6 @@
                                 <td>{{ user.Profile.Location }}</td>
                                 <td>{{ user.Profile.Title }}</td>
                                 <td>{{ user.Profile.About }}</td>
-                                <td><button type="submit button" value="{{ user.Id }}" name="connBtn" class="submit btn btn-primary">Connect</button></td>
                             </tr>
                         </form>
                         {% endfor %}
