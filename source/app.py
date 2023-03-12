@@ -386,13 +386,17 @@ def my_network():
             user = UserDBActions.GetUserById(userId=userId)
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetUserById')
-        # now try to push the new user in the list of connections of the logged user
-        try:
-            operationResult: bool = FriendsDBActions.SendFriendRequest(sender=LoggedUser, receiver=user)
-            if operationResult == False: raise Exception()
-            else: pass
-        except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/SendFriendRequest')
+        # now check if the logged user has already sent a friend request to this user
+        if LoggedUser.Username in user.Friends:
+            error = "You have already sent a friend request to this user."
+        else:
+            # now try to push the new user in the list of connections of the logged user
+            try:
+                operationResult: bool = FriendsDBActions.SendFriendRequest(sender=LoggedUser, receiver=user)
+                if operationResult == False: raise Exception()
+                else: pass
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/SendFriendRequest')
 
     # get all the users except for the logged user
     users: list[User] = []
@@ -403,7 +407,7 @@ def my_network():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetAllUsersOffUser')
 
-    return render_template('my_network.html', users=users)
+    return render_template('my_network.html', users=users, error=error)
 
 
 

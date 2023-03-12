@@ -75,11 +75,6 @@ class FriendsDBActions:
     # adds senders username to receivers friends dictionary as pending(False)
     def SendFriendRequest(sender: User, receiver: User, collection: str = "Users") -> bool:
 
-        # TODO: MUST MAKE THIS CHECK IN THE INTERFACE!!!
-        if sender.Username in receiver.Friends:
-            print("\nYou've already sent a request to this user!\n")
-            return False
-
         try:
             friendResponse = database.child("Users").child(receiver.Id).get()
             receiver.Friends[sender.Username] = False
