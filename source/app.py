@@ -410,6 +410,54 @@ def my_network():
     return render_template('my_network.html', users=users, error=error)
 
 
+@app.route('/pending_requests', methods=['POST', 'GET'])
+def pending_requests():
+    global LoggedUser
+    if request.method == 'POST':
+        acceptBtnClicked = request.form.get('acceptBtn')
+        if acceptBtnClicked != None:
+            # get the id of the user selected to connect to
+            userId: str = acceptBtnClicked
+            # now get the user object out of the user id
+            try:
+                user = UserDBActions.GetUserById(userId=userId)
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/GetUserById')
+            # now confirm the friends connection on both receiver and sender
+            try:
+                operationResult: bool = FriendsDBActions.AcceptFriendRequest(user=LoggedUser, userToAdd=user)
+                if operationResult == False: raise Exception()
+                else: pass
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/AcceptFriendRequest')
+        
+        rejectBtnClicked = request.form.get('rejectBtn')
+        if rejectBtnClicked != None:
+            userId: str = rejectBtnClicked
+            # now get the user object out of the user id
+            try:
+                user = UserDBActions.GetUserById(userId=userId)
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/GetUserById')
+            # now reject the friend request
+            try:
+                operationResult: bool = FriendsDBActions.RejectFriendRequest(user=LoggedUser, userToReject=user)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/RejectFriendRequest')
+        
+
+    # get all the pending friends of the logged user
+    users: list[User] = []
+    try:
+        users = FriendsDBActions.GetPendingRequests(userName=LoggedUser.Username)
+        if users == None:
+            users = []
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/GetPendingRequests')
+    
+    return render_template('pending_requests.html', users=users)
+
 
 @app.route('/about')
 def about():
