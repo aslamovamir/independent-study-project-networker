@@ -34,7 +34,7 @@
                             <form action='/message' method='POST'>
                                 <h2 class="title-card">Message Content</h2>
                                 <textarea id="content" name="content" rows="15" cols="60" required></textarea><br />
-                                <button class="submit" type="submit">Send</button>
+                                <button class="submit" type="submit" value="{{ receiver.Id }}" name="sendBtn">Send</button>
                             </form>
                         </div>
                     </div>

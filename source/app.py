@@ -9,6 +9,7 @@ from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
 from backend.database.JobDBActions import JobDBActions
 from backend.database.FriendsDBActions import FriendsDBActions
+from backend.database.MessageDBActions import MessageDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
 
@@ -473,7 +474,6 @@ def my_connections():
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetUserById')
             # now call the function of the page that gets message content
-            message(receiver = user)
             return render_template('message.html', sender=LoggedUser, receiver=user)
 
         disconnectBtnClicked = request.form.get('disConnBtn')
@@ -512,11 +512,22 @@ def my_inbox():
 
 
 @app.route('/message', methods=['POST', 'GET'])
-def message(receiver: User):
+def message():
     global LoggedUser
-    receiver: User = receiver
 
-    return render_template('message.html', sender=LoggedUser, receiver=receiver)
+    if request.method == 'POST':
+        # get the message content from the form
+        content: str = request.form.get('content')
+        # get the id of the receiver
+        Id: str = request.form['sendBtn']
+        # now send the message
+        try:
+            operationResult: bool = MessageDBActions.SendMessage(senderId=LoggedUser.Id, receiverId=Id, content=content)
+            if operationResult == False: raise Exception()
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='message/SendMessage')
+
+    return render_template('dashboard.html', loggedUser=LoggedUser)
 
 
 

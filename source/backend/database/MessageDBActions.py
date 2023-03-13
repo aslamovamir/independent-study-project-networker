@@ -4,11 +4,11 @@ from backend.firebase.Firebase import database
 from backend.model.user.User import User
 from backend.database.UserDBActions import UserDBActions
 
-class MessageHelpers:
+class MessageDBActions:
 
     # Checks if the specified message exists in the DB using the provided ID.
     def MessageExists(messageId: int, collection: str = "Messages") -> bool:
-        return False if MessageHelpers.GetMessageById(
+        return False if MessageDBActions.GetMessageById(
             messageId, collection) == None else True
 
 
@@ -56,7 +56,7 @@ class MessageHelpers:
     # Deletes a specific Message from the database based on the Message ID provided.
     def DeleteMessageById(messageId: int, collection: str = "Messages") -> bool:
         try:
-            if not MessageHelpers.MessageExists(messageId, collection):
+            if not MessageDBActions.MessageExists(messageId, collection):
                 return False
             
             database.child(collection).child(messageId).remove()
@@ -70,7 +70,7 @@ class MessageHelpers:
     # Deletes all messages from a particular user to a particular user
     def DeleteMessagesBySenderReceiverID(sender: User, receiver: User, collection: str = "Messages") -> bool:
         try:
-            allMessages: list[Message] = MessageHelpers.GetAllMessages(collection=collection)
+            allMessages: list[Message] = MessageDBActions.GetAllMessages(collection=collection)
             if allMessages == None or allMessages == []:
                 return False
 
@@ -89,8 +89,7 @@ class MessageHelpers:
     # Returns true if update was successful else false.
     def UpdateMessage(message: Message, collection: str = "Messages", userCollection: str = "Users") -> bool:
         try:
-            database.child(collection).child(message.Id).set(
-                MessageHelpers.MessageToDict(message))
+            database.child(collection).child(message.Id).set(message.MessageToDict())
             
             return True
 
@@ -105,7 +104,7 @@ class MessageHelpers:
         onlyUnread: bool = False,
         messageCollection: str = "Messages") -> list[Message]:
 
-        allMessages: list[Message] = MessageHelpers.GetAllMessages(messageCollection)
+        allMessages: list[Message] = MessageDBActions.GetAllMessages(messageCollection)
         if allMessages == None: return None
 
         # Filter all messages where the receiver id is equal to the specified user id.
@@ -123,6 +122,7 @@ class MessageHelpers:
     def SendMessage(
         senderId: str,
         receiverId: str,
+        content: str,
         messageCollection: str = "Messages",
         userCollection: str = "Users") -> bool:
 
@@ -130,11 +130,8 @@ class MessageHelpers:
 
             receiverName: User = UserDBActions.GetUserById(receiverId, userCollection).FirstName
             
-            content: str = str(
-                input(f"\nEnter the content for the message to {receiverName}:\n\n"))
-            
-            messageSent: bool = MessageHelpers.UpdateMessage(Message(
-                        MessageHelpers.CreateMessageId(),
+            messageSent: bool = MessageDBActions.UpdateMessage(Message(
+                        MessageDBActions.CreateMessageId(),
                         senderId,
                         receiverId,
                         content),
