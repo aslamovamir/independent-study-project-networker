@@ -459,9 +459,24 @@ def pending_requests():
     return render_template('pending_requests.html', users=users)
 
 
-@app.route('/my_connections')
+@app.route('/my_connections', methods=['POST', 'GET'])
 def my_connections():
     global LoggedUser
+
+    if request.method == 'POST':
+        # get the id of the user selected to connect to
+        userId: str = request.form['disConnBtn']
+        # now get the user object out of the user id
+        try:
+            user = UserDBActions.GetUserById(userId=userId)
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetUserById')
+        # now remove the friend
+        try:
+            operationResult: bool = FriendsDBActions.DeleteFriend(user=LoggedUser, userToDelete=user)
+            if operationResult == False: raise Exception()
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/DeleteFriend')
 
     # get the list of all connected friends of the logged user
     users: list[User] = []
