@@ -121,6 +121,7 @@ class MessageDBActions:
     # Sends a message using the specified sender and receiver.
     def SendMessage(
         senderId: str,
+        senderUsername: str,
         receiverId: str,
         content: str,
         messageCollection: str = "Messages",
@@ -133,6 +134,7 @@ class MessageDBActions:
             messageSent: bool = MessageDBActions.UpdateMessage(Message(
                         MessageDBActions.CreateMessageId(),
                         senderId,
+                        senderUsername,
                         receiverId,
                         content),
                         messageCollection)

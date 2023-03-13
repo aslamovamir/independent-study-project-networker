@@ -4,6 +4,7 @@ from backend.model.user.User import User
 from backend.model.user.Profile import Profile
 from backend.model.job.Job import Job
 from backend.model.job.AppliedJob import AppliedJob
+from backend.model.message.Message import Message
 from backend.model.job.JobModelHelper import JobModelHelper
 from backend.model.user.UserModelHelper import UserModelHelper
 from backend.database.UserDBActions import UserDBActions
@@ -507,8 +508,16 @@ def my_connections():
 @app.route('/my_inbox', methods=['POST', 'GET'])
 def my_inbox():
     global LoggedUser
+    # get all received messages of the user
+    messages: list[Message] = []
+    try:
+        messages = MessageDBActions.GetAllReceivedMessages(userId=LoggedUser.Id)
+        if messages == None:
+            messages = []
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetReceivedMessages')
 
-    return render_template('inbox.html')
+    return render_template('inbox.html', messages=messages)
 
 
 @app.route('/message', methods=['POST', 'GET'])
@@ -519,10 +528,16 @@ def message():
         # get the message content from the form
         content: str = request.form.get('content')
         # get the id of the receiver
-        Id: str = request.form['sendBtn']
+        senderId: str = request.form['sendBtn']
+        try:
+            sender: User = UserDBActions.GetUserById(userId=senderId)
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='message/GetUserById')
+        senderUsername = sender.Username
         # now send the message
         try:
-            operationResult: bool = MessageDBActions.SendMessage(senderId=LoggedUser.Id, receiverId=Id, content=content)
+            operationResult: bool = MessageDBActions.SendMessage(
+                senderId=LoggedUser.Id, senderUsername=senderUsername, receiverId=senderId, content=content)
             if operationResult == False: raise Exception()
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='message/SendMessage')

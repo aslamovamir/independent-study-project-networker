@@ -6,6 +6,7 @@ from datetime import datetime
 class Message:
     Id: str
     SenderId: str
+    SenderUsername: str
     ReceiverId: str
     Content: str
     IsRead: bool = False
@@ -16,6 +17,7 @@ class Message:
         return Message(
             Id = MessageHydrator.HydrateProp(message, "Id"),
             SenderId = MessageHydrator.HydrateProp(message, "SenderId"),
+            SenderUsername = MessageHydrator.HydrateProp(message, "SenderUsername"),
             ReceiverId = MessageHydrator.HydrateProp(message, "ReceiverId"),
             Content = MessageHydrator.HydrateProp(message, "Content"),
             IsRead = MessageHydrator.HydrateProp(message, "IsRead"),
@@ -27,6 +29,7 @@ class Message:
         return {
             'Id': str(self.Id),
             'SenderId': str(self.SenderId),
+            'SenderUsername': str(self.SenderUsername),
             'ReceiverId': str(self.ReceiverId),
             'Content': str(self.Content),
             'IsRead': str(self.IsRead),
@@ -40,6 +43,7 @@ class MessageHydrator:
     _messageAttributes: dict[str, str] = {
         "Id": "int",
         "SenderId": "str",
+        "SenderUsername": "str",
         "ReceiverId": "str",
         "Content": "str",
         "IsRead": "bool",
