@@ -53,7 +53,10 @@
                                 <td>{{ user.Profile.Location }}</td>
                                 <td>{{ user.Profile.Title }}</td>
                                 <td>{{ user.Profile.About }}</td>
-                                <td><button type="submit button" value="{{ user.Id }}" name="disConnBtn" class="submit btn btn-danger">Disconnect</button></td>
+                                <td>
+                                    <button type="submit button" value="{{ user.Id }}" name="messageBtn" class="submit btn btn-primary">Message</button>
+                                    <button type="submit button" value="{{ user.Id }}" name="disConnBtn" class="submit btn btn-danger">Disconnect</button>
+                                </td>
                             </tr>
                         </form>
                         {% endfor %}

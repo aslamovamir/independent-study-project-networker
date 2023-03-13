@@ -464,19 +464,33 @@ def my_connections():
     global LoggedUser
 
     if request.method == 'POST':
-        # get the id of the user selected to connect to
-        userId: str = request.form['disConnBtn']
-        # now get the user object out of the user id
-        try:
-            user = UserDBActions.GetUserById(userId=userId)
-        except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetUserById')
-        # now remove the friend
-        try:
-            operationResult: bool = FriendsDBActions.DeleteFriend(user=LoggedUser, userToDelete=user)
-            if operationResult == False: raise Exception()
-        except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/DeleteFriend')
+        messageBtnClicked = request.form.get('messageBtn')
+        if messageBtnClicked != None:
+            userId: str = messageBtnClicked
+            # now get the user object out of the user id
+            try:
+                user = UserDBActions.GetUserById(userId=userId)
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetUserById')
+            # now call the function of the page that gets message content
+            message(receiver = user)
+            return render_template('message.html', sender=LoggedUser, receiver=user)
+
+        disconnectBtnClicked = request.form.get('disConnBtn')
+        if disconnectBtnClicked != None:
+            # get the id of the user selected to connect to
+            userId: str = disconnectBtnClicked
+            # now get the user object out of the user id
+            try:
+                user = UserDBActions.GetUserById(userId=userId)
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetUserById')
+            # now remove the friend
+            try:
+                operationResult: bool = FriendsDBActions.DeleteFriend(user=LoggedUser, userToDelete=user)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/DeleteFriend')
 
     # get the list of all connected friends of the logged user
     users: list[User] = []
@@ -488,6 +502,24 @@ def my_connections():
         MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetFriends')
 
     return render_template('my_connections.html', users=users)
+
+
+@app.route('/my_inbox', methods=['POST', 'GET'])
+def my_inbox():
+    global LoggedUser
+
+    return render_template('inbox.html')
+
+
+@app.route('/message', methods=['POST', 'GET'])
+def message(receiver: User):
+    global LoggedUser
+    receiver: User = receiver
+
+    return render_template('message.html', sender=LoggedUser, receiver=receiver)
+
+
+
 
 
 @app.route('/about')

@@ -92,7 +92,7 @@ li {
     color: green;
 }
 
-.left-account-card {
+.left-card {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: 16px;
@@ -100,7 +100,7 @@ li {
     margin: 1%;
 }
 
-.right-posts-card {
+.right-card {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: 20px;
