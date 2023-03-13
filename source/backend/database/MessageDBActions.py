@@ -5,17 +5,6 @@ from backend.model.user.User import User
 from backend.database.UserDBActions import UserDBActions
 
 class MessageHelpers:
-    
-    # Converts a message entity into a dictionary.
-    def MessageToDict(message: Message) -> dict:
-        return {
-            'Id': str(message.Id),
-            'SenderId': str(message.SenderId),
-            'ReceiverId': str(message.ReceiverId),
-            'Content': str(message.Content),
-            'IsRead': str(message.IsRead)
-        }
-
 
     # Checks if the specified message exists in the DB using the provided ID.
     def MessageExists(messageId: int, collection: str = "Messages") -> bool:
