@@ -108,6 +108,20 @@ li {
     margin: 1%;
 }
 
+.left-message-card {
+    align-items: start;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 16px;
+}
+
+.right-message-card {
+    align-items: end;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 20px;
+}
+
 .card {
     box-shadow: 3px 3px 10px rgb(125, 141, 157);
 }

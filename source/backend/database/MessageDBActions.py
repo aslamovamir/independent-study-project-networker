@@ -116,7 +116,23 @@ class MessageDBActions:
                 lambda m: m.ReceiverId == userId and not m.IsRead, allMessages))
 
         return allMessagesReceived
+    
 
+    # Gets all the received messages to the specified user from the specified user
+    def GetAllReceivedMessagesFromUser(
+            receiverId: str,
+            senderId: str,
+            messageCollection: str = "Messages") -> list[Message]:
+        
+        allMessages: list[Message] = MessageDBActions.GetAllMessages(messageCollection)
+        if allMessages == None: return None
+
+        # Filter all messages according to receiver and sender id
+        allMessagesReceived: list[Message] = list(filter(
+            lambda m: m.ReceiverId == receiverId and m.SenderId == senderId, allMessages))
+
+        return allMessagesReceived
+        
 
     # Sends a message using the specified sender and receiver.
     def SendMessage(

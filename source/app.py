@@ -508,6 +508,7 @@ def my_connections():
 @app.route('/my_inbox', methods=['POST', 'GET'])
 def my_inbox():
     global LoggedUser
+
     # get all received messages of the user
     messages: list[Message] = []
     try:
@@ -516,8 +517,49 @@ def my_inbox():
             messages = []
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetReceivedMessages')
+    messages.sort(key=lambda x: x.DateCreated, reverse=True)
 
-    return render_template('inbox.html', messages=messages)
+    if request.method == 'POST':
+        senderId: str = request.form['viewBtn']
+        # now get all the messages received from the user to the logged user
+        messagesReceived: list[Message] = []
+        try:
+            messagesReceived = MessageDBActions.GetAllReceivedMessagesFromUser(receiverId=LoggedUser.Id, senderId=senderId)
+            if messagesReceived == None:
+                messagesReceived = []
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetAllReceivedMessagesFromUser')
+
+        # now get all the messages sent to the user from the logged user
+        messagesSent: list[Message] = []
+        try:
+            messagesSent = MessageDBActions.GetAllReceivedMessagesFromUser(receiverId=senderId, senderId=LoggedUser.Id)
+            if messagesSent == None:
+                messagesSent = []
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetAllReceivedMessagesFromUser')
+
+        # now create a list object to contain message contents only
+        contents = []
+        for message in messagesReceived:
+            contents.append({
+                "received": True,
+                "content": message.Content,
+                "date": message.DateCreated
+            })
+        for message in messagesSent:
+            contents.append({
+                "received": False,
+                "content": message.Content,
+                "date": message.DateCreated
+            })
+        # now sort the list by date
+        contents.sort(key=lambda x: x['date'], reverse=False)
+        
+        return render_template('my_inbox.html', messages=messages, contents=contents)
+
+
+    return render_template('my_inbox.html', messages=messages)
 
 
 @app.route('/message', methods=['POST', 'GET'])
@@ -528,16 +570,11 @@ def message():
         # get the message content from the form
         content: str = request.form.get('content')
         # get the id of the receiver
-        senderId: str = request.form['sendBtn']
-        try:
-            sender: User = UserDBActions.GetUserById(userId=senderId)
-        except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource='message/GetUserById')
-        senderUsername = sender.Username
+        receiverId: str = request.form['sendBtn']
         # now send the message
         try:
             operationResult: bool = MessageDBActions.SendMessage(
-                senderId=LoggedUser.Id, senderUsername=senderUsername, receiverId=senderId, content=content)
+                senderId=LoggedUser.Id, senderUsername=LoggedUser.Username, receiverId=receiverId, content=content)
             if operationResult == False: raise Exception()
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='message/SendMessage')
