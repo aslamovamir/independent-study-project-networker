@@ -66,6 +66,14 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action='my_inbox' method="POST">
+                                        <textarea id="response" name="response" rows="2" cols="70" required></textarea><br />
+                                        <button class="submit" type="submit" value="" name="replyBtn">Reply</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
