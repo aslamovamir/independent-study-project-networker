@@ -44,25 +44,25 @@
                             <div class="card-content-upper">
                                 {% for content in contents %}
                                     {% if content.received %}
-                                        <!-- <div> -->
-                                            <div class="card left-message-card col-md-6">
+                                        <div class="left-message-card">
+                                            <div class="card col-md-12">
                                                 <div class="card-body">
                                                     <p>Received</p>
                                                     <p>Message: {{ content.content }}</p>
                                                     <p>Date: {{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
                                                 </div>
                                             </div>
-                                        <!-- </div> -->
+                                        </div>
                                     {% else %}
-                                        <!-- <div class="right-message-card"> -->
-                                            <div class="card right-message-card col-md-6">
+                                        <div class="right-message-card">
+                                            <div class="card col-md-12">
                                                 <div class="card-body">
                                                     <p>Sent</p>
                                                     <p>Message: {{ content.content }}</p>
                                                     <p>Date: {{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
                                                 </div>
                                             </div>
-                                        <!-- </div> -->
+                                        </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
