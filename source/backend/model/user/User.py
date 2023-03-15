@@ -45,11 +45,11 @@ class User:
                 'DateRegistered': str(self.DateRegistered)
             }
         except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource="UserModelHelper:UserToDictConvert")
+            MenuHelper.DisplayErrorException(exception=e, errorSource="User:UserToDictConvert")
 
 class UserHydrator:
     
-    # A dictionary to maintain the User entity's property name (key) and its type (value).
+    # a dictionary to maintain the User entity's property name (key) and its type (value)
     _userAttributes: dict[str, str] = {
         "Id": "str",
         "Username": "str",
