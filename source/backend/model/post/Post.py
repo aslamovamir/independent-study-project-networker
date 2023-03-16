@@ -59,7 +59,7 @@ class PostHydrator:
         "Id": "str",
         "PosterId": "str",
         "PosterFullName": "str",
-        "PostertUsername": "str",
+        "PosterUsername": "str",
         "Subject": "str",
         "Title": "str",
         "Content": "str",
@@ -105,6 +105,6 @@ class PostHydrator:
         if propType == "str": return ""
         elif propType == "bool": return True
         elif propType == "dict[str, bool]": return {}
-        elif propType == "dict[str str]": return {}
+        elif propType == "dict[str, str]": return {}
         elif propType == "datetime": return datetime.min
         else: return None

@@ -14,6 +14,7 @@
                 <div class="menu">
                     <li><a href="{{ url_for('update_profile') }}">Update My Profile</a></li>
                     <li><a href="{{ url_for('apply_for_job') }}">Jobs</a></li>
+                    <li><a href="{{ url_for('posts') }}">Posts</a></li>
                     <li><a href="{{ url_for('my_network') }}">My Network</a></li>
                     <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
@@ -45,38 +46,17 @@
                         <div class="card-body">
                             <h2 class="title-card">New Posts</h2>
                             <div class="card-content-upper">
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
-                                <p>new post</p>
+                                {% for post in posts %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="title-card"><strong>Title: </strong>{{ post.Title }}</h5>
+                                            <h5 class="title-card"><strong>Subject: </strong>{{ post.Subject }}</h5>
+                                            <h5 class="title-card"><strong>Post By: </strong>{{ post.PosterUsername}}, {{ post.PosterFullName }}</h5>
+                                            <h5 class="title-card"><strong>Post Date: </strong>{{ post.PostDate }}</h5>
+                                            <div><strong>Content: </strong>{{ post.Content }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

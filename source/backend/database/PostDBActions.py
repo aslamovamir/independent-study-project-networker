@@ -9,17 +9,12 @@ class PostDBActions:
     # method to update the post entity node in the database
     def UpdatePost(post: Post, collection: str = "Posts") -> bool:
         try:
-            database.child(collection).child(post.Id).set(post.JobToDict())
+            database.child(collection).child(post.Id).set(post.PostToDict())
             return True
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="PostDbActions/UpdatePost")
 
     
-    # method to create a unique post Id
-    def CreatePostId(collection: str = "Posts") -> int:
-        return int(datetime.datetime.now().timestamp())
-    
-
     # method to fetch all posts
     def GetAllPosts(collection: str = "Posts") -> list[Post]:
         try:
@@ -31,7 +26,7 @@ class PostDBActions:
             posts: list[Post] = []
             for post in responseListed:
                 if post == None: continue
-                else: post.append(Post.HydratePost(post))
+                else: posts.append(Post.HydratePost(post))
 
             return posts
         except:

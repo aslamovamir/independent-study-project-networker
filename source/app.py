@@ -5,12 +5,15 @@ from backend.model.user.Profile import Profile
 from backend.model.job.Job import Job
 from backend.model.job.AppliedJob import AppliedJob
 from backend.model.message.Message import Message
+from backend.model.post.Post import Post
 from backend.model.job.JobModelHelper import JobModelHelper
 from backend.model.user.UserModelHelper import UserModelHelper
+from backend.model.post.PostModelHelper import PostModelHelper
 from backend.database.UserDBActions import UserDBActions
 from backend.database.JobDBActions import JobDBActions
 from backend.database.FriendsDBActions import FriendsDBActions
 from backend.database.MessageDBActions import MessageDBActions
+from backend.database.PostDBActions import PostDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
 
@@ -53,7 +56,17 @@ def index():
                 LoggedUser.DateLastLogin = datetime.now()
                 UserDBActions.UpdateUser(user=LoggedUser)
 
-                return render_template('dashboard.html', loggedUser=LoggedUser)
+                # get all new posts
+                posts: list[Post] = []
+                try:
+                    posts = PostDBActions.GetAllPosts()
+                    print(posts)
+                    if posts == None:
+                        posts = []
+                except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource='/GetAllPosts')
+
+                return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts)
             else:
                 error = "User Not Found"
 
@@ -114,7 +127,18 @@ def signup():
 @app.route('/dashboard')
 def dashboard():
     global LoggedUser
-    return render_template('dashboard.html', loggedUser=LoggedUser)
+
+    # get all new posts
+    posts: list[Post] = []
+    try:
+        posts = PostDBActions.GetAllPosts()
+        print(posts)
+        if posts == None:
+            posts = []
+    except Exception as e:
+        MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/GetAllPosts')
+
+    return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts)
 
 
 @app.route('/update_profile', methods=['POST', 'GET'])
@@ -634,7 +658,42 @@ def message():
     return render_template('dashboard.html', loggedUser=LoggedUser)
 
 
+@app.route('/posts', methods=['POST', 'GET'])
+def posts():
 
+    return render_template('posts.html')
+
+
+@app.route('/create_post', methods=['POST', 'GET'])
+def create_post():
+    global LoggedUser
+
+    if request.method == 'POST':
+        # get the entries from the form
+        title: str = request.form.get('title')
+        subject: str = request.form.get('subject')
+        content: str = request.form.get('content')
+
+        # now create a post object and push to database
+        try:
+            post: Post = Post(
+                Id=PostModelHelper.CreatePostId(),
+                PosterId=LoggedUser.Id,
+                PosterFullName=LoggedUser.LastName+", "+LoggedUser.FirstName,
+                PosterUsername=LoggedUser.Username,
+                Subject=subject,
+                Title=title,
+                Content=content,
+                PostDate=datetime.now()
+            )
+
+            operationResult: bool = PostDBActions.UpdatePost(post=post)
+            if operationResult == False: raise Exception()
+
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='create_post/UpdatePost')
+
+    return render_template('create_post.html')
 
 
 @app.route('/about')
