@@ -18,7 +18,7 @@ class Post:
     PostDate: datetime = field(default_factory=datetime.now)
 
     # hydrates the post entity using a pyrebase response value and returns it
-    def HudratePost(post):
+    def HydratePost(post):
         return Post(
             Id = PostHydrator.HydrateProp(post, "Id"),
             PosterId = PostHydrator.HydrateProp(post, "PosterId"),
