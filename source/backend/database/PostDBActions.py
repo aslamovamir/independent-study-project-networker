@@ -31,3 +31,38 @@ class PostDBActions:
             return posts
         except:
             return None
+        
+
+    # method to fetch a post by its Id
+    def GetPostById(postId: str, collection: str = "Posts") -> Post:
+        try:
+            post: Post = Post.HydratePost(
+                database.child(collection).child(postId).get())
+            
+            if post == None:
+                raise Exception(
+                    f"Could not get the specified post with ID: {postId}")
+            
+            return post
+        except:
+            print(f"Could not get the specified post with ID: {postId}")
+
+    
+    # method to like or dislike a post
+    def Evaluate(userId: str, post: Post, like: bool, collection: str = "Posts") -> bool:
+
+        try:
+            if like:
+                post.LikesDislikes[userId] = True
+                newDict = post.LikesDislikes
+                database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
+            else:
+                post.LikesDislikes[userId] = False
+                newDict = post.LikesDislikes
+                database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
+
+            return True
+
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='PostDBActions/Evaluate')
+            return False

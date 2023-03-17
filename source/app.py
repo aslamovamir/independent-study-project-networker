@@ -123,9 +123,41 @@ def signup():
     return render_template('signup.html', error=error)
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
     global LoggedUser
+
+    if request.method == 'POST':
+        likeBtnClicked = request.form.get('likeBtn')
+        if likeBtnClicked != None:
+            postId: str = likeBtnClicked
+            # get the post object from the database
+            try:
+                post: Post = PostDBActions.GetPostById(postId=postId)
+                if post == None: raise Exception("Error! The post does not exist in the database.")
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/GetPostById')
+            # now evaluate the post positively
+            try:
+                operationResult: bool = PostDBActions.Evaluate(userId=LoggedUser.Id, post=post, like=True)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
+        dislikeBtnClicked = request.form.get('dislikeBtn')
+        if dislikeBtnClicked != None:
+            postId: str = dislikeBtnClicked
+            # get the post object from the database
+            try:
+                post: Post = PostDBActions.GetPostById(postId=postId)
+                if post == None: raise Exception("Error! The post does not exist in the database.")
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/GetPostById')
+            # now evaluate the post positively
+            try:
+                operationResult: bool = PostDBActions.Evaluate(userId=LoggedUser.Id, post=post, like=False)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
 
     # get all new posts
     posts: list[Post] = []

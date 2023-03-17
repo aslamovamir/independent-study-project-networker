@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <Title>Networker: Dashboard</Title>
     </head>
     <body>
@@ -47,6 +48,7 @@
                             <h2 class="title-card">New Posts</h2>
                             <div class="card-content-upper">
                                 {% for post in posts %}
+                                <form action='dashboard' method="POST">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="title-card"><strong>Title: </strong>{{ post.Title }}</h5>
@@ -54,8 +56,12 @@
                                             <h5 class="title-card"><strong>Post By: </strong>{{ post.PosterUsername}}-{{ post.PosterFullName }}</h5>
                                             <h5 class="title-card"><strong>Post Date: </strong>{{ post.PostDate }}</h5>
                                             <div><strong>Content: </strong>{{ post.Content }}</div>
+                                            <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-down"></i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit btn btn-primary"><i class="fa fa-comments-o"></i></button>
                                         </div>
                                     </div>
+                                </form>
                                 {% endfor %}
                             </div>
                         </div>
