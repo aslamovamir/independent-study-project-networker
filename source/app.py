@@ -60,7 +60,6 @@ def index():
                 posts: list[Post] = []
                 try:
                     posts = PostDBActions.GetAllPosts()
-                    print(posts)
                     if posts == None:
                         posts = []
                 except Exception as e:
@@ -132,7 +131,6 @@ def dashboard():
     posts: list[Post] = []
     try:
         posts = PostDBActions.GetAllPosts()
-        print(posts)
         if posts == None:
             posts = []
     except Exception as e:
