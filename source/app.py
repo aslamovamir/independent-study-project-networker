@@ -714,12 +714,6 @@ def message():
     return render_template('dashboard.html', loggedUser=LoggedUser)
 
 
-@app.route('/posts', methods=['POST', 'GET'])
-def posts():
-
-    return render_template('posts.html')
-
-
 @app.route('/create_post', methods=['POST', 'GET'])
 def create_post():
     global LoggedUser

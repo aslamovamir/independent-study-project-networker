@@ -14,8 +14,8 @@
             <ul class="nav-links">
                 <div class="menu">
                     <li><a href="{{ url_for('update_profile') }}">Update My Profile</a></li>
+                    <li><a href="{{ url_for('create_post') }}">Create Post</a></li>
                     <li><a href="{{ url_for('apply_for_job') }}">Jobs</a></li>
-                    <li><a href="{{ url_for('posts') }}">Posts</a></li>
                     <li><a href="{{ url_for('my_network') }}">My Network</a></li>
                     <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
@@ -26,26 +26,26 @@
                 <div class="col-lg-3 left-card">
                     <div class="card">
                         <div class="card-body">
-                            <img src="{{url_for('static', filename='images/profile-image.png')}}" widht="70" height="70"/>
-                            <br>
-                            <p><strong>Name:</strong> {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
-                            <p><strong>Email Address:</strong> {{ loggedUser.Email }}</p>
-                            <p><strong>Date Registered:</strong> {{ loggedUser.DateRegistered }}</p>
-                            <p><strong>Date Last Logged In:</strong> {{ loggedUser.DateLastLogin }}</p>
-                            <p><strong>Title:</strong> {{ loggedUser.Profile.Title }}</p>
-                            <p><strong>About:</strong> {{ loggedUser.Profile.About }}</p>
-                            <p><strong>Gender:</strong> {{ loggedUser.Profile.Gender }}</p>
-                            <p><strong>Ethnicity:</strong> {{ loggedUser.Profile.Ethnicity }}</p>
-                            <p><strong>Disability Status:</strong> {{ loggedUser.Profile.DisabilityStatus }}</p>
-                            <p><strong>Location:</strong> {{ loggedUser.Profile.Location }}</p>
-                            <p><strong>Phone Number:</strong> {{ loggedUser.Profile.PhoneNumber }}</p>
+                            <img src="{{url_for('static', filename='images/profile-image.png')}}" class="account-logo" widht="70" height="70"/><hr />
+                            <div class="account-info">
+                                <p><strong>Name:</strong> {{ loggedUser.LastName }}, {{ loggedUser.FirstName }}</p>
+                                <p><strong>Email Address:</strong> {{ loggedUser.Email }}</p>
+                                <p><strong>Date Registered:</strong> {{ loggedUser.DateRegistered.strftime("%d/%m/%y %H:%M") }}</p>
+                                <p><strong>Date Last Logged In:</strong> {{ loggedUser.DateLastLogin.strftime("%d/%m/%y %H:%M") }}</p>
+                                <p><strong>Title:</strong> {{ loggedUser.Profile.Title }}</p>
+                                <p><strong>About:</strong> {{ loggedUser.Profile.About }}</p>
+                                <p><strong>Gender:</strong> {{ loggedUser.Profile.Gender }}</p>
+                                <p><strong>Ethnicity:</strong> {{ loggedUser.Profile.Ethnicity }}</p>
+                                <p><strong>Disability Status:</strong> {{ loggedUser.Profile.DisabilityStatus }}</p>
+                                <p><strong>Location:</strong> {{ loggedUser.Profile.Location }}</p>
+                                <p><strong>Phone Number:</strong> {{ loggedUser.Profile.PhoneNumber }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8 right-card">
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="title-card">New Posts</h2>
                             <div class="card-content-upper">
                                 {% for post in posts %}
                                 <form action='dashboard' method="POST">
@@ -54,11 +54,11 @@
                                             <h5 class="title-card"><strong>Title: </strong>{{ post.Title }}</h5>
                                             <h5 class="title-card"><strong>Subject: </strong>{{ post.Subject }}</h5>
                                             <h5 class="title-card"><strong>Post By: </strong>{{ post.PosterUsername}}-{{ post.PosterFullName }}</h5>
-                                            <h5 class="title-card"><strong>Post Date: </strong>{{ post.PostDate }}</h5>
+                                            <h5 class="title-card"><strong>Post Date: </strong>{{ post.PostDate.strftime("%d/%m/%y %H:%M") }}</h5>
                                             <div><strong>Content: </strong>{{ post.Content }}</div>
-                                            <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
-                                            <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-down"></i></button>
-                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit btn btn-primary"><i class="fa fa-comments-o"></i></button><br />
+                                            <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit-icon btn"><i class="fa fa-thumbs-up"></i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit-icon btn"><i class="fa fa-thumbs-down"></i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit-icon btn"><i class="fa fa-comments-o"></i></button><br />
                                             
                                             {% if showComment and commentToShow == post.Id %}
                                                 <div class="card-comments-upper">
@@ -73,11 +73,12 @@
                                                 </div>
                                             {% endif %}
 
-                                            <input class="inputs" type="text" name="comment" placeholder="Add your comment">
-                                            <button type="submit button" value="{{ post.Id }}" name="addCommentBtn" class="submit btn btn-primary">Add</button>
+                                            <input class="inputs-custom" type="text" name="comment" placeholder="Add your comment">
+                                            <button type="submit button" value="{{ post.Id }}" name="addCommentBtn" class="submit-custom btn">Add</button>
                                         </div>
                                     </div>
                                 </form>
+                                <br />
                                 {% endfor %}
                             </div>
                         </div>
@@ -86,20 +87,4 @@
             </div>
         </div>
     </body>
-    <footer>
-        <table class="stats-table">
-            <tr>
-                <th>Number of Connections</th>
-                <th>Number of Saved Jobs</th>
-                <th>Number of Applied Jobs</th>
-                <th>Number of Created Posts</th>
-            </tr>
-            <tr>
-                <td>105</td>
-                <td>20</td>
-                <td>56</td>
-                <td>122</td>
-            </tr>
-        </table>
-    </footer>
 </html>
