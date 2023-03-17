@@ -143,6 +143,7 @@ def dashboard():
                 if operationResult == False: raise Exception()
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
+
         dislikeBtnClicked = request.form.get('dislikeBtn')
         if dislikeBtnClicked != None:
             postId: str = dislikeBtnClicked
@@ -152,12 +153,31 @@ def dashboard():
                 if post == None: raise Exception("Error! The post does not exist in the database.")
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/GetPostById')
-            # now evaluate the post positively
+            # now evaluate the post negatively
             try:
                 operationResult: bool = PostDBActions.Evaluate(userId=LoggedUser.Id, post=post, like=False)
                 if operationResult == False: raise Exception()
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
+
+        addCommentBtnClicked = request.form.get('addCommentBtn')
+        if addCommentBtnClicked != None:
+            postId: str = addCommentBtnClicked
+            # get the post object from the database
+            try:
+                post: Post = PostDBActions.GetPostById(postId=postId)
+                if post == None: raise Exception("Error! The post does not exist in the database.")
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/GetPostById')
+            # get the content of the comment
+            comment: str = request.form.get('comment')
+            # now add the comment to the post
+            try:
+                operationResult: bool = PostDBActions.Comment(userId=LoggedUser.Id, post=post, comment=comment)
+                if operationResult == False: raise Exception()
+            except Exception as e:
+                MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/Comment')
+        
 
     # get all new posts
     posts: list[Post] = []

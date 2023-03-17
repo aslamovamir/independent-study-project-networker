@@ -58,7 +58,9 @@
                                             <div><strong>Content: </strong>{{ post.Content }}</div>
                                             <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
                                             <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-down"></i></button>
-                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit btn btn-primary"><i class="fa fa-comments-o"></i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit btn btn-primary"><i class="fa fa-comments-o"></i></button><br />
+                                            <input class="inputs" type="text" name="comment" placeholder="Add your comment">
+                                            <button type="submit button" value="{{ post.Id }}" name="addCommentBtn" class="submit btn btn-primary">Add</button>
                                         </div>
                                     </div>
                                 </form>

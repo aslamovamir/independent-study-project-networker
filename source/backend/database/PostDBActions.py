@@ -66,3 +66,18 @@ class PostDBActions:
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='PostDBActions/Evaluate')
             return False
+        
+
+    # method to add a comment to a post
+    def Comment(userId: str, post: Post, comment: str, collection: str = "Posts") -> bool:
+
+        try:
+            post.Comments[userId] = comment
+            newDict = post.Comments
+            database.child(collection).child(post.Id).child("Comments").set(newDict)
+
+            return True
+
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='PostDBActions/Comment')
+            return False
