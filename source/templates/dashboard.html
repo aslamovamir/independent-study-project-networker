@@ -59,6 +59,20 @@
                                             <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
                                             <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit btn btn-primary"><i class="fa fa-thumbs-down"></i></button>
                                             <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit btn btn-primary"><i class="fa fa-comments-o"></i></button><br />
+                                            
+                                            {% if showComment and commentToShow == post.Id %}
+                                                <div class="card-comments-upper">
+                                                    {% for poster, comment in post.Comments.items() %}
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h6><strong>Comment By: </strong>{{ poster }}</h6>
+                                                                <h6><strong>Comment: </strong>{{ comment }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+
                                             <input class="inputs" type="text" name="comment" placeholder="Add your comment">
                                             <button type="submit button" value="{{ post.Id }}" name="addCommentBtn" class="submit btn btn-primary">Add</button>
                                         </div>

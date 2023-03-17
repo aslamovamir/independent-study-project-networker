@@ -126,6 +126,8 @@ def signup():
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
     global LoggedUser
+    showComment: bool = False
+    commentToShow: str = None
 
     if request.method == 'POST':
         likeBtnClicked = request.form.get('likeBtn')
@@ -160,6 +162,11 @@ def dashboard():
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
 
+        commentBtnClicked = request.form.get('commentBtn')
+        if commentBtnClicked != None:
+            commentToShow = commentBtnClicked
+            showComment = True
+
         addCommentBtnClicked = request.form.get('addCommentBtn')
         if addCommentBtnClicked != None:
             postId: str = addCommentBtnClicked
@@ -173,11 +180,10 @@ def dashboard():
             comment: str = request.form.get('comment')
             # now add the comment to the post
             try:
-                operationResult: bool = PostDBActions.Comment(userId=LoggedUser.Id, post=post, comment=comment)
+                operationResult: bool = PostDBActions.Comment(user=LoggedUser.FirstName+" "+LoggedUser.LastName+", "+LoggedUser.Username, post=post, comment=comment)
                 if operationResult == False: raise Exception()
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/Comment')
-        
 
     # get all new posts
     posts: list[Post] = []
@@ -188,7 +194,7 @@ def dashboard():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/GetAllPosts')
 
-    return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts)
+    return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts, showComment=showComment, commentToShow=commentToShow)
 
 
 @app.route('/update_profile', methods=['POST', 'GET'])

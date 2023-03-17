@@ -135,6 +135,11 @@ li {
     height: 36rem;
 }
 
+.card-comments-upper {
+    overflow-y: auto;
+    height: 10rem;
+}
+
 .style-footer {
     color: rgb(40, 92, 134);
     padding: 20px;
