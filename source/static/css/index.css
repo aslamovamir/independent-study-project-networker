@@ -84,6 +84,13 @@ li {
     font-size: 16px !important;
 }
 
+.title {
+    font-family: Monospace !important;
+    font-size: 50px !important;
+    font: bold;
+    font-weight: bolder;
+}
+
 .inputs-custom {
     font-family: Monospace !important;
     width: 70% !important;
