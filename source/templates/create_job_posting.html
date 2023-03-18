@@ -25,22 +25,22 @@
             <h1>Create Job Posting</h1>
             <form action='/create_job_posting' method='POST'>
                 <label for="title">Title:</label><br />
-                <input class="inputs" type="text" name="title" required>
+                <input class="inputs" type="text" name="title" placeholder="Enter title for the new job" required>
                 <br />
                 <label for="employer">Employer:</label><br />
-                <input class="inputs" type="text" name="employer" required>
+                <input class="inputs" type="text" name="employer" placeholder="Enter employer name for the new job" required>
                 <br />
                 <label for="industry">Industry:</label><br />
-                <input class="inputs" type="text" name="industry" required>
+                <input class="inputs" type="text" name="industry" placeholder="Enter industry type for the new job" required>
                 <br />
                 <label for="location">Location:</label><br />
-                <input class="inputs" type="text" name="location" required>
+                <input class="inputs" type="text" name="location" placeholder="Enter location for the new job" required>
                 <br />
                 <label for="salary">Salary:</label><br />
-                <input class="inputs" type="text" name="salary" required>
+                <input class="inputs" type="text" name="salary" placeholder="Enter salary amount for the new job" required>
                 <br />
                 <label for="description">Description:</label><br />
-                <textarea id="description" class="textarea-custom" name="description" rows="5" cols="57" required></textarea>
+                <textarea id="description" class="textarea-custom" name="description" rows="5" cols="57" placeholder="Enter description for the new job" required></textarea>
                 <br />
                 <button class="submit" type="submit">Create</button>
             </form>

@@ -21,13 +21,13 @@
             <h1 class="title">Create Post</h1>
             <form action='/create_post' method='POST'>
                 <label for="title">Title:</label><br />
-                <input class="inputs" type="text" name="title" required>
+                <input class="inputs" type="text" name="title" placeholder="Enter title for the new post" required>
                 <br />
                 <label for="subject">Subject:</label><br />
-                <input class="inputs" type="text" name="subject" required>
+                <input class="inputs" type="text" name="subject" placeholder="Enter subject for the new post" required>
                 <br />
                 <label for="content">Content:</label><br />
-                <textarea id="content" class="textarea-custom" name="content" rows="10" cols="57" required></textarea>
+                <textarea id="content" class="textarea-custom" name="content" rows="10" cols="57" placeholder="Enter content for the new post" required></textarea>
                 <br />
                 <button class="submit" type="submit">Create</button>
             </form>
