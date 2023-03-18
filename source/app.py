@@ -180,7 +180,7 @@ def dashboard():
             comment: str = request.form.get('comment')
             # now add the comment to the post
             try:
-                operationResult: bool = PostDBActions.Comment(user=LoggedUser.FirstName+" "+LoggedUser.LastName+", "+LoggedUser.Username, post=post, comment=comment)
+                operationResult: bool = PostDBActions.Comment(user=LoggedUser.FirstName+" "+LoggedUser.LastName+" | "+LoggedUser.Username, post=post, comment=comment)
                 if operationResult == False: raise Exception()
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/Comment')
@@ -256,7 +256,6 @@ def update_profile():
         try:
             operationResult: bool = UserDBActions.UpdateUser(user=LoggedUser)
             if operationResult == False: raise Exception()
-            else: return render_template('dashboard.html', loggedUser=LoggedUser)
         except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="update_profile:UpdateUser")
 

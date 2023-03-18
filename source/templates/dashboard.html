@@ -56,9 +56,9 @@
                                             <h5 class="title-card"><strong>Post By: </strong>{{ post.PosterUsername}}-{{ post.PosterFullName }}</h5>
                                             <h5 class="title-card"><strong>Post Date: </strong>{{ post.PostDate.strftime("%d/%m/%y %H:%M") }}</h5>
                                             <div><strong>Content: </strong>{{ post.Content }}</div>
-                                            <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit-icon btn"><i class="fa fa-thumbs-up"></i></button>
-                                            <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit-icon btn"><i class="fa fa-thumbs-down"></i></button>
-                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit-icon btn"><i class="fa fa-comments-o"></i></button><br />
+                                            <button type="submit button" value="{{ post.Id }}" name="likeBtn" class="submit-icon btn"><i class="fa fa-thumbs-up"> {{ post.NumberLikes }}</i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="dislikeBtn" class="submit-icon btn"><i class="fa fa-thumbs-down"> {{ post.NumberDislikes }}</i></button>
+                                            <button type="submit button" value="{{ post.Id }}" name="commentBtn" class="submit-icon btn"><i class="fa fa-comments-o"> {{ post.NumberComments }}</i></button><br />
                                             
                                             {% if showComment and commentToShow == post.Id %}
                                                 <div class="card-comments-upper">
