@@ -53,11 +53,15 @@ class PostDBActions:
         try:
             if like:
                 post.LikesDislikes[userId] = True
+                post.NumberLikes += 1
                 newDict = post.LikesDislikes
+                database.child(collection).child(post.Id).set(post.PostToDict())
                 database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
             else:
                 post.LikesDislikes[userId] = False
+                post.NumberDislikes += 1
                 newDict = post.LikesDislikes
+                database.child(collection).child(post.Id).set(post.PostToDict())
                 database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
 
             return True
@@ -72,6 +76,8 @@ class PostDBActions:
         try:
             post.Comments[user] = comment
             newDict = post.Comments
+            post.NumberComments += 1
+            database.child(collection).child(post.Id).set(post.PostToDict())
             database.child(collection).child(post.Id).child("Comments").set(newDict)
 
             return True

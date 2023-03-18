@@ -52,9 +52,9 @@ class Post:
                 'LikesDislikes': self.LikesDislikes,
                 'Comments': self.Comments,
                 'PostDate': str(self.PostDate),
-                'NumberLikes': str(self.NumberLikes),
-                'NumberDislikes': str(self.NumberDislikes),
-                'NumberComments': str(self.NumberComments)
+                'NumberLikes': int(self.NumberLikes),
+                'NumberDislikes': int(self.NumberDislikes),
+                'NumberComments': int(self.NumberComments)
             }
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="Post/PostToDict")
