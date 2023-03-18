@@ -19,37 +19,37 @@
             </ul>
         </nav>
         <div class="container-custom">
-            <h1>Profile Update</h1>
+            <h1 class="title">Profile Update</h1>
             <form action='/update_profile' method='POST'>
-                <label for="first-name">First Name</label>
-                <input class="inputs" type="text" name="first-name" >
+                <label for="first-name">First Name:</label><br />
+                <input class="inputs" type="text" name="first-name" placeholder="May leave blank">
                 <br />
-                <label for="last-name">Last Name</label>
-                <input class="inputs" type="text" name="last-name" >
+                <label for="last-name">Last Name:</label><br />
+                <input class="inputs" type="text" name="last-name" placeholder="May leave blank">
                 <br />
-                <label for="email">Email Address</label>
-                <input class="inputs" type="email" name="email">
+                <label for="email">Email Address:</label><br />
+                <input class="inputs" type="email" name="email" placeholder="May leave blank">
                 <br />
-                <label for="title">Title</label>
-                <input class="inputs" type="text" name="title" >
+                <label for="title">Title:</label><br />
+                <input class="inputs" type="text" name="title" placeholder="May leave blank">
                 <br />
-                <label for="gender">Gender</label>
-                <input class="inputs" type="text" name="gender" >
+                <label for="gender">Gender:</label><br />
+                <input class="inputs" type="text" name="gender" placeholder="May leave blank">
                 <br />
-                <label for="ethnicity">Ethnicity</label>
-                <input class="inputs" type="text" name="ethnicity" >
+                <label for="ethnicity">Ethnicity:</label><br />
+                <input class="inputs" type="text" name="ethnicity" placeholder="May leave blank">
                 <br />
-                <label for="disability-status">Disability Status</label>
-                <input class="inputs" type="text" name="disability-status" >
+                <label for="disability-status">Disability Status:</label><br />
+                <input class="inputs" type="text" name="disability-status" placeholder="May leave blank">
                 <br />
-                <label for="location">Location</label>
-                <input class="inputs" type="text" name="location" >
+                <label for="location">Location:</label><br />
+                <input class="inputs" type="text" name="location" placeholder="May leave blank">
                 <br />
-                <label for="phone-number">Phone Number</label>
-                <input class="inputs" type="text" name="phone-number" >
+                <label for="phone-number">Phone Number:</label><br />
+                <input class="inputs" type="text" name="phone-number" placeholder="May leave blank">
                 <br />
-                <label for="about">About</label><br />
-                <textarea id="about" name="about" rows="3" cols="70"></textarea>
+                <label for="about">About:</label><br />
+                <textarea id="about" class="textarea-custom" name="about" rows="5" cols="57" placeholder="May leave blank"></textarea>
                 <br />
                 <button class="submit" type="submit">Update</button>
             </form>
