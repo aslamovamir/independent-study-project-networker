@@ -52,17 +52,33 @@ class PostDBActions:
     def Evaluate(userId: str, post: Post, like: bool, collection: str = "Posts") -> bool:
         try:
             if like:
-                post.LikesDislikes[userId] = True
-                post.NumberLikes += 1
-                newDict = post.LikesDislikes
-                database.child(collection).child(post.Id).set(post.PostToDict())
-                database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
+                if userId not in post.LikesDislikes:
+                    post.LikesDislikes[userId] = True
+                    post.NumberLikes += 1
+                    newDict = post.LikesDislikes
+                    database.child(collection).child(post.Id).set(post.PostToDict())
+                    database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
+                elif userId in post.LikesDislikes and post.LikesDislikes[userId] == False:
+                    post.LikesDislikes[userId] = True
+                    post.NumberLikes += 1
+                    post.NumberDislikes -= 1
+                    newDict = post.LikesDislikes
+                    database.child(collection).child(post.Id).set(post.PostToDict())
+                    database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
             else:
-                post.LikesDislikes[userId] = False
-                post.NumberDislikes += 1
-                newDict = post.LikesDislikes
-                database.child(collection).child(post.Id).set(post.PostToDict())
-                database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
+                if userId not in post.LikesDislikes: 
+                    post.LikesDislikes[userId] = False
+                    post.NumberDislikes += 1
+                    newDict = post.LikesDislikes
+                    database.child(collection).child(post.Id).set(post.PostToDict())
+                    database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
+                elif userId in post.LikesDislikes and post.LikesDislikes[userId] == True:
+                    post.LikesDislikes[userId] = False
+                    post.NumberDislikes += 1
+                    post.NumberLikes -= 1
+                    newDict = post.LikesDislikes
+                    database.child(collection).child(post.Id).set(post.PostToDict())
+                    database.child(collection).child(post.Id).child("LikesDislikes").set(newDict)
 
             return True
 
@@ -74,11 +90,17 @@ class PostDBActions:
     # method to add a comment to a post
     def Comment(user: str, post: Post, comment: str, collection: str = "Posts") -> bool:
         try:
-            post.Comments[user] = comment
-            newDict = post.Comments
-            post.NumberComments += 1
-            database.child(collection).child(post.Id).set(post.PostToDict())
-            database.child(collection).child(post.Id).child("Comments").set(newDict)
+            if user not in post.Comments:
+                post.Comments[user] = comment
+                newDict = post.Comments
+                post.NumberComments += 1
+                database.child(collection).child(post.Id).set(post.PostToDict())
+                database.child(collection).child(post.Id).child("Comments").set(newDict)
+            else:
+                post.Comments[user] += "\n"
+                post.Comments[user] += comment
+                newDict = post.Comments
+                database.child(collection).child(post.Id).child("Comments").set(newDict)
 
             return True
 
