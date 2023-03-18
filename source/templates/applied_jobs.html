@@ -15,11 +15,12 @@
                 <div class="menu">
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('apply_for_job') }}">Jobs</a></li>
+                    <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
             </ul>
         </nav>
-        <div>
-            <h1>My Applied Jobs</h1>
+        <div class="container-custom-tabled">
+            <h1 class="title">My Applied Jobs</h1>
             {% if error %}
                 <div class="error-box">
                     <p><strong>Error</strong>: {{error}}</p>

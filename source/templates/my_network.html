@@ -21,8 +21,8 @@
                 </div>
             </ul>
         </nav>
-        <div>
-            <h1>My Network</h1>
+        <div class="container-custom-tabled">
+            <h1 class="title">My Network</h1>
             {% if error %}
                 <div class="error-box">
                     <p><strong>Error</strong>: {{error}}</p>
@@ -54,7 +54,7 @@
                                 <td>{{ user.Profile.Location }}</td>
                                 <td>{{ user.Profile.Title }}</td>
                                 <td>{{ user.Profile.About }}</td>
-                                <td><button type="submit button" value="{{ user.Id }}" name="connBtn" class="submit btn btn-primary">Connect</button></td>
+                                <td><button type="submit button" value="{{ user.Id }}" name="connBtn" class="submit-larger">Connect</button></td>
                             </tr>
                         </form>
                         {% endfor %}

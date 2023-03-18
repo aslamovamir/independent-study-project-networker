@@ -21,8 +21,8 @@
                 </div>
             </ul>
         </nav>
-        <div>
-            <h1>Apply For Job</h1>
+        <div class="container-custom-tabled">
+            <h1 class="title">Apply For Job</h1>
             {% if error %}
                 <div class="error-box">
                     <p><strong>Error</strong>: {{error}}</p>
@@ -54,7 +54,7 @@
                                 <td>{{ job.Location }}</td>
                                 <td>{{ job.Salary }}</td>
                                 <td>{{ job.DateCreated.strftime("%d/%m/%y %H:%M") }}</td>
-                                <td><button type="submit button" value="{{ job.Id }}" name="applyBtn" class="submit btn btn-primary">Apply</button></td>
+                                <td><button type="submit button" value="{{ job.Id }}" name="applyBtn" class="submit-tabled btn">Apply</button></td>
                             </tr>
                         </form>
                         {% endfor %}

@@ -12,33 +12,38 @@
                 <div class="menu">
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('apply_for_job') }}">Jobs</a></li>
+                    <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
             </ul>
         </nav>
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
         <div class="container-custom">
             <h1>Create Job Posting</h1>
             <form action='/create_job_posting' method='POST'>
-                <label for="title">Title</label>
+                <label for="title">Title:</label><br />
                 <input class="inputs" type="text" name="title" required>
                 <br />
-                <label for="employer">Employer</label>
+                <label for="employer">Employer:</label><br />
                 <input class="inputs" type="text" name="employer" required>
                 <br />
-                <label for="industry">Industry</label>
+                <label for="industry">Industry:</label><br />
                 <input class="inputs" type="text" name="industry" required>
                 <br />
-                <label for="location">Location</label>
+                <label for="location">Location:</label><br />
                 <input class="inputs" type="text" name="location" required>
                 <br />
-                <label for="salary">Salary</label>
+                <label for="salary">Salary:</label><br />
                 <input class="inputs" type="text" name="salary" required>
                 <br />
-                <label for="description">Description</label><br />
-                <textarea id="description" name="description" rows="3" cols="70" required></textarea>
+                <label for="description">Description:</label><br />
+                <textarea id="description" class="textarea-custom" name="description" rows="5" cols="57" required></textarea>
                 <br />
                 <button class="submit" type="submit">Create</button>
             </form>
-            <hr />
         </div>
     </body>
 </html>

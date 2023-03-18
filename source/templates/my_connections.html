@@ -17,11 +17,12 @@
                     <li><a href="{{ url_for('my_network') }}">My Network</a></li>
                     <li><a href="{{ url_for('pending_requests') }}">Pending Requests</a></li>
                     <li><a href="{{ url_for('my_inbox') }}">My inbox</a></li>
+                    <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
             </ul>
         </nav>
-        <div>
-            <h1>My Connections</h1>
+        <div class="container-custom-tabled">
+            <h1 class="title">My Connections</h1>
             {% if error %}
                 <div class="error-box">
                     <p><strong>Error</strong>: {{error}}</p>
@@ -54,8 +55,8 @@
                                 <td>{{ user.Profile.Title }}</td>
                                 <td>{{ user.Profile.About }}</td>
                                 <td>
-                                    <button type="submit button" value="{{ user.Id }}" name="messageBtn" class="submit btn btn-primary">Message</button>
-                                    <button type="submit button" value="{{ user.Id }}" name="disConnBtn" class="submit btn btn-danger">Disconnect</button>
+                                    <button type="submit button" value="{{ user.Id }}" name="messageBtn" class="submit-larger">Message</button>
+                                    <button type="submit button" value="{{ user.Id }}" name="disConnBtn" class="submit-larger">Disjoin</button>
                                 </td>
                             </tr>
                         </form>
