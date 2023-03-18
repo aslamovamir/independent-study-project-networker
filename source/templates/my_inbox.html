@@ -19,6 +19,7 @@
             </ul>
         </nav>
         <div class="container">
+            <h1 class="title">My Inbox</h1>
             <div class="row">
                 <div class="col-lg-3 left-card">
                     {% for message in messages %}
@@ -26,10 +27,12 @@
                             <div class="card-body">
                                 <div>
                                     <form action='/my_inbox' method='POST'>
-                                        <p><strong>From:</strong> {{ message.SenderUsername }}</p>
-                                        <p><strong>Date:</strong> {{ message.DateCreated }}</p>
-                                        <p><strong>Message:</strong> {{ message.Content }}</p>
-                                        <button class="submit" type="submit" value="{{ message.SenderId }}" name="viewBtn">View</button>
+                                        <div class="account-info">
+                                            <p><strong>From:</strong> {{ message.SenderUsername }}</p>
+                                            <p><strong>Date:</strong> {{ message.DateCreated.strftime("%d/%m/%y %H:%M") }}</p>
+                                            <p><strong>Message:</strong> {{ message.Content }}</p>
+                                        </div>
+                                        <button class="submit-inbox" type="submit" value="{{ message.SenderId }}" name="viewBtn">View</button>
                                     </form>
                                 </div>
                             </div>
@@ -44,33 +47,27 @@
                             <div class="card-content-upper">
                                 {% for content in contents %}
                                     {% if content.received %}
-                                        <div class="left-message-card">
-                                            <div class="card col-md-12">
-                                                <div class="card-body">
-                                                    <p>Received</p>
-                                                    <p>Message: {{ content.content }}</p>
-                                                    <p>Date: {{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
-                                                </div>
+                                        <div class="card left-chat-card">
+                                            <div class="card-body">
+                                                <p>{{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
+                                                <p>{{ content.content }}</p>
                                             </div>
-                                        </div>
+                                        </div><br />
                                     {% else %}
-                                        <div class="right-message-card">
-                                            <div class="card col-md-12">
-                                                <div class="card-body">
-                                                    <p>Sent</p>
-                                                    <p>Message: {{ content.content }}</p>
-                                                    <p>Date: {{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
-                                                </div>
+                                        <div class="card right-chat-card">
+                                            <div class="card-body">
+                                                <p>{{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
+                                                <p>{{ content.content }}</p>
                                             </div>
-                                        </div>
+                                        </div><br />
                                     {% endif %}
                                 {% endfor %}
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <form action='my_inbox' method="POST">
-                                        <textarea id="response" name="response" rows="2" cols="70" required></textarea><br />
-                                        <button class="submit" type="submit" value="{{ respondentId }}" name="replyBtn">Reply</button>
+                                        <textarea id="response" class="textarea-custom" name="response" rows="4" cols="65" required></textarea><br />
+                                        <button class="submit-inbox" type="submit" value="{{ respondentId }}" name="replyBtn">Reply</button>
                                     </form>
                                 </div>
                             </div>

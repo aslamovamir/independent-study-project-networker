@@ -100,6 +100,7 @@ li {
     font-size: 50px !important;
     font: bold;
     font-weight: bolder;
+    text-align: center !important;
 }
 
 .inputs-custom {
@@ -128,6 +129,13 @@ li {
     border-radius: 10% !important;
 }
 
+.submit:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
 .submit-icon {
     font-size: 15px !important;
     width: 4rem !important;
@@ -139,6 +147,13 @@ li {
     border-radius: 10% !important;
 }
 
+.submit-icon:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
 .submit-custom {
     font-size: 20px !important;
     width: 5rem !important;
@@ -148,6 +163,13 @@ li {
     background-color: #464645 !important;
     border: 5px black outset !important;
     border-radius: 10% !important;
+}
+
+.submit-custom:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+    border-radius: 5px;
+    transition: 0.3s ease;
 }
 
 .submit-tabled {
@@ -162,6 +184,13 @@ li {
     border-radius: 10% !important;
 }
 
+.submit-tabled:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
 .submit-tabled-double {
     font-size: 20px !important;
     width: 5rem !important;
@@ -174,6 +203,13 @@ li {
     border-radius: 10% !important;
 }
 
+.submit-tabled-double:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
 .submit-larger {
     font-size: 20px !important;
     width: 6rem !important;
@@ -183,6 +219,31 @@ li {
     background-color: #464645 !important;
     border: 5px black outset !important;
     border-radius: 10% !important;
+}
+
+.submit-larger:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.submit-inbox {
+    font-size: 17px !important;
+    width: 6rem !important;
+    height: 2.3rem !important;
+    margin: 1rem !important;
+    color: white !important;
+    background-color: #464645 !important;
+    border: 5px black outset !important;
+    border-radius: 10% !important;
+}
+
+.submit-inbox:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+    border-radius: 5px;
+    transition: 0.3s ease;
 }
 
 .error-box {
@@ -214,24 +275,6 @@ li {
     font-size: 20px;
     padding: 0% !important;
     margin: 2%;
-}
-
-.left-message-card {
-    display: flex;
-    align-items: flex-start;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    font-size: 16px;
-    background-color: slategray;
-}
-
-.right-message-card {
-    display: flex;
-    align-items: flex-end;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    font-size: 16px;
-    background-color: cornsilk;
 }
 
 .card {
@@ -286,4 +329,25 @@ table, th, td {
     text-align: center;
     height: 35px;
     margin: 1.4px;
+}
+
+.left-chat-card {
+    display: flex !important;
+    align-items: flex-start !important;
+    box-shadow: none !important;
+    padding: 0% !important;
+    margin: 0% !important;
+    border: none !important;
+    background-color: #464645 !important;
+    color: white;
+}
+
+.right-chat-card {
+    display: flex !important;
+    align-items: flex-end !important;
+    box-shadow: none !important;
+    padding: 0% !important;
+    margin: 0% !important;
+    border: none !important;
+    background-color: #d0d3d5 !important;
 }
