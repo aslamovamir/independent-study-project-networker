@@ -16,6 +16,9 @@ class Post:
     LikesDislikes: dict[str, bool] = field(default_factory=dict)
     Comments: dict[str, str] = field(default_factory=dict)
     PostDate: datetime = field(default_factory=datetime.now)
+    NumberLikes: int = 0
+    NumberDislikes: int = 0
+    NumberComments: int = 0
 
     # hydrates the post entity using a pyrebase response value and returns it
     def HydratePost(post):
@@ -29,7 +32,10 @@ class Post:
             Content = PostHydrator.HydrateProp(post, "Content"),
             LikesDislikes = PostHydrator.HydrateProp(post, "LikesDislikes"),
             Comments = PostHydrator.HydrateProp(post, "Comments"),
-            PostDate = PostHydrator.HydrateProp(post, "PostDate")
+            PostDate = PostHydrator.HydrateProp(post, "PostDate"),
+            NumberLikes = PostHydrator.HydrateProp(post, "NumberLikes"),
+            NumberDislikes = PostHydrator.HydrateProp(post, "NumberDislikes"),
+            NumberComments = PostHydrator.HydrateProp(post, "NumberComments")
         )
     
     # method to convert post object to a dictionary
@@ -45,7 +51,10 @@ class Post:
                 'Content': str(self.Content),
                 'LikesDislikes': self.LikesDislikes,
                 'Comments': self.Comments,
-                'PostDate': str(self.PostDate)
+                'PostDate': str(self.PostDate),
+                'NumberLikes': str(self.NumberLikes),
+                'NumberDislikes': str(self.NumberDislikes),
+                'NumberComments': str(self.NumberComments)
             }
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource="Post/PostToDict")
@@ -65,7 +74,10 @@ class PostHydrator:
         "Content": "str",
         "LikesDislikes": "dict[str, bool]",
         "Comments": "dict[str, str]",
-        "PostDate": "datetime"
+        "PostDate": "datetime",
+        "NumberLikes": "int",
+        "NumberDislikes": "int",
+        "NumberComments": "int"
     }
 
 
@@ -103,6 +115,7 @@ class PostHydrator:
         propType: str = PostHydrator._postAttributes.get(prop)
 
         if propType == "str": return ""
+        elif propType == "int": return 0
         elif propType == "bool": return True
         elif propType == "dict[str, bool]": return {}
         elif propType == "dict[str, str]": return {}

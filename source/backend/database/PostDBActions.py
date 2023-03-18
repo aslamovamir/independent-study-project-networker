@@ -50,7 +50,6 @@ class PostDBActions:
     
     # method to like or dislike a post
     def Evaluate(userId: str, post: Post, like: bool, collection: str = "Posts") -> bool:
-
         try:
             if like:
                 post.LikesDislikes[userId] = True
@@ -70,7 +69,6 @@ class PostDBActions:
 
     # method to add a comment to a post
     def Comment(user: str, post: Post, comment: str, collection: str = "Posts") -> bool:
-
         try:
             post.Comments[user] = comment
             newDict = post.Comments
