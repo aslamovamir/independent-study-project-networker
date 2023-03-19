@@ -299,7 +299,6 @@ def create_job_posting():
             ))
 
             if operationResult == False: raise Exception()
-            else: return render_template('dashboard.html', loggedUser=LoggedUser)
 
         except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="create_job_posting:CreateJobID")
@@ -311,7 +310,6 @@ def create_job_posting():
 @app.route('/apply_for_job', methods=['POST', 'GET'])
 def apply_for_job():
     global LoggedUser
-
 
     # get all the jobs created by others
     jobs: list[Job] = []
@@ -347,6 +345,7 @@ def application():
 
     global LoggedUser
     error = None
+    jobToApply = None
 
     if request.method == 'POST':
         # get the id of the job picked via the apply button
@@ -363,6 +362,7 @@ def application():
         status: str = 'Unreviewed'
         # get the job from its id
         job: Job = JobDBActions.GetJobFromId(jobId=jobId)
+        jobToApply = job
         jobTitle: str = job.Title
         jobEmployer: str = job.Employer
         posterId: str = job.PosterId
@@ -386,12 +386,12 @@ def application():
             ))
 
             if operationResult == False: raise Exception()
-            else: return render_template('dashboard.html', loggedUser=LoggedUser)
             
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='application:JobDBActions:UpdateAppliedJob')
+    
 
-    return render_template('dashboard.html', loggedUser=LoggedUser)
+    return render_template('application.html', job=jobToApply)
 
 
 @app.route('/applied_jobs')
@@ -475,7 +475,6 @@ def my_network():
             try:
                 operationResult: bool = FriendsDBActions.SendFriendRequest(sender=LoggedUser, receiver=user)
                 if operationResult == False: raise Exception()
-                else: pass
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/SendFriendRequest')
 
@@ -527,7 +526,6 @@ def pending_requests():
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/RejectFriendRequest')
         
-
     # get all the pending friends of the logged user
     users: list[User] = []
     try:
