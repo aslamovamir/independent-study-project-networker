@@ -260,9 +260,10 @@ li {
     padding: 0.3rem;
 }
 
-.success-message {
-    font-size: 17px;
-    color: green;
+.success-box {
+    font-size: 20px;
+    color: rgb(10, 112, 10);
+    padding: 0.3rem;
 }
 
 .account-info {

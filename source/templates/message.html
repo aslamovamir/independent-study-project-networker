@@ -43,6 +43,16 @@
                     <div class="card card-borderless">
                         <div class="card-body">
                             <div class="form-box">
+                                {% if error %}
+                                    <div class="error-box">
+                                        <p><strong>Error</strong>: {{error}}</p>
+                                    </div>
+                                {% endif %}
+                                {% if success %}
+                                    <div class="success-box">
+                                        <p><strong>Success</strong>: {{success}}</p>
+                                    </div>
+                                {% endif %}
                                 <form action='/message' method='POST'>
                                     <h2 class="title-card">Message Content</h2>
                                     <textarea id="content" class="textarea-custom" name="content" rows="15" cols="60" required></textarea><br />

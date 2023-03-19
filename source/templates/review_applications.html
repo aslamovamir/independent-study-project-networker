@@ -19,6 +19,16 @@
                 </div>
             </ul>
         </nav>
+        {% if error %}
+            <div class="error-box">
+                <p><strong>Error</strong>: {{error}}</p>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="success-box">
+                <p><strong>Success</strong>: {{success}}</p>
+            </div>
+        {% endif %}
         <div class="container-custom-tabled">
             <h1 class="title">Review Job Applications</h1><br />
             <div class="bs-example col-md-26">
@@ -50,7 +60,7 @@
                                 <td>{{ job.SponsorshipRequirement }}</td>
                                 <td>{{ job.DateApplied.strftime("%d/%m/%y %H:%M") }}</td>
                                 <td>
-                                    <button type="submit button" value="{{ job.Id }}" name="acceptBtn" class="submit-tabled-double btn">Accept</button>
+                                    <button type="submit button" value="{{ job.Id }}" name="acceptBtn" class="submit-tabled-double btn">Approve</button>
                                     <button type="submit button" value="{{ job.Id }}" name="rejectBtn" class="submit-tabled-double btn">Reject</button>
                                 </td>
                             </tr>

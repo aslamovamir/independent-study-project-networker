@@ -27,6 +27,8 @@ LoggedUser: User = None
 @app.route('/', methods=['POST', 'GET'])
 def index():
     error = None
+    success = None
+
     if request.method == "POST":
         # get the entries from the user
         username: str = request.form.get('username')
@@ -52,6 +54,7 @@ def index():
                     LoggedUser = user
                     break
             if userFound:
+                success = "Successfully logged in"
                 # now update the user with the new logged in date in the database
                 LoggedUser.DateLastLogin = datetime.now()
                 UserDBActions.UpdateUser(user=LoggedUser)
@@ -65,12 +68,12 @@ def index():
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource='/GetAllPosts')
 
-                return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts)
+                return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts, success=success)
             else:
-                error = "User Not Found"
+                error = "User not found!"
 
         except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource="app::index")
+            MenuHelper.DisplayErrorException(exception=e, errorSource="/")
 
     return render_template('index.html', error=error)
 
@@ -78,6 +81,8 @@ def index():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     error = None
+    success = None
+
     if request.method == "POST":
         # get the entries the user
         username: str = request.form.get('username')
@@ -111,21 +116,26 @@ def signup():
                         DateRegistered=datetime.now()
                     ))
 
-                    if operationResult == False: raise Exception()
-                    else: flash("Success: You have successfully signed up.")
+                    if operationResult == False:
+                        error = "Could not create a new account, somethong went wrong!" 
+                        raise Exception()
+                    else:
+                        success = "Successfully registered a new account"
                 except Exception as e:
-                    MenuHelper.DisplayErrorException(exception=e, errorSource="signup:UpdateUser")
+                    MenuHelper.DisplayErrorException(exception=e, errorSource="signup/UpdateUser")
             else:
-                error = "Invalid password."
+                error = "Invalid password!"
         else:
-            error = "This username already exists."
+            error = "This username already exists!"
 
-    return render_template('signup.html', error=error)
+    return render_template('signup.html', error=error, success=success)
 
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
     global LoggedUser
+    error = None
+    success = None
     showComment: bool = False
     commentToShow: str = None
 
@@ -142,7 +152,11 @@ def dashboard():
             # now evaluate the post positively
             try:
                 operationResult: bool = PostDBActions.Evaluate(userId=LoggedUser.Id, post=post, like=True)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could not complete the like operation, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "The post liked"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
 
@@ -158,7 +172,11 @@ def dashboard():
             # now evaluate the post negatively
             try:
                 operationResult: bool = PostDBActions.Evaluate(userId=LoggedUser.Id, post=post, like=False)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could not complete the dislike operation, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "The post disliked"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/PostDBActions/Evaluate')
 
@@ -181,7 +199,11 @@ def dashboard():
             # now add the comment to the post
             try:
                 operationResult: bool = PostDBActions.Comment(user=LoggedUser.Username + " | " + LoggedUser.FirstName+" "+LoggedUser.LastName, post=post, comment=comment)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could not complete the comment operation, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "The post commented"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/Comment')
 
@@ -194,11 +216,14 @@ def dashboard():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/GetAllPosts')
 
-    return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts, showComment=showComment, commentToShow=commentToShow)
+    return render_template('dashboard.html', loggedUser=LoggedUser, posts=posts, showComment=showComment, commentToShow=commentToShow, error=error, success=success)
 
 
 @app.route('/update_profile', methods=['POST', 'GET'])
 def update_profile():
+    error = None
+    success = None
+
     if request.method == "POST":
         global LoggedUser
         # get the entries form the form and update the profile
@@ -255,16 +280,22 @@ def update_profile():
         # now update the user in the database
         try:
             operationResult: bool = UserDBActions.UpdateUser(user=LoggedUser)
-            if operationResult == False: raise Exception()
+            if operationResult == False:
+                error = "Could not update the account, something went wrong!"
+                raise Exception()
+            else:
+                success = "Account successfully updated"
         except Exception as e:
-                    MenuHelper.DisplayErrorException(exception=e, errorSource="update_profile:UpdateUser")
+            MenuHelper.DisplayErrorException(exception=e, errorSource="update_profile/UpdateUser")
 
-    return render_template('update_profile.html', loggedUser=LoggedUser)
+    return render_template('update_profile.html', loggedUser=LoggedUser, error=error, success=success)
 
 
 @app.route('/create_job_posting', methods=['POST', 'GET'])
 def create_job_posting():
     global LoggedUser
+    error = None
+    success = None
 
     if request.method == 'POST':
         # get the entries from the form
@@ -298,18 +329,21 @@ def create_job_posting():
                 DateCreated=datetime.now()
             ))
 
-            if operationResult == False: raise Exception()
-
+            if operationResult == False:
+                error = "Could not create job posting, something went wrong!"
+                raise Exception()
+            else:
+                success = "Job posting successfully created"
         except Exception as e:
-                    MenuHelper.DisplayErrorException(exception=e, errorSource="create_job_posting:CreateJobID")
+            MenuHelper.DisplayErrorException(exception=e, errorSource="create_job_posting/CreateJobID")
 
-
-    return render_template('create_job_posting.html', loggedUser=LoggedUser)
+    return render_template('create_job_posting.html', loggedUser=LoggedUser, error=error, success=success)
 
 
 @app.route('/apply_for_job', methods=['POST', 'GET'])
 def apply_for_job():
     global LoggedUser
+    error = None
 
     # get all the jobs created by others
     jobs: list[Job] = []
@@ -318,7 +352,7 @@ def apply_for_job():
         if jobs == None:
             jobs = []
     except Exception as e:
-        MenuHelper.DisplayErrorException(exception=e, errorSource="apply_for_job:GetAllJobsOffUser")
+        MenuHelper.DisplayErrorException(exception=e, errorSource="apply_for_job/GetAllJobsOffUser")
 
     if request.method == 'POST':
         # get the id of the job clicked by the user via the button assigned to it
@@ -326,10 +360,10 @@ def apply_for_job():
         # now check if the user already applied for this job
         try:
             if JobDBActions.CheckIfApplied(userId=LoggedUser.Id, jobId=jobIdToApply):
-                error = "You have already applied for this job."
+                error = "You have already applied for this job!"
                 return render_template('apply_for_job.html', jobs=jobs, error=error)
         except Exception as e:
-            MenuHelper.DisplayErrorException(errorSource='apply_for_job:CheckIfApplied')
+            MenuHelper.DisplayErrorException(errorSource='apply_for_job/CheckIfApplied')
         # get the job
         for job in jobs:
             if job.Id == jobIdToApply:
@@ -337,14 +371,15 @@ def apply_for_job():
         # now redirect to a new application page, with the job id and the logged user
         return render_template('application.html', job=jobToApply)
 
-    return render_template('apply_for_job.html', jobs=jobs)
+    return render_template('apply_for_job.html', jobs=jobs, error=error)
 
 
 @app.route('/application', methods=['POST', 'GET'])
 def application():
-
     global LoggedUser
     error = None
+    success = None
+
     jobToApply = None
 
     if request.method == 'POST':
@@ -385,13 +420,15 @@ def application():
                 DateReviewed=None
             ))
 
-            if operationResult == False: raise Exception()
-            
+            if operationResult == False:
+                error = "Could not complete application for the job posting, something went wrong!"
+                raise Exception()
+            else:
+                success = "Application for the job successfully completed"
         except Exception as e:
-            MenuHelper.DisplayErrorException(exception=e, errorSource='application:JobDBActions:UpdateAppliedJob')
-    
+            MenuHelper.DisplayErrorException(exception=e, errorSource='application/JobDBActions/UpdateAppliedJob')
 
-    return render_template('application.html', job=jobToApply)
+    return render_template('application.html', job=jobToApply, error=error, success=success)
 
 
 @app.route('/applied_jobs')
@@ -412,6 +449,8 @@ def applied_jobs():
 @app.route('/review_applications', methods=['POST', 'GET'])
 def review_applications():
     global LoggedUser
+    error = None
+    success = None
 
     if request.method == 'POST':
         applyBtnClicked = request.form.get('acceptBtn')
@@ -424,7 +463,11 @@ def review_applications():
                 job.Status = "Approved"
                 job.DateReviewed = datetime.now()
                 operationResult: bool = JobDBActions.UpdateAppliedJob(appliedJob=job)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could change the status of the application to approved, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "Successfully changed the status of the application to approved"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='review_applications/GetAppliedJobFromId')
 
@@ -438,7 +481,11 @@ def review_applications():
                 job.Status = "Rejected"
                 job.DateReviewed = datetime.now()
                 operationResult: bool = JobDBActions.UpdateAppliedJob(appliedJob=job)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could change the status of the application to approved, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "Successfully changed the status of the application to rejected"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='review_applications/GetAppliedJobFromId')
 
@@ -451,13 +498,14 @@ def review_applications():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='review_applications/GetAllAppliedJobsPosterUser')
 
-    return render_template('review_applications.html', jobs=jobsPosted)
+    return render_template('review_applications.html', jobs=jobsPosted, error=error, success=success)
 
 
 @app.route('/my_network', methods=['POST', 'GET'])
 def my_network():
     global LoggedUser
     error = None
+    success = None
 
     if request.method == 'POST':
         # get the id of the user selected to connect to
@@ -469,12 +517,16 @@ def my_network():
             MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetUserById')
         # now check if the logged user has already sent a friend request to this user
         if LoggedUser.Username in user.Friends:
-            error = "You have already sent a friend request to this user."
+            error = "You have already sent a friend request to this user!"
         else:
             # now try to push the new user in the list of connections of the logged user
             try:
                 operationResult: bool = FriendsDBActions.SendFriendRequest(sender=LoggedUser, receiver=user)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could not send friend request to the user, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "Friend request successfully sent to the user"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/SendFriendRequest')
 
@@ -487,12 +539,15 @@ def my_network():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='my_network/GetAllUsersOffUser')
 
-    return render_template('my_network.html', users=users, error=error)
+    return render_template('my_network.html', users=users, error=error, success=success)
 
 
 @app.route('/pending_requests', methods=['POST', 'GET'])
 def pending_requests():
     global LoggedUser
+    error = None
+    success = None
+
     if request.method == 'POST':
         acceptBtnClicked = request.form.get('acceptBtn')
         if acceptBtnClicked != None:
@@ -506,8 +561,11 @@ def pending_requests():
             # now confirm the friends connection on both receiver and sender
             try:
                 operationResult: bool = FriendsDBActions.AcceptFriendRequest(user=LoggedUser, userToAdd=user)
-                if operationResult == False: raise Exception()
-                else: pass
+                if operationResult == False:
+                    error = "Could not accept friend request from the user, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "Successfully accepted friend request from the user, this user is added to your connections"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/AcceptFriendRequest')
         
@@ -522,7 +580,11 @@ def pending_requests():
             # now reject the friend request
             try:
                 operationResult: bool = FriendsDBActions.RejectFriendRequest(user=LoggedUser, userToReject=user)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could not reject friend request from the user, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "Successfully rejected friend request from the user"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/RejectFriendRequest')
         
@@ -535,12 +597,14 @@ def pending_requests():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='pending_requests/GetPendingRequests')
     
-    return render_template('pending_requests.html', users=users)
+    return render_template('pending_requests.html', users=users, error=error, success=success)
 
 
 @app.route('/my_connections', methods=['POST', 'GET'])
 def my_connections():
     global LoggedUser
+    error = None
+    success = None
 
     if request.method == 'POST':
         messageBtnClicked = request.form.get('messageBtn')
@@ -566,7 +630,11 @@ def my_connections():
             # now remove the friend
             try:
                 operationResult: bool = FriendsDBActions.DeleteFriend(user=LoggedUser, userToDelete=user)
-                if operationResult == False: raise Exception()
+                if operationResult == False:
+                    error = "Could not disconnect the user, something went wrong!"
+                    raise Exception()
+                else:
+                    success = "The user disconnected successfully, the user removed from your connections"
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/DeleteFriend')
 
@@ -579,14 +647,14 @@ def my_connections():
     except Exception as e:
         MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetFriends')
 
-    return render_template('my_connections.html', users=users)
+    return render_template('my_connections.html', users=users, error=error, success=success)
 
 
 @app.route('/my_inbox', methods=['POST', 'GET'])
 def my_inbox():
     global LoggedUser
-
     error = None
+    success = None
 
     # get all received messages of the user
     messages: list[Message] = []
@@ -644,7 +712,7 @@ def my_inbox():
         replyBtnClicked = request.form.get('replyBtn')
         if replyBtnClicked != None:
             if replyBtnClicked == "None":
-                error = "No Respondent To Reply To"
+                error = "No respondent to reply to!"
             else:    
                 respondentId: str = replyBtnClicked
                 response: str = request.form.get('response')
@@ -653,7 +721,11 @@ def my_inbox():
                     operationResult: bool = MessageDBActions.SendMessage(
                         senderId=LoggedUser.Id, sender=LoggedUser.FirstName + " " + LoggedUser.LastName + " | " + 
                         LoggedUser.Username, receiverId=respondentId, content=response)
-                    if operationResult == False: raise Exception()
+                    if operationResult == False:
+                        error = "Could not send the message to the user, something went wrong!"
+                        raise Exception()
+                    else:
+                        success = "Message sent to the user successfully"
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/SendMessage')
             
@@ -691,16 +763,18 @@ def my_inbox():
                 # now sort the list by date
                 contents.sort(key=lambda x: x['date'], reverse=False)
 
-                return render_template('my_inbox.html', messages=messages, contents=contents, respondentId=respondentId)
+                return render_template('my_inbox.html', messages=messages, contents=contents, respondentId=respondentId, error=error, success=success)
 
 
-    return render_template('my_inbox.html', messages=messages, respondentId=None, error=error)
+    return render_template('my_inbox.html', messages=messages, respondentId=None, error=error, success=success)
 
 
 @app.route('/message', methods=['POST', 'GET'])
 def message():
     global LoggedUser
     receiver = None
+    error = None
+    success = None
 
     if request.method == 'POST':
         # get the message content from the form
@@ -717,16 +791,22 @@ def message():
             operationResult: bool = MessageDBActions.SendMessage(
                 senderId=LoggedUser.Id, sender=LoggedUser.FirstName + " " + LoggedUser.LastName + " | " + 
                 LoggedUser.Username, receiverId=receiverId, content=content)
-            if operationResult == False: raise Exception()
+            if operationResult == False:
+                error = "Could not send the message to the user, something went wrong!"
+                raise Exception()
+            else:
+                success = "Message sent the user successfully"
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='message/SendMessage')
 
-    return render_template('message.html', receiver=receiver)
+    return render_template('message.html', receiver=receiver, error=error, success=success)
 
 
 @app.route('/create_post', methods=['POST', 'GET'])
 def create_post():
     global LoggedUser
+    error = None
+    success = None
 
     if request.method == 'POST':
         # get the entries from the form
@@ -746,14 +826,16 @@ def create_post():
                 Content=content,
                 PostDate=datetime.now()
             )
-
             operationResult: bool = PostDBActions.UpdatePost(post=post)
-            if operationResult == False: raise Exception()
-
+            if operationResult == False:
+                error = "Could not create the post, something went wrong!"
+                raise Exception()
+            else:
+                success = "Created the post successfully"
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='create_post/UpdatePost')
 
-    return render_template('create_post.html')
+    return render_template('create_post.html', error=error, success=success)
 
 
 @app.route('/about')
@@ -767,7 +849,6 @@ def contact_us():
 @app.route('/terms_of_use')
 def terms_of_use():
     return render_template('terms_of_use.html')
-
 
 
 # run of the app

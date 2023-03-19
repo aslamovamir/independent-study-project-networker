@@ -41,6 +41,16 @@
                     <div class="card card-borderless">
                         <div class="card-body">
                             <div class="form-box">
+                                {% if error %}
+                                    <div class="error-box">
+                                        <p><strong>Error</strong>: {{error}}</p>
+                                    </div>
+                                {% endif %}
+                                {% if success %}
+                                    <div class="success-box">
+                                        <p><strong>Success</strong>: {{success}}</p>
+                                    </div>
+                                {% endif %}
                                 <form action='/application' method='POST'>
                                     <label for="start_date">Start Date:</label><br />
                                     <input class="inputs" type="date" name="start_date" required>

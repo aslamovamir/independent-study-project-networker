@@ -21,6 +21,16 @@
                 </div>
             </ul>
         </nav>
+        {% if error %}
+            <div class="error-box">
+                <p><strong>Error</strong>: {{error}}</p>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="success-box">
+                <p><strong>Success</strong>: {{success}}</p>
+            </div>
+        {% endif %}
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 left-card">

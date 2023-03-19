@@ -33,6 +33,11 @@
                         <p><strong>Error</strong>: {{error}}</p>
                     </div>
                 {% endif %}
+                {% if success %}
+                    <div class="success-box">
+                        <p><strong>Success</strong>: {{success}}</p>
+                    </div>
+                {% endif %}
                 <form action='/signup' method='POST'>
                     <label for="username">Username:</label><br />
                     <input class="inputs" type="text" placeholder="Enter your username" name="username" required>
