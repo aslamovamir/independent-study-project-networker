@@ -17,6 +17,7 @@
                     <li><a href="{{ url_for('my_network') }}">My Network</a></li>
                     <li><a href="{{ url_for('my_connections') }}">My Connections</a></li>
                     <li><a href="{{ url_for('my_inbox') }}">My inbox</a></li>
+                    <li><a href="{{ url_for('index') }}">Log Out</a></li>
                 </div>
             </ul>
         </nav>
@@ -59,8 +60,8 @@
                                 <td>{{ user.Profile.Title }}</td>
                                 <td>{{ user.Profile.About }}</td>
                                 <td>
-                                    <button type="submit button" value="{{ user.Id }}" name="acceptBtn" class="submit btn btn-success">Accept</button>
-                                    <button type="submit button" value="{{ user.Id }}" name="rejectBtn" class="submit btn btn-danger">Reject</button>
+                                    <button type="submit button" value="{{ user.Id }}" name="acceptBtn" class="submit-tabled-double btn">Accept</button>
+                                    <button type="submit button" value="{{ user.Id }}" name="rejectBtn" class="submit-tabled-double btn">Reject</button>
                                 </td>
                             </tr>
                         </form>

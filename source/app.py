@@ -795,7 +795,7 @@ def message():
                 error = "Could not send the message to the user, something went wrong!"
                 raise Exception()
             else:
-                success = "Message sent the user successfully"
+                success = "Message sent to the user successfully"
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='message/SendMessage')
 
@@ -819,7 +819,7 @@ def create_post():
             post: Post = Post(
                 Id=PostModelHelper.CreatePostId(),
                 PosterId=LoggedUser.Id,
-                PosterFullName=LoggedUser.LastName+", "+LoggedUser.FirstName,
+                PosterFullName=LoggedUser.FirstName + " " + LoggedUser.LastName,
                 PosterUsername=LoggedUser.Username,
                 Subject=subject,
                 Title=title,
