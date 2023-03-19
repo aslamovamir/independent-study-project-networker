@@ -16,12 +16,17 @@ from backend.database.MessageDBActions import MessageDBActions
 from backend.database.PostDBActions import PostDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
+import smtplib
 
 
 app = Flask(__name__)
 app.secret_key="networker-app-20190805"
-LoggedUser: User = None
 
+email_server = smtplib.SMTP("smtp.gmail.com", 587)
+email_server.starttls()
+email_server.login("networkerappemailserver@gmail.com", "Networker!555!")
+
+LoggedUser: User = None
 
 # Routes build-up
 @app.route('/', methods=['POST', 'GET'])
@@ -121,6 +126,10 @@ def signup():
                         raise Exception()
                     else:
                         success = "Successfully registered a new account"
+                        # now send an automated email to the new user with welcome message
+                        message: str = f"Welcome to Networker App, {username}!"
+                        email_server.sendmail("networkerappemailserver@gmail.com", email, message)
+
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="signup/UpdateUser")
             else:
