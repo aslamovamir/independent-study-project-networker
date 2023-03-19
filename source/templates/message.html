@@ -23,19 +23,31 @@
                 <div class="col-lg-3 left-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Sending to: {{ receiver.Username }}</h3>
-                            <h3>Sending from: {{ sender.Username }}</h3>
+                            <h1 class="title-box">Message Recipient</h1>
+                            <div class="account-info">
+                                <p><strong>Name:</strong> {{ receiver.LastName }}, {{ receiver.FirstName }}</p>
+                                <p><strong>Email Address:</strong> {{ receiver.Email }}</p>
+                                <p><strong>Title:</strong> {{ receiver.Profile.Title }}</p>
+                                <p><strong>About:</strong> {{ receiver.Profile.About }}</p>
+                                <p><strong>Gender:</strong> {{ receiver.Profile.Gender }}</p>
+                                <p><strong>Ethnicity:</strong> {{ receiver.Profile.Ethnicity }}</p>
+                                <p><strong>Disability Status:</strong> {{ receiver.Profile.DisabilityStatus }}</p>
+                                <p><strong>Location:</strong> {{ receiver.Profile.Location }}</p>
+                                <p><strong>Phone Number:</strong> {{ receiver.Profile.PhoneNumber }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8 right-card">
-                    <div class="card">
+                    <div class="card card-borderless">
                         <div class="card-body">
-                            <form action='/message' method='POST'>
-                                <h2 class="title-card">Message Content</h2>
-                                <textarea id="content" name="content" rows="15" cols="60" required></textarea><br />
-                                <button class="submit" type="submit" value="{{ receiver.Id }}" name="sendBtn">Send</button>
-                            </form>
+                            <div class="form-box">
+                                <form action='/message' method='POST'>
+                                    <h2 class="title-card">Message Content</h2>
+                                    <textarea id="content" class="textarea-custom" name="content" rows="15" cols="60" required></textarea><br />
+                                    <button class="submit" type="submit" value="{{ receiver.Id }}" name="sendBtn">Send</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

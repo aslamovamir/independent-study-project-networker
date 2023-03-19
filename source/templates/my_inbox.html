@@ -33,7 +33,7 @@
                                 <div>
                                     <form action='/my_inbox' method='POST'>
                                         <div class="account-info">
-                                            <p><strong>From:</strong> {{ message.SenderUsername }}</p>
+                                            <p><strong>From:</strong> {{ message.Sender }}</p>
                                             <p><strong>Date:</strong> {{ message.DateCreated.strftime("%d/%m/%y %H:%M") }}</p>
                                             <p><strong>Message:</strong> {{ message.Content }}</p>
                                         </div>
@@ -54,14 +54,14 @@
                                     {% if content.received %}
                                         <div class="card left-chat-card">
                                             <div class="card-body">
-                                                <p>{{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
+                                                <p>Received on: {{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
                                                 <p>{{ content.content }}</p>
                                             </div>
                                         </div><br />
                                     {% else %}
                                         <div class="card right-chat-card">
                                             <div class="card-body">
-                                                <p>{{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
+                                                <p>Sent on: {{ content.date.strftime("%d/%m/%y %H:%M") }}</p>
                                                 <p>{{ content.content }}</p>
                                             </div>
                                         </div><br />

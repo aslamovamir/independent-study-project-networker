@@ -180,7 +180,7 @@ def dashboard():
             comment: str = request.form.get('comment')
             # now add the comment to the post
             try:
-                operationResult: bool = PostDBActions.Comment(user=LoggedUser.FirstName+" "+LoggedUser.LastName+" | "+LoggedUser.Username, post=post, comment=comment)
+                operationResult: bool = PostDBActions.Comment(user=LoggedUser.Username + " | " + LoggedUser.FirstName+" "+LoggedUser.LastName, post=post, comment=comment)
                 if operationResult == False: raise Exception()
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='dashboard/Comment')
@@ -554,7 +554,7 @@ def my_connections():
             except Exception as e:
                 MenuHelper.DisplayErrorException(exception=e, errorSource='my_connections/GetUserById')
             # now call the function of the page that gets message content
-            return render_template('message.html', sender=LoggedUser, receiver=user)
+            return render_template('message.html', receiver=user)
 
         disconnectBtnClicked = request.form.get('disConnBtn')
         if disconnectBtnClicked != None:
@@ -653,7 +653,8 @@ def my_inbox():
                 # now send the message to the respondent from the logged user
                 try:
                     operationResult: bool = MessageDBActions.SendMessage(
-                        senderId=LoggedUser.Id, senderUsername=LoggedUser.Username, receiverId=respondentId, content=response)
+                        senderId=LoggedUser.Id, sender=LoggedUser.FirstName + " " + LoggedUser.LastName + " | " + 
+                        LoggedUser.Username, receiverId=respondentId, content=response)
                     if operationResult == False: raise Exception()
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/SendMessage')
@@ -701,21 +702,28 @@ def my_inbox():
 @app.route('/message', methods=['POST', 'GET'])
 def message():
     global LoggedUser
+    receiver = None
 
     if request.method == 'POST':
         # get the message content from the form
         content: str = request.form.get('content')
         # get the id of the receiver
         receiverId: str = request.form['sendBtn']
+        # now get the user object out of the user id
+        try:
+            receiver = UserDBActions.GetUserById(userId=receiverId)
+        except Exception as e:
+            MenuHelper.DisplayErrorException(exception=e, errorSource='message/GetUserById')
         # now send the message
         try:
             operationResult: bool = MessageDBActions.SendMessage(
-                senderId=LoggedUser.Id, senderUsername=LoggedUser.Username, receiverId=receiverId, content=content)
+                senderId=LoggedUser.Id, sender=LoggedUser.FirstName + " " + LoggedUser.LastName + " | " + 
+                LoggedUser.Username, receiverId=receiverId, content=content)
             if operationResult == False: raise Exception()
         except Exception as e:
             MenuHelper.DisplayErrorException(exception=e, errorSource='message/SendMessage')
 
-    return render_template('dashboard.html', loggedUser=LoggedUser)
+    return render_template('message.html', receiver=receiver)
 
 
 @app.route('/create_post', methods=['POST', 'GET'])
