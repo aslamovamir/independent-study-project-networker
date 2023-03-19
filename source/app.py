@@ -588,6 +588,8 @@ def my_connections():
 def my_inbox():
     global LoggedUser
 
+    error = None
+
     # get all received messages of the user
     messages: list[Message] = []
     try:
@@ -643,54 +645,57 @@ def my_inbox():
         
         replyBtnClicked = request.form.get('replyBtn')
         if replyBtnClicked != None:
-            respondentId: str = replyBtnClicked
-            response: str = request.form.get('response')
-            # now send the message to the respondent from the logged user
-            try:
-                operationResult: bool = MessageDBActions.SendMessage(
-                    senderId=LoggedUser.Id, senderUsername=LoggedUser.Username, receiverId=respondentId, content=response)
-                if operationResult == False: raise Exception()
-            except Exception as e:
-                MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/SendMessage')
-        
-            messagesReceived: list[Message] = []
-            try:
-                messagesReceived = MessageDBActions.GetAllReceivedMessagesFromUser(receiverId=LoggedUser.Id, senderId=respondentId)
-                if messagesReceived == None:
-                    messagesReceived = []
-            except Exception as e:
-                MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetAllReceivedMessagesFromUser')
+            if replyBtnClicked == "None":
+                error = "No Respondent To Reply To"
+            else:    
+                respondentId: str = replyBtnClicked
+                response: str = request.form.get('response')
+                # now send the message to the respondent from the logged user
+                try:
+                    operationResult: bool = MessageDBActions.SendMessage(
+                        senderId=LoggedUser.Id, senderUsername=LoggedUser.Username, receiverId=respondentId, content=response)
+                    if operationResult == False: raise Exception()
+                except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/SendMessage')
+            
+                messagesReceived: list[Message] = []
+                try:
+                    messagesReceived = MessageDBActions.GetAllReceivedMessagesFromUser(receiverId=LoggedUser.Id, senderId=respondentId)
+                    if messagesReceived == None:
+                        messagesReceived = []
+                except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetAllReceivedMessagesFromUser')
 
-            # now get all the messages sent to the user from the logged user
-            messagesSent: list[Message] = []
-            try:
-                messagesSent = MessageDBActions.GetAllReceivedMessagesFromUser(receiverId=respondentId, senderId=LoggedUser.Id)
-                if messagesSent == None:
-                    messagesSent = []
-            except Exception as e:
-                MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetAllReceivedMessagesFromUser')
+                # now get all the messages sent to the user from the logged user
+                messagesSent: list[Message] = []
+                try:
+                    messagesSent = MessageDBActions.GetAllReceivedMessagesFromUser(receiverId=respondentId, senderId=LoggedUser.Id)
+                    if messagesSent == None:
+                        messagesSent = []
+                except Exception as e:
+                    MenuHelper.DisplayErrorException(exception=e, errorSource='my_inbox/GetAllReceivedMessagesFromUser')
 
-            # now create a list object to contain message contents only
-            contents = []
-            for message in messagesReceived:
-                contents.append({
-                    "received": True,
-                    "content": message.Content,
-                    "date": message.DateCreated
-                })
-            for message in messagesSent:
-                contents.append({
-                    "received": False,
-                    "content": message.Content,
-                    "date": message.DateCreated
-                })
-            # now sort the list by date
-            contents.sort(key=lambda x: x['date'], reverse=False)
+                # now create a list object to contain message contents only
+                contents = []
+                for message in messagesReceived:
+                    contents.append({
+                        "received": True,
+                        "content": message.Content,
+                        "date": message.DateCreated
+                    })
+                for message in messagesSent:
+                    contents.append({
+                        "received": False,
+                        "content": message.Content,
+                        "date": message.DateCreated
+                    })
+                # now sort the list by date
+                contents.sort(key=lambda x: x['date'], reverse=False)
 
-            return render_template('my_inbox.html', messages=messages, contents=contents, respondentId=respondentId)
+                return render_template('my_inbox.html', messages=messages, contents=contents, respondentId=respondentId)
 
 
-    return render_template('my_inbox.html', messages=messages, respondentId=None)
+    return render_template('my_inbox.html', messages=messages, respondentId=None, error=error)
 
 
 @app.route('/message', methods=['POST', 'GET'])
