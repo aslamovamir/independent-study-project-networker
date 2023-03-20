@@ -17,6 +17,7 @@ from backend.database.PostDBActions import PostDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
 import smtplib
+from email.message import EmailMessage
 
 
 app = Flask(__name__)
@@ -24,7 +25,7 @@ app.secret_key="networker-app-20190805"
 
 email_server = smtplib.SMTP("smtp.gmail.com", 587)
 email_server.starttls()
-email_server.login("networkerappemailserver@gmail.com", "Networker!555!")
+email_server.login("networkeremailserver@gmail.com", "ikbfdabbziutojmg")
 
 LoggedUser: User = None
 
@@ -127,8 +128,12 @@ def signup():
                     else:
                         success = "Successfully registered a new account"
                         # now send an automated email to the new user with welcome message
-                        message: str = f"Welcome to Networker App, {username}!"
-                        email_server.sendmail("networkerappemailserver@gmail.com", email, message)
+                        message = EmailMessage()
+                        message['Subject'] = "Signup Successful at Networker!"
+                        message['From'] = "networkeremailserver@gmail.com"
+                        message['To'] = email
+                        message.set_content("Thanks for signing up for Networker!")
+                        email_server.send_message(message)
 
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="signup/UpdateUser")
