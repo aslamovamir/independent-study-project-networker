@@ -18,14 +18,20 @@ from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
 import smtplib
 from email.message import EmailMessage
+# SECRETS IMPORTS
+from secrets.SECRETS import _APP_SECRET_KEY
+from secrets.SECRETS import _EMAIL_SERVER_SECRET_USERNAME
+from secrets.SECRETS import _EMAIL_SERVER_SECRET_APP_PASSWORD
+from secrets.SECRETS import _EMAIL_SERVER_SECRET_PLATFORM
+from secrets.SECRETS import _EMAIL_SERVER_SECRET_PLATFORM_NUMBER
 
 
 app = Flask(__name__)
-app.secret_key="networker-app-20190805"
+app.secret_key=_APP_SECRET_KEY
 
-email_server = smtplib.SMTP("smtp.gmail.com", 587)
+email_server = smtplib.SMTP(_EMAIL_SERVER_SECRET_PLATFORM, _EMAIL_SERVER_SECRET_PLATFORM_NUMBER)
 email_server.starttls()
-email_server.login("networkeremailserver@gmail.com", "ikbfdabbziutojmg")
+email_server.login(_EMAIL_SERVER_SECRET_USERNAME, _EMAIL_SERVER_SECRET_APP_PASSWORD)
 
 LoggedUser: User = None
 
