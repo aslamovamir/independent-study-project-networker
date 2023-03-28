@@ -77,6 +77,17 @@ li {
     padding: 10px;
 }
 
+.container-about-section {
+    text-align: left;
+    font-family: Monospace;
+    color: #1f1f1f;
+    font-size: 17px;
+    border: 5px;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
 .form-box {
     font-family: Arial;
     text-align: center;

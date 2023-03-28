@@ -140,7 +140,7 @@ def signup():
                         message['From'] = "networkeremailserver@gmail.com"
                         message['To'] = email
                         message.set_content("Thanks for signing up for Networker!")
-                        email_server.send_message(message)
+                        # email_server.send_message(message)
 
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="signup/UpdateUser")

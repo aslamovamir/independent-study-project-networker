@@ -1,9 +1,64 @@
 <!doctype html>
 <html>
     <head>
-
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <Title>Networker</Title>
     </head>
     <body>
-        <h1>About</h1>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('index') }}">Sign In</a></li>
+                    <li><a href="{{ url_for('contact_us') }}">Contuct Us</a></li>
+                    <li><a href="{{ url_for('terms_of_use') }}">Terms of Use</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container-about-section">
+            <h1>Welcome to © Networker</h1><br />
+            <br />
+            <p>
+                Networker is a platform designed to help users better network with each other in the job marketplace by allowing them
+                different functionalities that enable better networking with others seeking jobs or hiring for jobs, and more effective 
+                management of job applications.
+            </p>
+            <br />
+            <p>
+                Some of the functionalities include: management of one's own profile and overview of others' profiles, overview of others' posts
+                and evalaution of and commenting on them, creation of one's own posts, listing of job posting created by others with full information
+                about the jobs' details, ability to apply for any one of the job postings, ability to track one's own applications with real-time status on them, 
+                ability to connect with other users and text message with them.
+            </p>
+            <br />
+            <p>
+                This platform is a web application developed to satisfy an Independent Study class at a university by a senior student. 
+                Under the hood, the web application is developed in Flask framework, which is a micro web framework written in Python programming language.
+                This framework helps in rendering of HTML web pages styled by CSS stylesheets - no JavaScript, a web scripting language that runs on web browsers,
+                is implemented in the development of the application - which explains why pages in the app reload at each button click.
+                The backend is developed in Python programming language too, with the database being implemented at the Firebase Real Time Database server.
+            </p>
+            <br />
+            <p>
+                As a web application, this platform is at its initial mock-up stage and is under further improvement.
+                As a mock-up version, the app might contain bugs or other programming inferiorities.
+            </p>
+            <br />
+            <p>
+                For any questions about the app, please reach out to the following email address: <a href="mailto:networkeremailserver@gmail.com">networkeremailserver@gmail.com</a>.
+            </p>
+            <br />
+            <p>
+                Copyright: © Networker, February 2023.
+            </p>
+            <p>
+                Engineer: Amir Aslamov.
+            </p>
+            <p>
+                All rights reserved.
+            </p>
+        </div>
     </body>
 </html>
