@@ -1,9 +1,34 @@
 <!doctype html>
 <html>
     <head>
-
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <Title>Networker: Terms of Use</Title>
     </head>
     <body>
-        <h1>Terms of Use</h1>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('index') }}">Sign In</a></li>
+                    <li><a href="{{ url_for('contact_us') }}">Contuct Us</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container-custom">
+            <h1 class="title">Terms of Use</h1><br />
+            <br />
+            <p>
+                Networker is a social, networking platform, and as such, collection of a considerable amount of information is implemented.
+                By using the app, users consent to the disclosure of data, including profile information, for the minimal functionalities of the app.
+                On that note, users are strongly encouraged to not disclose in any form any sensitive information, such as US Social Security
+                Number, including when sending text messages. As a mock-up version app, the platform is not optimally protected from cyber vulnerabilities.
+            </p><br />
+            <p>
+                Any data or inforamtion implemented or used as necessary for the basic functionalities of the platform is never used except for the exclusive
+                purpose of the platform. By using the app, users consent to and acknowledge to this privacy note.
+            </p>
     </body>
 </html>

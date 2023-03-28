@@ -16,23 +16,18 @@ from backend.database.MessageDBActions import MessageDBActions
 from backend.database.PostDBActions import PostDBActions
 from backend.helpers.MenuHelper import MenuHelper
 from datetime import datetime
-import smtplib
-from email.message import EmailMessage
+from backend.emailserver.EmailServer import EmailServer
+
 
 # SECRETS (MUST BE STORED SOMEWHERE ELSE OR AT ENVIRONMENT LEVEL)
 _APP_SECRET_KEY = "networker-app-20190805"
-_EMAIL_SERVER_SECRET_USERNAME = "networkeremailserver@gmail.com"
-_EMAIL_SERVER_SECRET_APP_PASSWORD = "ikbfdabbziutojmg"
-_EMAIL_SERVER_SECRET_PLATFORM = "smtp.gmail.com"
-_EMAIL_SERVER_SECRET_PLATFORM_NUMBER = 587
+
 
 
 app = Flask(__name__)
 app.secret_key=_APP_SECRET_KEY
 
-email_server = smtplib.SMTP(_EMAIL_SERVER_SECRET_PLATFORM, _EMAIL_SERVER_SECRET_PLATFORM_NUMBER)
-email_server.starttls()
-email_server.login(_EMAIL_SERVER_SECRET_USERNAME, _EMAIL_SERVER_SECRET_APP_PASSWORD)
+
 
 LoggedUser: User = None
 
@@ -135,12 +130,6 @@ def signup():
                     else:
                         success = "Successfully registered a new account"
                         # now send an automated email to the new user with welcome message
-                        message = EmailMessage()
-                        message['Subject'] = "Signup Successful at Networker!"
-                        message['From'] = "networkeremailserver@gmail.com"
-                        message['To'] = email
-                        message.set_content("Thanks for signing up for Networker!")
-                        # email_server.send_message(message)
 
                 except Exception as e:
                     MenuHelper.DisplayErrorException(exception=e, errorSource="signup/UpdateUser")
@@ -875,12 +864,7 @@ def contact_us():
         comment: str = request.form.get('comment')
 
         # now send an automated email to the server with the comments
-        message = EmailMessage()
-        message['Subject'] = f"New Contact Us Comments: {email}"
-        message['To'] = "networkeremailserver@gmail.com"
-        message['From'] = email
-        message.set_content(f"New Contact Us form submitted by {fullName}: \n{comment}")
-        # email_server.send_message(message)
+        EmailServer.SendEmail(self=True, subject=f"Contact Us Form from: {email}", fromEmail=email, toEmail=email, messageContent=comment)
 
     return render_template('contact_us.html')
 
