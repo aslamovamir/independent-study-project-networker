@@ -863,9 +863,27 @@ def create_post():
 def about():
     return render_template('about.html')
 
-@app.route('/contact_us')
+
+@app.route('/contact_us', methods=['POST', 'GET'])
 def contact_us():
+
+    if request.method == 'POST':
+        fullName: str = request.form.get('full-name')
+        print(fullName)
+        email: str = request.form.get('email')
+        print(email)
+        comment: str = request.form.get('comment')
+
+        # now send an automated email to the server with the comments
+        message = EmailMessage()
+        message['Subject'] = f"New Contact Us Comments: {email}"
+        message['To'] = "networkeremailserver@gmail.com"
+        message['From'] = email
+        message.set_content(f"New Contact Us form submitted by {fullName}: \n{comment}")
+        # email_server.send_message(message)
+
     return render_template('contact_us.html')
+
 
 @app.route('/terms_of_use')
 def terms_of_use():

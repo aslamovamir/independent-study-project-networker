@@ -1,9 +1,49 @@
 <!doctype html>
 <html>
     <head>
-
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+        <Title>Networker: Contact Us</Title>
     </head>
     <body>
-        <h1>Contact Us</h1>
+        <nav class="navbar">
+            <div class="logo">© Networker</div>
+            <ul class="nav-links">
+                <div class="menu">
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('index') }}">Sign In</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('terms_of_use') }}">Terms of Use</a></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="container-custom">
+            <h1>Contact Us</h1>
+            <br /><br />
+            <div class="form-box">
+                {% if error %}
+                    <div class="error-box">
+                        <p><strong>Error</strong>: {{error}}</p>
+                    </div>
+                {% endif %}
+                {% if success %}
+                    <div class="success-box">
+                        <p><strong>Success</strong>: {{success}}</p>
+                    </div>
+                {% endif %}
+                <form action='/contact_us' method='POST'>
+                    <label for="full-name">Full Name</label><br />
+                    <input class="inputs" type="text" placeholder="Enter your username" name="full-name" required>
+                    <br />
+                    <label for="email">Email Address:</label><br />
+                    <input class="inputs" type="email" placeholder="Enter your email address" name="email" required>
+                    <br />
+                    <label for="comment">Please leave your comments below:</label><br />
+                    <textarea id="comment" class="textarea-custom" name="comment" rows="10" cols="57" required></textarea>
+                    <br />
+                    <button class="submit" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
