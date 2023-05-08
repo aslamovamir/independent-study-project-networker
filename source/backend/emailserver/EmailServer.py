@@ -1,8 +1,8 @@
 import smtplib
 from email.message import EmailMessage
 
-_EMAIL_SERVER_SECRET_USERNAME = ""
-_EMAIL_SERVER_SECRET_APP_PASSWORD = ""
+_EMAIL_SERVER_SECRET_USERNAME = "networkeremailserver@gmail.com"
+_EMAIL_SERVER_SECRET_APP_PASSWORD = "ikbfdabbziutojmg"
 _EMAIL_SERVER_SECRET_PLATFORM = "smtp.gmail.com"
 _EMAIL_SERVER_SECRET_PLATFORM_NUMBER = 587
 
